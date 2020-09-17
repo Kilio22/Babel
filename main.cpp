@@ -1,21 +1,17 @@
-//
-// EPITECH PROJECT, 2018
-// babel
-// File description:
-// babel
-//
+/*
+** EPITECH PROJECT, 2020
+** B-CPP-500-REN-5-1-babel-kylian.balan
+** File description:
+** main
+*/
 
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QPushButton>
-#include <opus/opus.h>
-#include <portaudio.h>
-#include <stdio.h>
+#include "./Counter.hpp"
 
-int main(int argc, char **argv)
+int main(void)
 {
-    QApplication app(argc, argv);
-    QPushButton button("Hello world !");
+    Counter a, b;
+    QObject::connect(&a, &Counter::valueChanged, &b, &Counter::setValue);
 
-    button.show();
-    return app.exec();
+    a.setValue(12); // a.value() == 12, b.value() == 12
+    b.setValue(48); // a.value() == 12, b.value() == 48
 }

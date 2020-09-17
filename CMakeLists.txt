@@ -1,6 +1,12 @@
 project(Babel)
+
 cmake_minimum_required(VERSION 2.8.12)
+
 add_definitions("-fPIC")
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
@@ -8,5 +14,6 @@ conan_basic_setup()
 find_package(Qt5Widgets CONFIG REQUIRED)
 
 include_directories(${CMAKE_INCLUDE_PATH})
-add_executable(babel main.cpp)
+include_directories(.)
+add_executable(babel main.cpp Counter.cpp)
 target_link_libraries(babel ${CONAN_LIBS} Qt5::Widgets)
