@@ -6,4 +6,9 @@
 */
 
 #include "exceptions/ClientException.hpp"
+#include "exceptions/InvalidCredentialsException.hpp"
+#include "exceptions/InvalidPasswordException.hpp"
+#include "exceptions/InvalidUsernameException.hpp"
+#include "exceptions/LoginFailedException.hpp"
+#include "exceptions/MissingPasswordException.hpp"
 #include "exceptions/MissingUsernameException.hpp"
