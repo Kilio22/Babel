@@ -5,31 +5,28 @@
 ** main
 */
 
-#include <QApplication>
-#include <QColorDialog>
-#include <QFile>
-#include <QFileDialog>
-#include <QFont>
-#include <QFontDialog>
-#include <QLabel>
-#include <QMainWindow>
-#include <QMenuBar>
-#include <QMessageBox>
-#include <QPushButton>
-#include <QStatusBar>
-#include <QTextEdit>
-#include <QTextStream>
-#include <QWidget>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QPushButton>
 #include <opus.h>
 #include <cstdlib>
 #include <iostream>
 #include <string>
 #include <map>
 
-int main(void)
+int main(int ac, char **av)
 {
     std::map<int, int> mymap = {{1, 1}, {2, 2}};
+    QApplication app (ac, av);
+    QMainWindow window;
+    QPushButton btn(&window);
+    QObject michel;
 
+    btn.setText("M dr c un bouton");
+    window.show();
+    btn.show();
+    window.setWindowTitle("Jean Michel");
     std::cout << "hello, world!" << std::endl;
+    app.exec();
     return mymap.contains(1);
 }
