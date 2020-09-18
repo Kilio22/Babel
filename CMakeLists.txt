@@ -18,13 +18,17 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 include_directories(${CMAKE_INCLUDE_PATH})
 include_directories(${PROJECT_SOURCE_DIR}/client/include)
+include_directories(${PROJECT_SOURCE_DIR}/client/include/exceptions)
+include_directories(${PROJECT_SOURCE_DIR}/client/include/gui)
 include_directories(${PROJECT_SOURCE_DIR}/server/include)
 
 file(GLOB_RECURSE SRC_CLIENT ${PROJECT_SOURCE_DIR}/client/src/*)
+file(GLOB_RECURSE SRC_CLIENT_EXCEPTION ${PROJECT_SOURCE_DIR}/client/src/exceptions/*)
+file(GLOB_RECURSE SRC_CLIENT_GUI ${PROJECT_SOURCE_DIR}/client/src/gui/*)
 file(GLOB_RECURSE SRC_SERVER ${PROJECT_SOURCE_DIR}/server/src/*)
 
 add_executable(server ${SRC_SERVER})
-add_executable(client ${SRC_CLIENT})
+add_executable(client ${SRC_CLIENT} ${SRC_CLIENT_EXCEPTION} ${SRC_CLIENT_GUI})
 
 target_link_libraries(server ${CONAN_LIBS})
 target_link_libraries(client ${CONAN_LIBS} Qt5::Widgets)
