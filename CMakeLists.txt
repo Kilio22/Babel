@@ -9,15 +9,17 @@ conan_basic_setup()
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # CXX STANDARD
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Qt5Widgets REQUIRED)
 
 include_directories(${CMAKE_INCLUDE_PATH})
 include_directories(${PROJECT_SOURCE_DIR}/client/include)
+include_directories(${PROJECT_SOURCE_DIR}/client/include/audio)
 include_directories(${PROJECT_SOURCE_DIR}/server/include)
 
 file(GLOB_RECURSE SRC_CLIENT ${PROJECT_SOURCE_DIR}/client/src/*)

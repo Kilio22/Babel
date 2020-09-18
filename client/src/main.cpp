@@ -5,28 +5,35 @@
 ** main
 */
 
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QMainWindow>
-#include <QtWidgets/QPushButton>
+#include <QApplication>
+#include <QColorDialog>
+#include <QFile>
+#include <QFileDialog>
+#include <QFont>
+#include <QFontDialog>
+#include <QLabel>
+#include <QMainWindow>
+#include <QMenuBar>
+#include <QMessageBox>
+#include <QPushButton>
+#include <QStatusBar>
+#include <QTextEdit>
+#include <QTextStream>
+#include <QWidget>
 #include <opus.h>
 #include <cstdlib>
 #include <iostream>
 #include <string>
 #include <map>
+#include "AudioManager.hpp"
 
-int main(int ac, char **av)
+int main(void)
 {
     std::map<int, int> mymap = {{1, 1}, {2, 2}};
-    QApplication app (ac, av);
-    QMainWindow window;
-    QPushButton btn(&window);
-    QObject michel;
+    Babel::Audio::AudioManager mnger;
 
-    btn.setText("M dr c un bouton");
-    window.show();
-    btn.show();
-    window.setWindowTitle("Jean Michel");
     std::cout << "hello, world!" << std::endl;
-    app.exec();
+    mnger.startListening();
+    mnger.stopListening();
     return mymap.contains(1);
 }
