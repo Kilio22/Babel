@@ -10,6 +10,9 @@
 
 #include <QtCore/QObject>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QTextEdit>
+#include <QtWidgets/QLabel>
 #include <iostream>
 
 namespace Babel::Client::Gui {
@@ -18,12 +21,14 @@ namespace Babel::Client::Gui {
     {
         Q_OBJECT
         private:
-            /* data */
+            QLabel testLabel;
+            QPushButton loginBtn;
+
         public:
-            explicit LoginWindow(QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags()) : QMainWindow(parent, flags) {}
+            explicit LoginWindow(QWidget *parent = nullptr);
             ~LoginWindow() = default;
 
-        public slots:
+        private slots:
             void print_mdr();
     };
 };
