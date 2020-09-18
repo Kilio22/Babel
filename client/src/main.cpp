@@ -6,6 +6,7 @@
 */
 
 #include <iostream>
+#include <QWidget>
 
 int main(void)
 {
