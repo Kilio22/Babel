@@ -14,6 +14,15 @@ conan_basic_setup()
 find_package(Qt5Widgets CONFIG REQUIRED)
 
 include_directories(${CMAKE_INCLUDE_PATH})
-include_directories(.)
-add_executable(babel main.cpp Counter.cpp)
-target_link_libraries(babel ${CONAN_LIBS} Qt5::Widgets)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/server/include)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/client/include)
+
+file(GLOB SRC_CLIENT ${CMAKE_CURRENT_LIST_DIR}/client/src/*)
+
+file(GLOB SRC_SERVER ${CMAKE_CURRENT_LIST_DIR}/server/src/*)
+
+add_executable(server ${SRC_SERVER})
+add_executable(client ${SRC_CLIENT})
+
+target_link_libraries(server ${CONAN_LIBS})
+target_link_libraries(client ${CONAN_LIBS} Qt5::Widgets)
