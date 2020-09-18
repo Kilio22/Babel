@@ -8,8 +8,8 @@
 #ifndef AUDIOMANAGER_HPP_
 #define AUDIOMANAGER_HPP_
 
+#include "Audio.hpp"
 #include "IAudioDevice.hpp"
-#include "Sound.hpp"
 #include <QtCore/QObject>
 #include <memory>
 
