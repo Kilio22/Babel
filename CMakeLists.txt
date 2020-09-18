@@ -9,6 +9,7 @@ conan_basic_setup()
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # CXX STANDARD
 set(CMAKE_CXX_STANDARD 20)
@@ -23,12 +24,10 @@ include_directories(${PROJECT_SOURCE_DIR}/client/include/gui)
 include_directories(${PROJECT_SOURCE_DIR}/server/include)
 
 file(GLOB_RECURSE SRC_CLIENT ${PROJECT_SOURCE_DIR}/client/src/*)
-file(GLOB_RECURSE SRC_CLIENT_EXCEPTION ${PROJECT_SOURCE_DIR}/client/src/exceptions/*)
-file(GLOB_RECURSE SRC_CLIENT_GUI ${PROJECT_SOURCE_DIR}/client/src/gui/*)
 file(GLOB_RECURSE SRC_SERVER ${PROJECT_SOURCE_DIR}/server/src/*)
 
 add_executable(server ${SRC_SERVER})
-add_executable(client ${SRC_CLIENT} ${SRC_CLIENT_EXCEPTION} ${SRC_CLIENT_GUI})
+add_executable(client ${SRC_CLIENT})
 
 target_link_libraries(server ${CONAN_LIBS})
 target_link_libraries(client ${CONAN_LIBS} Qt5::Widgets)

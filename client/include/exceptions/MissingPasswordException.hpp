@@ -18,10 +18,10 @@ namespace Babel::Exceptions
      */
     class MissingPasswordException : public ClientException
     {
-    public:
-        MissingPasswordException(const std::string &component, const std::string &message);
-        ~MissingPasswordException() = default;
+        public:
+            MissingPasswordException(const std::string &component, const std::string &message);
+            ~MissingPasswordException() = default;
     };
-}
+};
 
 #endif /* !MISSINGPASSWORDEXCEPTION_HPP_ */

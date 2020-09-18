@@ -23,26 +23,26 @@ namespace Babel::Exceptions
      */
     class ClientException : public std::exception
     {
-    public:
-        ClientException(const std::string &component, const std::string &message);
-        virtual ~ClientException() = default;
+        public:
+            ClientException(const std::string &component, const std::string &message);
+            virtual ~ClientException() = default;
 
-        /**
-         * @brief Returns a C-style character string describing the general cause of the current error.
-         * @return const char* The string
-         */
-        const char *what() const noexcept final;
+            /**
+             * @brief Returns a C-style character string describing the general cause of the current error.
+             * @return const char* The string
+             */
+            const char *what() const noexcept final;
 
-        /**
-         * @brief Gets the component where the exception has been thrown
-         * @return const std::string& The component's name
-         */
-        const std::string &getComponent(void) const noexcept;
+            /**
+             * @brief Gets the component where the exception has been thrown
+             * @return const std::string& The component's name
+             */
+            const std::string &getComponent(void) const noexcept;
 
-    private:
-        std::string _component;
-        std::string _message;
+        private:
+            std::string _component;
+            std::string _message;
     };
-}
+};
 
 #endif /* !CLIENTEXCEPTION_HPP_ */

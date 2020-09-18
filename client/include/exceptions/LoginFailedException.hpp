@@ -18,10 +18,10 @@ namespace Babel::Exceptions
      */
     class LoginFailedException : public ClientException
     {
-    public:
-        LoginFailedException(const std::string &component, const std::string &message);
-        ~LoginFailedException() = default;
+        public:
+            LoginFailedException(const std::string &component, const std::string &message);
+            ~LoginFailedException() = default;
     };
-}
+};
 
 #endif /* !LOGINFAILED_HPP_ */

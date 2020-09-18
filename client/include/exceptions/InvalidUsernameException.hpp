@@ -18,10 +18,10 @@ namespace Babel::Exceptions
      */
     class InvalidUsernameException : public ClientException
     {
-    public:
-        InvalidUsernameException(const std::string &component, const std::string &message);
-        ~InvalidUsernameException() = default;
+        public:
+            InvalidUsernameException(const std::string &component, const std::string &message);
+            ~InvalidUsernameException() = default;
     };
-}
+};
 
 #endif /* !INVALIDUSERNAMEEXCEPTION_HPP_ */

@@ -17,11 +17,23 @@
 #include <map>
 
 #include "exceptions.h"
+#include "gui/LoginWindow.hpp"
 
 int main(int ac, char ** av)
 {
     try {
         // Le programme ici haha
+        QApplication app (ac, av);
+        Babel::Client::Gui::LoginWindow window;
+        QPushButton btn(&window);
+        QObject michel;
+
+        btn.setText("M dr c un bouton");
+        window.show();
+        btn.show();
+        window.setWindowTitle("Jean Michel");
+        QObject::connect(&btn, SIGNAL (pressed()), &window, SLOT (print_mdr()));
+        app.exec();
     } catch (const Babel::Exceptions::ClientException &e) {
         std::cerr << e.getComponent() << ": " << e.what() << std::endl;
         return 84;

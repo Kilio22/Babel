@@ -18,9 +18,10 @@ namespace Babel::Exceptions
      */
     class InvalidPasswordException : public ClientException
     {
-    public:
-        InvalidPasswordException(const std::string &component, const std::string &message);
-        ~InvalidPasswordException() = default;
+        public:
+            InvalidPasswordException(const std::string &component, const std::string &message);
+            ~InvalidPasswordException() = default;
     };
-}
+};
+
 #endif /* !INVALIDPASSWORDEXCEPTION_HPP_ */

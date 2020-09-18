@@ -18,10 +18,10 @@ namespace Babel::Exceptions
      */
     class MissingUsernameException : public ClientException
     {
-    public:
-        MissingUsernameException(const std::string &component, const std::string &message);
-        ~MissingUsernameException() = default;
+        public:
+            MissingUsernameException(const std::string &component, const std::string &message);
+            ~MissingUsernameException() = default;
     };
-}
+};
 
 #endif /* !MISSINGUSERNAMEEXCEPTION_HPP_ */

@@ -18,10 +18,10 @@ namespace Babel::Exceptions
      */
     class InvalidCredentialsException : public ClientException
     {
-    public:
-        InvalidCredentialsException(const std::string &component, const std::string &message);
-        ~InvalidCredentialsException() = default;
+        public:
+            InvalidCredentialsException(const std::string &component, const std::string &message);
+            ~InvalidCredentialsException() = default;
     };
-}
+};
 
 #endif /* !INVALIDCREDENTIALSEXCEPTION_HPP_ */
