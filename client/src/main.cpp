@@ -25,11 +25,15 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include "AudioManager.hpp"
 
 int main(void)
 {
     std::map<int, int> mymap = {{1, 1}, {2, 2}};
+    Babel::Audio::AudioManager mnger;
 
     std::cout << "hello, world!" << std::endl;
+    mnger.startListening();
+    mnger.stopListening();
     return mymap.contains(1);
 }
