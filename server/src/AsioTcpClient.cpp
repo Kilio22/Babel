@@ -6,6 +6,7 @@
 */
 
 #include "AsioTcpClient.hpp"
+#include "UserManager.hpp"
 #include <boost/bind.hpp>
 #include <iostream>
 
@@ -17,11 +18,17 @@ Babel::Server::AsioTcpClient::AsioTcpClient(boost::asio::io_context &io_context)
 Babel::Server::AsioTcpClient::~AsioTcpClient()
 {
     this->disconnect();
+    UserManager::getInstance().removeUserByTcpClient(this);
 }
 
 boost::asio::ip::tcp::socket &Babel::Server::AsioTcpClient::getSocket()
 {
     return this->socket;
+}
+
+std::string Babel::Server::AsioTcpClient::getIp() const
+{
+    return this->socket.remote_endpoint().address().to_string();
 }
 
 void Babel::Server::AsioTcpClient::read()
@@ -34,6 +41,7 @@ void Babel::Server::AsioTcpClient::handleRead(const boost::system::error_code &e
 {
     if (error) {
         this->disconnect();
+        UserManager::getInstance().removeUserByTcpClient(this);
         return;
     }
     this->read();

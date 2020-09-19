@@ -8,7 +8,7 @@
 #include "AsioTcpServer.hpp"
 #include "AsioTcpClient.hpp"
 #include "User.hpp"
-#include "UsersManager.hpp"
+#include "UserManager.hpp"
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
 #include <iostream>
@@ -40,10 +40,11 @@ void Babel::Server::AsioTcpServer::acceptHandler(boost::shared_ptr<AsioTcpClient
     if (error) {
         std::cerr << "Something went wrong: " << error.message() << std::endl;
         asioTcpClient->disconnect();
+        UserManager::getInstance().removeUserByTcpClient(asioTcpClient.get());
     } else {
         std::cout << "New client!" << std::endl;
         asioTcpClient->read();
-        UsersManager::getInstance().addUser(std::make_shared<User>(asioTcpClient));
+        UserManager::getInstance().addUser(std::make_shared<User>(asioTcpClient));
     }
     this->startAccept();
 }

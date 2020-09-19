@@ -8,6 +8,8 @@
 #ifndef ITCPCLIENT_HPP_
 #define ITCPCLIENT_HPP_
 
+#include <string>
+
 namespace Babel::Server
 {
     class ITcpClient {
@@ -17,6 +19,7 @@ namespace Babel::Server
         virtual void read() = 0;
         virtual void write() = 0;
         virtual void disconnect() = 0;
+        virtual std::string getIp() const = 0;
     };
 } // namespace Babel::Server
 

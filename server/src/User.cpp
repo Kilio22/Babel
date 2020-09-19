@@ -9,6 +9,7 @@
 
 Babel::Server::User::User(boost::shared_ptr<ITcpClient> tcpClient)
     : tcpClient(tcpClient)
+    , loggedIn(false)
 {
 }
 
@@ -18,11 +19,23 @@ const boost::shared_ptr<Babel::Server::ITcpClient> &Babel::Server::User::getTcpC
 {
     return this->tcpClient;
 }
+
 const std::string &Babel::Server::User::getUsername() const
 {
     return this->username;
 }
+
 void Babel::Server::User::setUsername(const std::string &newUsername)
 {
     this->username.assign(newUsername);
+}
+
+bool Babel::Server::User::isLoggedIn() const
+{
+    return this->loggedIn;
+}
+
+void Babel::Server::User::setLoggedIn(bool loggedIn)
+{
+    this->loggedIn = loggedIn;
 }

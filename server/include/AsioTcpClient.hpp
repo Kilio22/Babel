@@ -22,6 +22,8 @@ namespace Babel::Server
         virtual ~AsioTcpClient();
 
         boost::asio::ip::tcp::socket &getSocket();
+
+        std::string getIp() const final;
         void read() final;
         void write() final;
         void disconnect() final;
