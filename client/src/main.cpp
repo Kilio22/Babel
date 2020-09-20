@@ -27,7 +27,7 @@ int main(int ac, char ** av)
         Babel::Client::Gui::LoginWindow window;
 
         window.show();
-        window.setWindowTitle("Jean Michel");
+        window.setWindowTitle("Babybel");
         app.exec();
     } catch (const Babel::Exceptions::ClientException &e) {
         std::cerr << e.getComponent() << ": " << e.what() << std::endl;

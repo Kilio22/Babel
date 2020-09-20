@@ -21,15 +21,17 @@ namespace Babel::Client::Gui {
     {
         Q_OBJECT
         private:
-            QLabel testLabel;
+            QLabel logo;
             QPushButton loginBtn;
+            QTextEdit username;
+            QTextEdit password;
 
         public:
             explicit LoginWindow(QWidget *parent = nullptr);
             ~LoginWindow() = default;
 
         private slots:
-            void print_mdr();
+            void print();
     };
 };
 
