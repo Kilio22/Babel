@@ -24,8 +24,8 @@ namespace Babel::Server::Exceptions
         const char *where() const noexcept;
 
     private:
-        std::string _message;
-        std::string _component;
+        std::string message;
+        std::string component;
     };
 }
 

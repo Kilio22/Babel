@@ -14,16 +14,15 @@ namespace Babel::Server
 {
     class User : public IUser {
     public:
-        User(boost::shared_ptr<ITcpClient> tcpClient);
+        User(const boost::shared_ptr<ITcpClient> &tcpClient);
         ~User();
 
-        const boost::shared_ptr<ITcpClient> &getTcpClient() const final;
+        boost::shared_ptr<ITcpClient> getTcpClient() const final;
         const std::string &getUsername() const final;
         void setUsername(const std::string &) final;
         bool isLoggedIn() const final;
         void setLoggedIn(bool loggedIn) final;
 
-    protected:
     private:
         std::string username;
         boost::shared_ptr<ITcpClient> tcpClient;

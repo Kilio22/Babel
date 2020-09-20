@@ -14,4 +14,4 @@ Babel::Server::CommandParser &Babel::Server::CommandParser::getInstance()
     return commandParserInstance;
 }
 
-void Babel::Server::CommandParser::parseCommand(unsigned char *data, Babel::Server::ITcpClient *tcpClient) { }
+void Babel::Server::CommandParser::parseCommand(unsigned char *data, Babel::Server::ITcpClient *tcpClient) const { }

@@ -17,7 +17,7 @@ namespace Babel::Server
     {
         const int corewarMagic = 0xea83f3;
 
-#pragma pack(push, 1) // to remove padding and avoid problem between compilers and network transfer.
+#pragma pack(push, 1) // to remove padding to avoid problem with different compilers and with network transfer.
 
         struct header_s
         {
@@ -34,7 +34,7 @@ namespace Babel::Server
 
         static CommandParser &getInstance();
 
-        void parseCommand(unsigned char *, ITcpClient *);
+        void parseCommand(unsigned char *, ITcpClient *) const;
 
     private:
         CommandParser() = default;

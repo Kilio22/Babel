@@ -8,10 +8,10 @@
 #include "commands/CommandFactory.hpp"
 
 const std::map<const enum Babel::Server::Commands::COMMAND_TYPE, std::function<std::unique_ptr<Babel::Server::Commands::ICommand>()>>
-    Babel::Server::CommandFactory::commandHandlersMap = { { Babel::Server::Commands::COMMAND_TYPE::LOGIN, []() { return nullptr; } } };
+    Babel::Server::CommandFactory::commandMap = { { Babel::Server::Commands::COMMAND_TYPE::LOGIN, []() { return nullptr; } } };
 
-std::unique_ptr<Babel::Server::Commands::ICommand> Babel::Server::CommandFactory::createCommandHandlerFromCommandType(
+std::unique_ptr<Babel::Server::Commands::ICommand> Babel::Server::CommandFactory::createCommandFromCommandType(
     const enum Babel::Server::Commands::COMMAND_TYPE &commandType)
 {
-    return commandHandlersMap.at(commandType)();
+    return commandMap.at(commandType)();
 }

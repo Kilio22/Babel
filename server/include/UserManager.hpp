@@ -21,12 +21,13 @@ namespace Babel::Server
 
         void addUser(const std::shared_ptr<IUser> &);
         void removeUserByTcpClient(const ITcpClient *);
-        std::shared_ptr<IUser> getUserByTcpClient(const boost::shared_ptr<ITcpClient> &) const;
+        std::shared_ptr<IUser> getUserByTcpClient(const ITcpClient *) const;
 
     private:
         UserManager();
         UserManager(const UserManager &) = delete;
         UserManager &operator=(const UserManager &) = delete;
+
         std::vector<std::shared_ptr<IUser>> userList;
 
         static UserManager userManagerInstance;

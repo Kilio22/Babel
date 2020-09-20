@@ -7,7 +7,7 @@
 
 #include "User.hpp"
 
-Babel::Server::User::User(boost::shared_ptr<ITcpClient> tcpClient)
+Babel::Server::User::User(const boost::shared_ptr<ITcpClient> &tcpClient)
     : tcpClient(tcpClient)
     , loggedIn(false)
 {
@@ -15,7 +15,7 @@ Babel::Server::User::User(boost::shared_ptr<ITcpClient> tcpClient)
 
 Babel::Server::User::~User() { }
 
-const boost::shared_ptr<Babel::Server::ITcpClient> &Babel::Server::User::getTcpClient() const
+boost::shared_ptr<Babel::Server::ITcpClient> Babel::Server::User::getTcpClient() const
 {
     return this->tcpClient;
 }

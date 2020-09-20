@@ -27,7 +27,7 @@ Babel::Server::BabelServer::BabelServer(int ac, const char *av[])
 
 void Babel::Server::BabelServer::run()
 {
-    AsioTcpServer asioTcpServer(this->port);
+    std::unique_ptr<ITcpServer> tcpServer = std::make_unique<AsioTcpServer>(this->port);
 
-    asioTcpServer.listen();
+    tcpServer->listen();
 }

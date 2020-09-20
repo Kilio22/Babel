@@ -9,16 +9,17 @@
 #define SERVERTCPSOCKET_HPP_
 
 #include "AsioTcpClient.hpp"
+#include "ITcpServer.hpp"
 #include <boost/asio.hpp>
 
 namespace Babel::Server
 {
-    class AsioTcpServer {
+    class AsioTcpServer : public ITcpServer {
     public:
         AsioTcpServer(unsigned short port);
         ~AsioTcpServer();
 
-        void listen();
+        void listen() final;
 
     private:
         void startAccept();

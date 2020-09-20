@@ -30,16 +30,15 @@ namespace Babel::Server
         ~CommandFactory();
 
         template <class T>
-        static std::unique_ptr<T> createCommandHandler()
+        static std::unique_ptr<T> createCommand()
         {
             return std::make_unique<T>();
         }
 
-        static std::unique_ptr<Commands::ICommand> createCommandHandlerFromCommandType(const enum Babel::Server::Commands::COMMAND_TYPE &commandType);
+        static std::unique_ptr<Commands::ICommand> createCommandFromCommandType(const enum Babel::Server::Commands::COMMAND_TYPE &commandType);
 
     private:
-        static const std::map<const enum Babel::Server::Commands::COMMAND_TYPE, std::function<std::unique_ptr<Commands::ICommand>()>>
-            commandHandlersMap;
+        static const std::map<const enum Babel::Server::Commands::COMMAND_TYPE, std::function<std::unique_ptr<Commands::ICommand>()>> commandMap;
     };
 } // namespace Babel::Server
 

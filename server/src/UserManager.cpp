@@ -30,10 +30,10 @@ void Babel::Server::UserManager::removeUserByTcpClient(const ITcpClient *tcpClie
         this->userList.end());
 }
 
-std::shared_ptr<Babel::Server::IUser> Babel::Server::UserManager::getUserByTcpClient(const boost::shared_ptr<ITcpClient> &tcpClient) const
+std::shared_ptr<Babel::Server::IUser> Babel::Server::UserManager::getUserByTcpClient(const ITcpClient *tcpClient) const
 {
     for (const auto &user : this->userList) {
-        if (user->getTcpClient() == tcpClient) {
+        if (user->getTcpClient().get() == tcpClient) {
             return user;
         }
     }
