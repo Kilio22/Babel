@@ -8,7 +8,6 @@
 #ifndef BABELSERVEREXCEPTION_HPP_
 #define BABELSERVEREXCEPTION_HPP_
 
-#include "exceptions/BabelServerException.hpp"
 #include <exception>
 #include <string>
 

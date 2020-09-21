@@ -8,13 +8,15 @@
 #ifndef ICOMMANDHANDLER_HPP_
 #define ICOMMANDHANDLER_HPP_
 
+#include "ITcpClient.hpp"
+
 namespace Babel::Server::Commands
 {
     class ICommand {
     public:
         virtual ~ICommand() = default;
 
-        virtual void handle() const = 0;
+        virtual void handle(const unsigned char *data, ITcpClient *tcpClient) const = 0;
     };
 } // namespace Babel::Server::Commands
 

@@ -2,46 +2,46 @@
 ** EPITECH PROJECT, 2020
 ** B-CPP-500-REN-5-1-babel-kylian.balan
 ** File description:
-** RegisterCommand
+** LoginCommand
 */
 
-#ifndef REGISTERCOMMAND_HPP_
-#define REGISTERCOMMAND_HPP_
+#ifndef LOGINCOMMAND_HPP_
+#define LOGINCOMMAND_HPP_
 
 #include "commands/CommandParser.hpp"
-#include "commands/RegisterCommand.hpp"
+#include "commands/ICommand.hpp"
 
 namespace Babel::Server::Commands
 {
-    class RegisterCommand : public ICommand {
+    class LoginCommand : public ICommand {
     public:
-        RegisterCommand() = default;
-        ~RegisterCommand() = default;
+        LoginCommand() = default;
+        ~LoginCommand() = default;
 
         void handle(const unsigned char *data, ITcpClient *tcpClient) const final;
 
-        enum class REGISTER_RESPONSE_CODE
+        enum class LOGIN_RESPONSE_CODE
         {
             OK,
-            BAD_COMBINAISON,
-            USERNAME_TAKEN,
+            WRONG_USERNAME,
+            WRONG_PASSWORD,
             OTHER
         };
 
 #pragma pack(push, 1)
-        struct RegisterRequest
+        struct loginRequest
         {
             Header header;
             char username[32];
             char password[42];
         };
-        struct RegisterResponse
+        struct loginResponse
         {
             Header header;
-            enum REGISTER_RESPONSE_CODE responseCode;
+            enum LOGIN_RESPONSE_CODE responseCode;
         };
 #pragma pack(pop)
     };
 } // namespace Babel::Server::Commands
 
-#endif /* !REGISTERCOMMAND_HPP_ */
+#endif /* !LOGINCOMMAND_HPP_ */

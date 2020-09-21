@@ -25,11 +25,12 @@ namespace Babel::Server
 
         std::string getIp() const final;
         void read() final;
-        void write() final;
+        void write(const unsigned char *data, size_t size) final;
         void disconnect() final;
 
     private:
         void handleRead(const boost::system::error_code &error, std::size_t bytes_transferred);
+        void handleWrite(const boost::system::error_code &error, std::size_t bytes_transferred);
 
         boost::asio::ip::tcp::socket socket;
         unsigned char data[readSize];
