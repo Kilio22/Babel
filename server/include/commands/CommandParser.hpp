@@ -19,8 +19,13 @@ namespace Babel::Server
 
 #pragma pack(push, 1) // to remove padding to avoid problem with different compilers and with network transfer.
 
-        struct header_s
+        struct Header
         {
+            Header(enum COMMAND_TYPE commandType)
+                : corewarMagic(0xea83f3)
+                , commandType(commandType)
+            {
+            }
             int corewarMagic;
             enum COMMAND_TYPE commandType;
         };
@@ -34,7 +39,7 @@ namespace Babel::Server
 
         static CommandParser &getInstance();
 
-        void parseCommand(unsigned char *, ITcpClient *) const;
+        void parseCommand(const unsigned char *, ITcpClient *) const;
 
     private:
         CommandParser() = default;

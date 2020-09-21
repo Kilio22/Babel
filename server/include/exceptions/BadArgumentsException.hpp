@@ -8,7 +8,7 @@
 #ifndef BADARGUMENTSEXCEPTION_HPP_
 #define BADARGUMENTSEXCEPTION_HPP_
 
-#include "BabelServerException.hpp"
+#include "exceptions/BabelServerException.hpp"
 
 namespace Babel::Server::Exceptions
 {

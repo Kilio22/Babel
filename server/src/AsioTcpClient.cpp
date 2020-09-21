@@ -55,4 +55,17 @@ void Babel::Server::AsioTcpClient::disconnect()
     }
 }
 
-void Babel::Server::AsioTcpClient::write() { }
+void Babel::Server::AsioTcpClient::handleWrite(const boost::system::error_code &error, std::size_t bytes_transferred)
+{
+    if (error) {
+        std::cerr << "Something went wrong: " << error.message() << std::endl;
+        this->disconnect();
+        UserManager::getInstance().removeUserByTcpClient(this);
+    }
+}
+
+void Babel::Server::AsioTcpClient::write(const unsigned char *data, size_t size)
+{
+    this->socket.async_write_some(boost::asio::buffer(data, size),
+        boost::bind(&AsioTcpClient::handleWrite, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+}

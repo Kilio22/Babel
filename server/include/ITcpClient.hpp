@@ -17,7 +17,7 @@ namespace Babel::Server
         virtual ~ITcpClient() = default;
 
         virtual void read() = 0;
-        virtual void write() = 0;
+        virtual void write(const unsigned char *data, size_t size) = 0;
         virtual void disconnect() = 0;
         virtual std::string getIp() const = 0;
     };

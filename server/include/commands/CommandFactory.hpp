@@ -20,7 +20,8 @@ namespace Babel::Server
         enum COMMAND_TYPE
         {
             REGISTER,
-            LOGIN
+            LOGIN,
+            ERROR
         };
     } // namespace Commands
 
