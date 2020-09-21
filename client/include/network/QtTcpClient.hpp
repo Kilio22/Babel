@@ -11,9 +11,9 @@
 #include "ITcpClient.hpp"
 #include <QtNetwork/QTcpSocket>
 
-namespace Babel::Network
+namespace Babel::Client::Network
 {
-    class QtTcpClient : public ITcpClient 
+    class QtTcpClient : public ITcpClient
     {
         public:
             QtTcpClient(const std::string &ipv4, unsigned short port);

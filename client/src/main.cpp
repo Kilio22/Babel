@@ -5,35 +5,22 @@
 ** main
 */
 
-#include <QApplication>
-#include <QColorDialog>
-#include <QFile>
-#include <QFileDialog>
-#include <QFont>
-#include <QFontDialog>
-#include <QLabel>
-#include <QMainWindow>
-#include <QMenuBar>
-#include <QMessageBox>
-#include <QPushButton>
-#include <QStatusBar>
-#include <QTextEdit>
-#include <QTextStream>
-#include <QWidget>
-#include <opus.h>
-#include <cstdlib>
+#include "BabelClient.hpp"
+#include "BabelClientException.hpp"
 #include <iostream>
-#include <string>
-#include <map>
-#include "AudioManager.hpp"
 
-int main(void)
+int main(int ac, const char *av[])
 {
-    std::map<int, int> mymap = {{1, 1}, {2, 2}};
-    Babel::Audio::AudioManager mnger;
+    try {
+        Babel::Client::BabelClient babelClient(ac, av);
 
-    std::cout << "hello, world!" << std::endl;
-    mnger.startListening();
-    mnger.stopListening();
-    return mymap.contains(1);
+        babelClient.run();
+    } catch (Babel::Client::Exceptions::BabelClientException &e) {
+        std::cerr << e.where() << ": " << e.what() << std::endl;
+        return 84;
+    } catch (std::exception &e) {
+        std::cerr << e.what() << std::endl;
+        return 84;
+    }
+    return 0;
 }

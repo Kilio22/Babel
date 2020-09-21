@@ -10,7 +10,7 @@
 
 #include <string>
 
-namespace Babel::Network
+namespace Babel::Client::Network
 {
     class ITcpClient
     {
