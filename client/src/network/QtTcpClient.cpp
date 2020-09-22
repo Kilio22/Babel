@@ -6,24 +6,28 @@
 */
 
 #include "QtTcpClient.hpp"
+#include "QtTcpClientException.hpp"
+#include <iostream>
 
-using namespace Babel::Network;
-
-QtTcpClient::QtTcpClient(const std::string &ipv4, unsigned short port)
+Babel::Client::Network::QtTcpClient::QtTcpClient(const std::string &ipv4, unsigned short port)
 {
     _socket.connectToHost(QString::fromStdString(ipv4), port);
+    if (!_socket.waitForConnected(3000)) {
+        throw Babel::Client::Exceptions::QtTcpClientException(
+            "Can't connect to server: " + _socket.errorString().toStdString(), "Babel::Client::Network::QtTcpClient::QtTcpClient");
+    }
 }
 
-QtTcpClient::~QtTcpClient()
+Babel::Client::Network::QtTcpClient::~QtTcpClient()
 {
 }
 
-void QtTcpClient::send(const std::string &data)
+void Babel::Client::Network::QtTcpClient::send(const std::string &data)
 {
     return;
 }
 
-std::string QtTcpClient::receive()
+std::string Babel::Client::Network::QtTcpClient::receive()
 {
     return "";
 }
