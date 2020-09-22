@@ -12,6 +12,10 @@
 
 namespace Babel::Audio
 {
+    const int SampleRate = 44100;
+    const int FramesPerBuffer = 512;
+    const int ChannelCount = 2;
+
     struct SoundBuffer {
         int size;
         std::vector<float> samples;

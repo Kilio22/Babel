@@ -10,7 +10,7 @@
 
 #include "ClientException.hpp"
 
-namespace Babel::Exceptions
+namespace Babel::Client::Exceptions
 {
     /**
      * @brief Class representing the exception thrown the login failed (for any reason).

@@ -19,7 +19,7 @@ Babel::Audio::AudioManager::AudioManager()
     auto err = Pa_Initialize();
 
     if (err != paNoError) {
-        throw Exceptions::AudioException(Pa_GetErrorText(err));
+        throw Client::Exceptions::AudioException(Pa_GetErrorText(err));
     }
 }
 

@@ -10,7 +10,7 @@
 
 #include <stdexcept>
 
-namespace Babel::Exceptions
+namespace Babel::Client::Exceptions
 {
     class AudioException : public std::runtime_error
     {

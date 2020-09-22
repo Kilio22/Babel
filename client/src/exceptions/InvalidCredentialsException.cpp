@@ -7,7 +7,7 @@
 
 #include "InvalidCredentialsException.hpp"
 
-Babel::Exceptions::InvalidCredentialsException::InvalidCredentialsException(const std::string &component, const std::string &message)
+Babel::Client::Exceptions::InvalidCredentialsException::InvalidCredentialsException(const std::string &component, const std::string &message)
     : ClientException(component, message)
 {
 }

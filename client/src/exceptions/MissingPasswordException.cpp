@@ -7,7 +7,7 @@
 
 #include "MissingPasswordException.hpp"
 
-Babel::Exceptions::MissingPasswordException::MissingPasswordException(const std::string &component, const std::string &message)
+Babel::Client::Exceptions::MissingPasswordException::MissingPasswordException(const std::string &component, const std::string &message)
     : ClientException(component, message)
 {
 }

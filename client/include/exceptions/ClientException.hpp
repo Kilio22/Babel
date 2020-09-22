@@ -15,7 +15,7 @@
 #define _ERROR_STR(f, l, fu) __ERROR_STR(f, l, fu)
 #define ERROR_STR _ERROR_STR(__FILE__, __LINE__, __func__)
 
-namespace Babel::Exceptions
+namespace Babel::Client::Exceptions
 {
     /**
      * @brief Class representing all client-side exceptions

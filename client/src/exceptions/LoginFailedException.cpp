@@ -7,7 +7,7 @@
 
 #include "LoginFailedException.hpp"
 
-Babel::Exceptions::LoginFailedException::LoginFailedException(const std::string &component, const std::string &message)
+Babel::Client::Exceptions::LoginFailedException::LoginFailedException(const std::string &component, const std::string &message)
     : ClientException(component, message)
 {
 }

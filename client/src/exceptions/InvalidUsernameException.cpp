@@ -7,7 +7,7 @@
 
 #include "InvalidUsernameException.hpp"
 
-Babel::Exceptions::InvalidUsernameException::InvalidUsernameException(const std::string &component, const std::string &message)
+Babel::Client::Exceptions::InvalidUsernameException::InvalidUsernameException(const std::string &component, const std::string &message)
     : ClientException(component, message)
 {
 }

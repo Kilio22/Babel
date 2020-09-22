@@ -7,13 +7,13 @@
 
 #include "exceptions/AudioException.hpp"
 
-Babel::Exceptions::AudioException::AudioException(const std::string &what)
+Babel::Client::Exceptions::AudioException::AudioException(const std::string &what)
     : std::runtime_error(what)
     , _what(what)
 {
 }
 
-const char *Babel::Exceptions::AudioException::what() const noexcept
+const char *Babel::Client::Exceptions::AudioException::what() const noexcept
 {
     return this->_what.c_str();
 }

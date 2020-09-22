@@ -99,21 +99,21 @@ Babel::Client::Gui::SignupWindow::SignupWindow(QWidget *parent)
 
 void Babel::Client::Gui::SignupWindow::evaluateForms() {
     if (username.text().toStdString().size() == 0)
-        throw Babel::Exceptions::MissingUsernameException(ERROR_STR, "Missing Username");
+        throw Babel::Client::Exceptions::MissingUsernameException(ERROR_STR, "Missing Username");
     if (password.text().toStdString().size() == 0)
-        throw Babel::Exceptions::MissingPasswordException(ERROR_STR, "Missing Password");
+        throw Babel::Client::Exceptions::MissingPasswordException(ERROR_STR, "Missing Password");
     for (auto c : username.text().toStdString()) {
         if (!isalnum(c))
-            throw Babel::Exceptions::InvalidUsernameException(ERROR_STR, "Invalid Username Format.");
+            throw Babel::Client::Exceptions::InvalidUsernameException(ERROR_STR, "Invalid Username Format.");
     }
     for (auto c : password.text().toStdString()) {
         if (!isalnum(c))
-            throw Babel::Exceptions::InvalidPasswordException(ERROR_STR, "Invalid Password Format.");
+            throw Babel::Client::Exceptions::InvalidPasswordException(ERROR_STR, "Invalid Password Format.");
     }
     if (username.text().toStdString().size() < 3 || username.text().toStdString().size() > 32)
-        throw Babel::Exceptions::InvalidUsernameException(ERROR_STR, "Invalid Username Format.");
+        throw Babel::Client::Exceptions::InvalidUsernameException(ERROR_STR, "Invalid Username Format.");
     if (password.text().toStdString().size() < 3 || password.text().toStdString().size() > 32)
-        throw Babel::Exceptions::InvalidPasswordException(ERROR_STR, "Invalid Password Format.");
+        throw Babel::Client::Exceptions::InvalidPasswordException(ERROR_STR, "Invalid Password Format.");
 }
 
 void Babel::Client::Gui::SignupWindow::submitSignup() {
@@ -122,30 +122,30 @@ void Babel::Client::Gui::SignupWindow::submitSignup() {
         // TODO
         // POUR ANTOINE (ou moi plus tard jsp).
         // On s'inscrit ici. Si ça marche pas, throw InvalidCredentialsException ou SignupFailedException.
-    } catch (const Babel::Exceptions::InvalidUsernameException &e) {
+    } catch (const Babel::Client::Exceptions::InvalidUsernameException &e) {
         (void)e;
         topText.setText("Un pseudo doit contenir entre 3 et 32 caractères alphanumériques.");
         return;
-    } catch (const Babel::Exceptions::InvalidPasswordException &e) {
+    } catch (const Babel::Client::Exceptions::InvalidPasswordException &e) {
         (void)e;
         topText.setText("Un mot de passe doit contenir entre 3 et 42 caractères alphanumériques.");
         return;
-    } catch (const Babel::Exceptions::MissingUsernameException &e) {
+    } catch (const Babel::Client::Exceptions::MissingUsernameException &e) {
         (void)e;
         topText.setText("Veuillez entrer votre pseudo & votre mot de passe pour vous inscrire.");
         return;
-    } catch (const Babel::Exceptions::MissingPasswordException &e) {
+    } catch (const Babel::Client::Exceptions::MissingPasswordException &e) {
         (void)e;
         topText.setText("Veuillez entrer votre pseudo & votre mot de passe pour vous inscrire.");
         return;
-    } catch (const Babel::Exceptions::InvalidCredentialsException &e) {
+    } catch (const Babel::Client::Exceptions::InvalidCredentialsException &e) {
         // TODO
         // POUR ANTOINE (ou moi plus tard jsp).
         // Tu throw ça quand le username / mdp est pas bon. Genre l'username existe deja etc ...
         (void)e;
         topText.setText("Pseudo ou mot de passe invalide.");
         return;
-    } catch (const Babel::Exceptions::SignupFailedException &e) {
+    } catch (const Babel::Client::Exceptions::SignupFailedException &e) {
         // TODO
         // POUR ANTOINE (ou moi plus tard jsp).
         // Tu throw ça quand la connection au serv marche pas.

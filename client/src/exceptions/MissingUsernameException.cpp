@@ -7,7 +7,7 @@
 
 #include "MissingUsernameException.hpp"
 
-Babel::Exceptions::MissingUsernameException::MissingUsernameException(const std::string &component, const std::string &message)
+Babel::Client::Exceptions::MissingUsernameException::MissingUsernameException(const std::string &component, const std::string &message)
     : ClientException(component, message)
 {
 }

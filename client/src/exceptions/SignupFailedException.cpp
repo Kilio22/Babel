@@ -7,7 +7,7 @@
 
 #include "SignupFailedException.hpp"
 
-Babel::Exceptions::SignupFailedException::SignupFailedException(const std::string &component, const std::string &message)
+Babel::Client::Exceptions::SignupFailedException::SignupFailedException(const std::string &component, const std::string &message)
     : ClientException(component, message)
 {
 }

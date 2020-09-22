@@ -9,26 +9,25 @@
 #include <QtWidgets/QApplication>
 #include <opus.h>
 #include <cstdlib>
+#include "BabelClient.hpp"
 #include <iostream>
-#include <string>
-#include <map>
-#include "AudioManager.hpp"
-
 #include "exceptions.h"
 #include "WindowManager.hpp"
 #include "ServiceLocator.hpp"
+#include "AudioManager.hpp"
 
-int main(int ac, char ** av)
+int main(int ac, char **av)
 {
     try {
         QApplication app (ac, av);
         Babel::Audio::AudioManager mnger;
+        Babel::Client::BabelClient babelClient(ac, av);
 
-        Babel::Client::ServiceLocator::getInstance().get<Babel::Client::WindowManager>().setState(Babel::Client::WindowManager::State::Login);
+        babelClient.run();
         mnger.startListening();
         mnger.stopListening();
         app.exec();
-    } catch (const Babel::Exceptions::ClientException &e) {
+    } catch (const Babel::Client::Exceptions::ClientException &e) {
         std::cerr << e.getComponent() << ": " << e.what() << std::endl;
         return 84;
     } catch (const std::exception &e) {

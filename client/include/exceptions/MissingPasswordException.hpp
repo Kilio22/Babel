@@ -10,7 +10,7 @@
 
 #include "ClientException.hpp"
 
-namespace Babel::Exceptions
+namespace Babel::Client::Exceptions
 {
     /**
      * @brief Class representing the exception thrown when the user doesn't fill in the Password Text Box in the Sign In / Login window.
