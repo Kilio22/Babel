@@ -2,11 +2,11 @@
 ** EPITECH PROJECT, 2020
 ** B-CPP-500-REN-5-1-babel-kylian.balan
 ** File description:
-** LoginWindow
+** SignupWindow
 */
 
-#ifndef LOGINWINDOW_HPP_
-#define LOGINWINDOW_HPP_
+#ifndef SIGNUPWINDOW_HPP_
+#define SIGNUPWINDOW_HPP_
 
 #include <QtCore/QObject>
 #include <QtWidgets/QMainWindow>
@@ -20,15 +20,15 @@ namespace Babel::Client::Gui {
      * @brief This class represents the login window. It inherits from QMainWindow.
      * 
      */
-    class LoginWindow : public QMainWindow
+    class SignupWindow : public QMainWindow
     {
         Q_OBJECT
         private:
             QLabel logo;
-            QPushButton loginBtn;
+            QPushButton submitBtn;
             QLineEdit username;
             QLineEdit password;
-            QPushButton signupBtn;
+            QPushButton loginBtn;
             QLabel bottomText;
             QLabel topText;
 
@@ -45,25 +45,25 @@ namespace Babel::Client::Gui {
 
         public:
             /**
-             * @brief Construct a new Login Window object
+             * @brief Construct a new Sign Up Window object
              * 
              * @param parent Parent of the widget.
              */
-            LoginWindow(QWidget *parent = nullptr);
-            ~LoginWindow() = default;
+            SignupWindow(QWidget *parent = nullptr);
+            ~SignupWindow() = default;
 
         private slots:
             /**
              * @brief Submit the login form and evaluate it.
              * 
              */
-            void submitLogin();
+            void submitSignup();
             /**
-             * @brief Switch to the Sign Up Window.
+             * @brief Switch to the Login Window.
              * 
              */
-            void switchToSignup();
+            void switchToLogin();
     };
 };
 
-#endif /* !LOGINWINDOW_HPP_ */
+#endif /* !SIGNUPWINDOW_HPP_ */

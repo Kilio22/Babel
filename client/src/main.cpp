@@ -21,12 +21,8 @@ int main(int ac, char ** av)
 {
     try {
         QApplication app (ac, av);
-        Babel::Client::ServiceLocator::getInstance().get<Babel::Client::WindowManager>().setState(Babel::Client::WindowManager::State::Login);
-        //Babel::Client::WindowManager manager;
-        //Babel::Client::Gui::LoginWindow window;
 
-        //window.show();
-        //window.setWindowTitle("Babybel");
+        Babel::Client::ServiceLocator::getInstance().get<Babel::Client::WindowManager>().setState(Babel::Client::WindowManager::State::Login);
         app.exec();
     } catch (const Babel::Exceptions::ClientException &e) {
         std::cerr << e.getComponent() << ": " << e.what() << std::endl;

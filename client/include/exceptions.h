@@ -12,3 +12,4 @@
 #include "exceptions/LoginFailedException.hpp"
 #include "exceptions/MissingPasswordException.hpp"
 #include "exceptions/MissingUsernameException.hpp"
+#include "exceptions/SignupFailedException.hpp"
