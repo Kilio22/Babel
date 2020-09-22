@@ -22,7 +22,7 @@ namespace Babel::Server
         void setSqlResults(int argc, char **argv, char **azColName);
 
         void addUser(const std::string &username, const std::string &password) final;
-        const char **getUserLogs(const std::string &username);
+        const char **getUserLogs(const std::string &username) final;
 
         static int callback(void *NotUsed, int argc, char **argv, char **azColName);
 
