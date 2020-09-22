@@ -20,12 +20,13 @@ void Babel::Server::CommandParser::parseCommand(const unsigned char *data, Babel
     const Commands::Header *header = reinterpret_cast<const Commands::Header *>(data);
     const Commands::Header responseHeader(Commands::COMMAND_TYPE::ERROR);
 
+    std::cout << "received something, header : " << header->commandType << std::endl;
     if (header->corewarMagic != Commands::corewarMagic) {
         return tcpClient->write(reinterpret_cast<const unsigned char *>(&responseHeader), sizeof(Commands::Header));
     }
     try {
         CommandFactory::createCommandFromCommandType(header->commandType)->handle(data, tcpClient);
-    } catch (const std::exception &e) {
+    } catch (const std::exception &) {
         return tcpClient->write(reinterpret_cast<const unsigned char *>(&responseHeader), sizeof(Commands::Header));
     }
 }

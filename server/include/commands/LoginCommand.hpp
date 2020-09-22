@@ -23,19 +23,18 @@ namespace Babel::Server::Commands
         enum class LOGIN_RESPONSE_CODE
         {
             OK,
-            WRONG_USERNAME,
-            WRONG_PASSWORD,
+            BAD_COMBINAISON,
             OTHER
         };
 
 #pragma pack(push, 1)
-        struct loginRequest
+        struct LoginRequest
         {
             Header header;
             char username[32];
             char password[42];
         };
-        struct loginResponse
+        struct LoginResponse
         {
             Header header;
             enum LOGIN_RESPONSE_CODE responseCode;

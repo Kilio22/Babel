@@ -44,6 +44,11 @@ void Babel::Server::AsioTcpClient::handleRead(const boost::system::error_code &e
         UserManager::getInstance().removeUserByTcpClient(this);
         return;
     }
+    for (size_t i = 0; i < 4096; i++) {
+        if (this->data[i] != 0) {
+            std::cout << (char)this->data[i] << std::endl;
+        }
+    }
     this->read();
 }
 

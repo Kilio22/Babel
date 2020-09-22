@@ -53,3 +53,32 @@ void Babel::Server::SqlDb::addUser(const std::string &username, const std::strin
         throw Exceptions::QueryDatabaseException("Can't insert new user : " + std::string(errorMessage), "Babel::Server::SqlDb::addUser");
     }
 }
+
+const char **Babel::Server::SqlDb::getUserLogs(const std::string &username)
+{
+    int rc = 0;
+    char *errorMessage = nullptr;
+    std::string query = "SELECT username, password FROM users WHERE username=\"" + username + "\";";
+
+    rc = sqlite3_exec(db, query.c_str(), SqlDb::callback, 0, &errorMessage);
+    if (rc != SQLITE_OK) {
+        throw Exceptions::QueryDatabaseException("Can't get user logs: " + std::string(errorMessage), "Babel::Server::SqlDb::getUserLogs");
+    }
+    if (this->argc == 0) {
+        return nullptr;
+    }
+    return const_cast<const char **>(this->argv);
+}
+
+int Babel::Server::SqlDb::callback(void *NotUsed, int argc, char **argv, char **azColName)
+{
+    SqlDb::getInstance().setSqlResults(argc, argv, azColName);
+    return 0;
+}
+
+void Babel::Server::SqlDb::setSqlResults(int argc, char **argv, char **azColName)
+{
+    this->argc = argc;
+    this->argv = argv;
+    this->azColName = azColName;
+}

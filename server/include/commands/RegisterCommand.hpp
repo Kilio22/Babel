@@ -23,7 +23,8 @@ namespace Babel::Server::Commands
         enum class REGISTER_RESPONSE_CODE
         {
             OK,
-            BAD_COMBINAISON,
+            WRONG_USERNAME_LENGTH,
+            WRONG_PASSWORD_LENGTH,
             USERNAME_TAKEN,
             OTHER
         };

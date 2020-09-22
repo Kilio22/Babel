@@ -16,15 +16,19 @@ void Babel::Server::Commands::RegisterCommand::handle(const unsigned char *data,
     const std::string username = registerRequest->username;
     const std::string password = registerRequest->password;
 
-    if (username.length() < 3 || password.length() < 3) {
-        registerResponse.responseCode = REGISTER_RESPONSE_CODE::BAD_COMBINAISON;
+    if (username.length() < 3) {
+        registerResponse.responseCode = REGISTER_RESPONSE_CODE::WRONG_USERNAME_LENGTH;
+        return tcpClient->write(reinterpret_cast<const unsigned char *>(&registerResponse), sizeof(RegisterResponse));
+    }
+    if (password.length() < 3) {
+        registerResponse.responseCode = REGISTER_RESPONSE_CODE::WRONG_PASSWORD_LENGTH;
         return tcpClient->write(reinterpret_cast<const unsigned char *>(&registerResponse), sizeof(RegisterResponse));
     }
     try {
         SqlDb::getInstance().addUser(username, password);
-    } catch (const Exceptions::ConstraintDatabaseException &e) {
+    } catch (const Exceptions::ConstraintDatabaseException &) {
         registerResponse.responseCode = REGISTER_RESPONSE_CODE::USERNAME_TAKEN;
-    } catch (const std::exception &e) {
+    } catch (const std::exception &) {
         registerResponse.responseCode = REGISTER_RESPONSE_CODE::OTHER;
     }
     return tcpClient->write(reinterpret_cast<const unsigned char *>(&registerResponse), sizeof(RegisterResponse));
