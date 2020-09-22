@@ -7,6 +7,7 @@
 
 #include "AsioTcpClient.hpp"
 #include "UserManager.hpp"
+#include "commands/CommandParser.hpp"
 #include <boost/bind.hpp>
 #include <iostream>
 
@@ -49,6 +50,7 @@ void Babel::Server::AsioTcpClient::handleRead(const boost::system::error_code &e
             std::cout << (char)this->data[i] << std::endl;
         }
     }
+    CommandParser::getInstance().parseCommand(this->data, bytes_transferred, this);
     this->read();
 }
 

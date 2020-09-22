@@ -15,10 +15,13 @@ Babel::Server::CommandParser &Babel::Server::CommandParser::getInstance()
     return commandParserInstance;
 }
 
-void Babel::Server::CommandParser::parseCommand(const unsigned char *data, Babel::Server::ITcpClient *tcpClient) const
+void Babel::Server::CommandParser::parseCommand(const unsigned char *data, size_t bytes_transfered, Babel::Server::ITcpClient *tcpClient) const
 {
-    const Commands::Header *header = reinterpret_cast<const Commands::Header *>(data);
     const Commands::Header responseHeader(Commands::COMMAND_TYPE::ERROR);
+    if (bytes_transfered < sizeof(Commands::Header)) {
+        return tcpClient->write(reinterpret_cast<const unsigned char *>(&responseHeader), sizeof(Commands::Header));
+    }
+    const Commands::Header *header = reinterpret_cast<const Commands::Header *>(data);
 
     std::cout << "received something, header : " << header->commandType << std::endl;
     if (header->corewarMagic != Commands::corewarMagic) {
