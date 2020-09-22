@@ -7,9 +7,6 @@
 
 // Faut move tout ça après aussi ...
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QMainWindow>
-#include <QtWidgets/QPushButton>
-#include <QtCore/QObject>
 #include <opus.h>
 #include <cstdlib>
 #include <iostream>
@@ -17,17 +14,19 @@
 #include <map>
 
 #include "exceptions.h"
-#include "gui/LoginWindow.hpp"
+#include "WindowManager.hpp"
+#include "ServiceLocator.hpp"
 
 int main(int ac, char ** av)
 {
     try {
-        // Le programme ici haha
         QApplication app (ac, av);
-        Babel::Client::Gui::LoginWindow window;
+        Babel::Client::ServiceLocator::getInstance().get<Babel::Client::WindowManager>().setState(Babel::Client::WindowManager::State::Login);
+        //Babel::Client::WindowManager manager;
+        //Babel::Client::Gui::LoginWindow window;
 
-        window.show();
-        window.setWindowTitle("Babybel");
+        //window.show();
+        //window.setWindowTitle("Babybel");
         app.exec();
     } catch (const Babel::Exceptions::ClientException &e) {
         std::cerr << e.getComponent() << ": " << e.what() << std::endl;
@@ -39,22 +38,5 @@ int main(int ac, char ** av)
     return 0;
 }
 
-// Username : entre 3 et 120 char
-// Password : entre 3 et 120 char
-
-// int main(int ac, char **av)
-// {
-//     std::map<int, int> mymap = {{1, 1}, {2, 2}};
-//     QApplication app (ac, av);
-//     QMainWindow window;
-//     QPushButton btn(&window);
-//     QObject michel;
-
-//     btn.setText("M dr c un bouton");
-//     window.show();
-//     btn.show();
-//     window.setWindowTitle("Jean Michel");
-//     std::cout << "hello, world!" << std::endl;
-//     app.exec();
-//     return mymap.contains(1);
-// }
+// Username : entre 3 et 32 char
+// Password : entre 3 et 42 char
