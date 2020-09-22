@@ -6,6 +6,7 @@
 */
 
 #include "BabelClient.hpp"
+#include "QtTcpClientException.hpp"
 #include "BadArgumentsException.hpp"
 #include "QtTcpClient.hpp"
 #include <boost/lexical_cast.hpp>
@@ -34,9 +35,13 @@ Babel::Client::BabelClient::BabelClient(int ac, const char *av[])
 
 void Babel::Client::BabelClient::run()
 {
-    std::unique_ptr<Babel::Client::Network::ITcpClient> tcpClient = std::make_unique<Babel::Client::Network::QtTcpClient>(this->ip, this->port);
+    try {
+        std::unique_ptr<Babel::Client::Network::ITcpClient> tcpClient = std::make_unique<Babel::Client::Network::QtTcpClient>(this->ip, this->port);
 
-    while (1) {
+        while (1) {
         
+        }
+    } catch (Babel::Client::Exceptions::QtTcpClientException &e) {
+        throw e;
     }
 }
