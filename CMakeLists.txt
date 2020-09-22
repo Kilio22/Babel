@@ -20,6 +20,8 @@ find_package(Qt5Widgets REQUIRED)
 include_directories(${CMAKE_INCLUDE_PATH})
 include_directories(${PROJECT_SOURCE_DIR}/client/include)
 include_directories(${PROJECT_SOURCE_DIR}/client/include/audio)
+include_directories(${PROJECT_SOURCE_DIR}/client/include/exceptions)
+include_directories(${PROJECT_SOURCE_DIR}/client/include/gui)
 include_directories(${PROJECT_SOURCE_DIR}/server/include)
 
 file(GLOB_RECURSE SRC_CLIENT ${PROJECT_SOURCE_DIR}/client/src/*)

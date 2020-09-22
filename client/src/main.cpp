@@ -5,21 +5,8 @@
 ** main
 */
 
-#include <QApplication>
-#include <QColorDialog>
-#include <QFile>
-#include <QFileDialog>
-#include <QFont>
-#include <QFontDialog>
-#include <QLabel>
-#include <QMainWindow>
-#include <QMenuBar>
-#include <QMessageBox>
-#include <QPushButton>
-#include <QStatusBar>
-#include <QTextEdit>
-#include <QTextStream>
-#include <QWidget>
+// Faut move tout ça après aussi ...
+#include <QtWidgets/QApplication>
 #include <opus.h>
 #include <cstdlib>
 #include <iostream>
@@ -27,13 +14,29 @@
 #include <map>
 #include "AudioManager.hpp"
 
-int main(void)
-{
-    std::map<int, int> mymap = {{1, 1}, {2, 2}};
-    Babel::Audio::AudioManager mnger;
+#include "exceptions.h"
+#include "WindowManager.hpp"
+#include "ServiceLocator.hpp"
 
-    std::cout << "hello, world!" << std::endl;
-    mnger.startListening();
-    mnger.stopListening();
-    return mymap.contains(1);
+int main(int ac, char ** av)
+{
+    try {
+        QApplication app (ac, av);
+        Babel::Audio::AudioManager mnger;
+
+        Babel::Client::ServiceLocator::getInstance().get<Babel::Client::WindowManager>().setState(Babel::Client::WindowManager::State::Login);
+        mnger.startListening();
+        mnger.stopListening();
+        app.exec();
+    } catch (const Babel::Exceptions::ClientException &e) {
+        std::cerr << e.getComponent() << ": " << e.what() << std::endl;
+        return 84;
+    } catch (const std::exception &e) {
+        std::cerr << "Unexpected exception: '" << e.what() << "'" << std::endl;
+        return 84;
+    }
+    return 0;
 }
+
+// Username : entre 3 et 32 char
+// Password : entre 3 et 42 char
