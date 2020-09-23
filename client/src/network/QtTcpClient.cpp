@@ -68,6 +68,8 @@ void Babel::Client::Network::QtTcpClient::handleReadyRead()
         }
     }
     std::cout << bytes_transfered << " bytes !" << std::endl; //debug
+    // TODO
+    // Emettre un signal de réponse à la window signup
 }
 
 #include "moc_QtTcpClient.cpp"
