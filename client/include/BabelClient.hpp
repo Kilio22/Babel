@@ -19,7 +19,7 @@ namespace Babel::Client
             BabelClient(int ac, char *av[]);
             ~BabelClient() = default;
 
-            void connect() final;
+            bool connect() final;
         private:
             unsigned short port;
             std::string ip;

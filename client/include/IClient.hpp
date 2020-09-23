@@ -14,7 +14,7 @@ namespace Babel::Client
         public:
             virtual ~IClient() = default;
 
-            virtual void connect() = 0;
+            virtual bool connect() = 0;
     };
 }
 

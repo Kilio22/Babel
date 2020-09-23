@@ -37,7 +37,7 @@ Babel::Client::BabelClient::BabelClient(int ac, char *av[])
     ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Login);
 }
 
-void Babel::Client::BabelClient::connect()
+bool Babel::Client::BabelClient::connect()
 {
     try {
         //TODO Antoine
@@ -47,8 +47,10 @@ void Babel::Client::BabelClient::connect()
             tcpClient = new Babel::Client::Network::QtTcpClient(this->ip, this->port);
             connected = true;
         }
+        return true;
     } catch (Babel::Client::Exceptions::QtTcpClientException &e) {
         connected = false;
         std::cerr << e.getComponent() << ": " << e.what() << std::endl;
+        return false;
     }
 }
