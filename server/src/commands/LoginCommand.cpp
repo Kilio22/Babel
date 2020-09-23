@@ -30,7 +30,7 @@ void Babel::Server::Commands::LoginCommand::handle(const unsigned char *data, IT
     }
     try {
         userLogs = SqlDb::getInstance().getUserLogs(std::string(loginRequest->username));
-    } catch (const std::exception &e) {
+    } catch (const std::exception &) {
         loginResponse.responseCode = LOGIN_RESPONSE_CODE::OTHER;
         return tcpClient->write(reinterpret_cast<const unsigned char *>(&loginResponse), sizeof(LoginCommand::LoginResponse));
     }

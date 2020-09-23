@@ -16,7 +16,7 @@ namespace Babel::Client::Commands
     {
         REGISTER,
         LOGIN,
-        ERROR
+        ERR
     };
 
     enum class LOGIN_RESPONSE_CODE

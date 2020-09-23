@@ -22,7 +22,7 @@ namespace Babel::Server
             REGISTER,
             LOGIN,
             GET_CONTACTS,
-            ERROR
+            ERR
         };
     } // namespace Commands
 
