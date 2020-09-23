@@ -16,9 +16,10 @@ namespace Babel::Client
 {
     class BabelClient : public IClient {
         public:
-            BabelClient(int ac, char *av[]);
+            BabelClient();
             ~BabelClient() = default;
 
+            void create(int ac, char *av[]);
             bool connect() final;
             void signup(std::string username, std::string password) final;
         private:

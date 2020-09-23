@@ -10,6 +10,7 @@
 #include <QtGui/QScreen>
 #include <QtGui/QGuiApplication>
 #include <QtGui/QPixmap>
+#include "BabelClient.hpp"
 
 #include "exceptions.h"
 #include "ServiceLocator.hpp"
@@ -122,6 +123,7 @@ void Babel::Client::Gui::SignupWindow::submitSignup() {
         // TODO
         // POUR ANTOINE (ou moi plus tard jsp).
         // On s'inscrit ici. Si ça marche pas, throw InvalidCredentialsException ou SignupFailedException.
+        ServiceLocator::getInstance().get<BabelClient>(); // TON INSTANCE de babelclient;
     } catch (const Babel::Client::Exceptions::InvalidUsernameException &e) {
         (void)e;
         topText.setText("Un pseudo doit contenir entre 3 et 32 caractères alphanumériques.");
@@ -166,8 +168,8 @@ void Babel::Client::Gui::SignupWindow::reset() {
     QScreen *screen = QGuiApplication::primaryScreen();
     QRect screenGeometry = screen->geometry();
 
-    username.text().clear();
-    password.text().clear();
+    username.clear();
+    password.clear();
     topText.setText("");
     this->setFixedSize(640, 800);
     this->move(screenGeometry.width() / 2 - this->width() / 2, screenGeometry.height() / 2 - this->height() / 2);

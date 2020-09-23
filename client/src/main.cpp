@@ -21,7 +21,7 @@ int main(int ac, char **av)
     try {
         QApplication app (ac, av);
         // Babel::Audio::AudioManager mnger;
-        Babel::Client::BabelClient babelClient(ac, av);
+        Babel::Client::ServiceLocator::getInstance().get<Babel::Client::BabelClient>().create(ac, av);
 
         // mnger.startListening();
         // mnger.stopListening();
