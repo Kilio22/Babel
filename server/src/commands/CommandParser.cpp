@@ -18,6 +18,7 @@ Babel::Server::CommandParser &Babel::Server::CommandParser::getInstance()
 void Babel::Server::CommandParser::parseCommand(const unsigned char *data, size_t bytes_transfered, Babel::Server::ITcpClient *tcpClient) const
 {
     const Commands::Header responseHeader(Commands::COMMAND_TYPE::ERROR);
+    std::cout << bytes_transfered << " bytes !" << std::endl; //debug
     if (bytes_transfered < sizeof(Commands::Header)) {
         return tcpClient->write(reinterpret_cast<const unsigned char *>(&responseHeader), sizeof(Commands::Header));
     }

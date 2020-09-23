@@ -27,10 +27,10 @@ Babel::Client::Network::QtTcpClient::~QtTcpClient()
 {
 }
 
-bool Babel::Client::Network::QtTcpClient::send(const unsigned char *data)
+bool Babel::Client::Network::QtTcpClient::send(const unsigned char *data, size_t size)
 {
     if (socket->state() == QAbstractSocket::ConnectedState) {
-        socket->write((char *)data);
+        socket->write((char *)data, size);
         return socket->waitForBytesWritten(5000);
     } else
         return false;
