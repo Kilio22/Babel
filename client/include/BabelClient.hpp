@@ -9,6 +9,7 @@
 #define BABELCLIENT_HPP_
 
 #include "IClient.hpp"
+#include "ITcpClient.hpp"
 #include <string>
 
 namespace Babel::Client
@@ -22,6 +23,7 @@ namespace Babel::Client
         private:
             unsigned short port;
             std::string ip;
+            Network::ITcpClient *tcpClient;
     };
 }
 

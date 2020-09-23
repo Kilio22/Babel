@@ -17,8 +17,7 @@ namespace Babel::Client::Network
         public:
             virtual ~ITcpClient() = default;
 
-            virtual void send(const std::string &data) = 0;
-            virtual std::string receive() = 0;
+            virtual bool send(const unsigned char *data) = 0;
     };
 }
 

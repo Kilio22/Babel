@@ -20,12 +20,12 @@ int main(int ac, char **av)
 {
     try {
         QApplication app (ac, av);
-        Babel::Audio::AudioManager mnger;
+        // Babel::Audio::AudioManager mnger;
         Babel::Client::BabelClient babelClient(ac, av);
 
         babelClient.run();
-        mnger.startListening();
-        mnger.stopListening();
+        // mnger.startListening();
+        // mnger.stopListening();
         app.exec();
     } catch (const Babel::Client::Exceptions::ClientException &e) {
         std::cerr << e.getComponent() << ": " << e.what() << std::endl;

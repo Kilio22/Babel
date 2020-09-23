@@ -42,7 +42,7 @@ void Babel::Client::BabelClient::run()
         //TODO Antoine
         // ça faudrait que ça se fasse uniquement quand on veut faire des requetes genre login / signup. pas à chaque fois.
         // Y'a des TODO dans les fichiers LoginWindow.cpp & SignupWindow.cpp pour savoir où faire quoi tkt.
-        std::unique_ptr<Babel::Client::Network::ITcpClient> tcpClient = std::make_unique<Babel::Client::Network::QtTcpClient>(this->ip, this->port);
+        tcpClient = new Babel::Client::Network::QtTcpClient(this->ip, this->port);
 
     } catch (Babel::Client::Exceptions::QtTcpClientException &e) {
         throw e;
