@@ -62,7 +62,7 @@ void Babel::Client::BabelClient::signup(const std::string &username, const std::
         Commands::RegisterRequest registerRequest = { Commands::Header(Commands::COMMAND_TYPE::REGISTER)};
         strcpy(registerRequest.username, username.c_str());
         strcpy(registerRequest.password, password.c_str());
-        tcpClient->send(reinterpret_cast<const unsigned char *>(&registerRequest));
+        tcpClient->send(reinterpret_cast<const unsigned char *>(&registerRequest), sizeof(Commands::RegisterRequest));
         return;
     } else {
         throw Exceptions::SignupFailedException(

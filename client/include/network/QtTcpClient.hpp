@@ -21,7 +21,7 @@ namespace Babel::Client::Network
             explicit QtTcpClient(const std::string &ipv4, unsigned short port, QObject *parent = 0);
             ~QtTcpClient();
 
-            bool send(const unsigned char *data);
+            bool send(const unsigned char *data, size_t size);
         signals:
     
         public slots:
