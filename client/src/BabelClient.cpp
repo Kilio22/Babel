@@ -15,7 +15,6 @@
 #include <iostream>
 
 Babel::Client::BabelClient::BabelClient()
-: connected(false)
 {
     ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Login);
 }

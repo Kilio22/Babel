@@ -27,7 +27,6 @@ namespace Babel::Client
             unsigned short port;
             std::string ip;
             Network::ITcpClient *tcpClient;
-            bool connected;
     };
 }
 
