@@ -32,8 +32,8 @@ namespace Babel::Server::Commands
         struct LoginRequest
         {
             Header header;
-            char username[32];
-            char password[42];
+            char username[33];
+            char password[43];
         };
         struct LoginResponse
         {
