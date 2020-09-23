@@ -39,9 +39,6 @@ Babel::Client::BabelClient::BabelClient(int ac, char *av[])
 bool Babel::Client::BabelClient::connect()
 {
     try {
-        //TODO Antoine
-        // ça faudrait que ça se fasse uniquement quand on veut faire des requetes genre login / signup. pas à chaque fois.
-        // Y'a des TODO dans les fichiers LoginWindow.cpp & SignupWindow.cpp pour savoir où faire quoi tkt.
         if (connected == false) {
             tcpClient = new Babel::Client::Network::QtTcpClient(this->ip, this->port);
             connected = true;
@@ -54,7 +51,7 @@ bool Babel::Client::BabelClient::connect()
     }
 }
 
-void Babel::Client::BabelClient::signup(std::string username, std::string password)
+void Babel::Client::BabelClient::signup(const std::string &username, const std::string &password)
 {
     if (connect()) {
         return;

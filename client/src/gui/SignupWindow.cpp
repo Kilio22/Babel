@@ -146,9 +146,6 @@ void Babel::Client::Gui::SignupWindow::submitSignup() {
         topText.setText("Pseudo ou mot de passe invalide.");
         return;
     } catch (const Babel::Client::Exceptions::SignupFailedException &e) {
-        // TODO
-        // POUR ANTOINE (ou moi plus tard jsp).
-        // Tu throw ça quand la connection au serv marche pas.
         (void)e;
         topText.setText("La connexion au serveur à échoué.");
         return;

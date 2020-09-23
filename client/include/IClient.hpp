@@ -17,7 +17,7 @@ namespace Babel::Client
             virtual ~IClient() = default;
 
             virtual bool connect() = 0;
-            virtual void signup(std::string username, std::string password) = 0;
+            virtual void signup(const std::string &username, const std::string &password) = 0;
     };
 }
 
