@@ -15,6 +15,7 @@
 #include <iostream>
 
 Babel::Client::BabelClient::BabelClient(int ac, char *av[])
+    : connected(false)
 {
     if (ac != 3)
         throw Exceptions::BadArgumentsException(
@@ -36,15 +37,18 @@ Babel::Client::BabelClient::BabelClient(int ac, char *av[])
     ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Login);
 }
 
-void Babel::Client::BabelClient::run()
+void Babel::Client::BabelClient::connect()
 {
     try {
         //TODO Antoine
         // ça faudrait que ça se fasse uniquement quand on veut faire des requetes genre login / signup. pas à chaque fois.
         // Y'a des TODO dans les fichiers LoginWindow.cpp & SignupWindow.cpp pour savoir où faire quoi tkt.
-        tcpClient = new Babel::Client::Network::QtTcpClient(this->ip, this->port);
-
+        if (connected == false) {
+            tcpClient = new Babel::Client::Network::QtTcpClient(this->ip, this->port);
+            connected = true;
+        }
     } catch (Babel::Client::Exceptions::QtTcpClientException &e) {
-        throw e;
+        connected = false;
+        std::cerr << e.getComponent() << ": " << e.what() << std::endl;
     }
 }
