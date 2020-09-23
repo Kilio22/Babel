@@ -14,6 +14,8 @@
 
 namespace Babel::Client::Network
 {
+    const int readSize = 4096;
+
     class QtTcpClient : public QObject, public ITcpClient
     {
         Q_OBJECT
@@ -35,6 +37,7 @@ namespace Babel::Client::Network
             QTcpSocket *socket;
             std::string ip;
             unsigned short port;
+            char data[readSize];
     };
 }
 

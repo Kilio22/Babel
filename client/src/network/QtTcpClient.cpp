@@ -7,6 +7,7 @@
 
 #include "QtTcpClient.hpp"
 #include "QtTcpClientException.hpp"
+#include "Commands.hpp"
 #include <iostream>
 
 Babel::Client::Network::QtTcpClient::QtTcpClient(const std::string &ipv4, unsigned short port, QObject *parent)
@@ -24,11 +25,8 @@ Babel::Client::Network::QtTcpClient::~QtTcpClient()
 
 bool Babel::Client::Network::QtTcpClient::send(const unsigned char *data, size_t size)
 {
-    if (socket->state() == QAbstractSocket::ConnectedState) {
-        socket->write((char *)data, size);
-        return socket->waitForBytesWritten(5000);
-    } else
-        return false;
+    socket->write((char *)data, size);
+    return socket->waitForBytesWritten(5000);
 }
 
 void Babel::Client::Network::QtTcpClient::connectSocket()
@@ -60,6 +58,16 @@ void Babel::Client::Network::QtTcpClient::disconnected()
 void Babel::Client::Network::QtTcpClient::handleReadyRead()
 {
     std::cout << "Ready to read !" << std::endl;
+    std::fill(std::begin(this->data), std::end(this->data), '\0');
+    size_t bytes_transfered = socket->read(data, readSize);
+    if (bytes_transfered == -1)
+        return;
+    for (size_t i = 0; i < 4096; i++) {
+        if (this->data[i] != 0) {
+            std::cout << (char)this->data[i] << std::endl;
+        }
+    }
+    std::cout << bytes_transfered << " bytes !" << std::endl; //debug
 }
 
 #include "moc_QtTcpClient.cpp"

@@ -77,7 +77,7 @@ void Babel::Client::BabelClient::login(const std::string &username, const std::s
         tcpClient->send(reinterpret_cast<const unsigned char *>(&loginRequest), sizeof(Commands::LoginRequest));
         return;
     } else {
-        throw Exceptions::SignupFailedException(
+        throw Exceptions::LoginFailedException(
             "Can't connect to server.", "Babel::Client::BabelClient::signup");
     }
 }
