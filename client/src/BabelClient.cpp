@@ -11,6 +11,7 @@
 #include "QtTcpClient.hpp"
 #include "WindowManager.hpp"
 #include "ServiceLocator.hpp"
+#include "Commands.hpp"
 #include <iostream>
 
 Babel::Client::BabelClient::BabelClient()
@@ -58,6 +59,10 @@ bool Babel::Client::BabelClient::connect()
 void Babel::Client::BabelClient::signup(const std::string &username, const std::string &password)
 {
     if (connect()) {
+        Commands::RegisterRequest registerRequest = { Commands::Header(Commands::COMMAND_TYPE::REGISTER)};
+        strcpy(registerRequest.username, username.c_str());
+        strcpy(registerRequest.password, password.c_str());
+        tcpClient->send(reinterpret_cast<const unsigned char *>(&registerRequest));
         return;
     } else {
         throw Exceptions::SignupFailedException(
