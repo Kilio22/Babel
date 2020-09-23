@@ -8,6 +8,8 @@
 #ifndef ICLIENT_HPP_
 #define ICLIENT_HPP_
 
+#include <string>
+
 namespace Babel::Client
 {
     class IClient {
@@ -15,6 +17,7 @@ namespace Babel::Client
             virtual ~IClient() = default;
 
             virtual bool connect() = 0;
+            virtual void signup(std::string username, std::string password) = 0;
     };
 }
 

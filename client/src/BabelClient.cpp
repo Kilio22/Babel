@@ -6,8 +6,7 @@
 */
 
 #include "BabelClient.hpp"
-#include "QtTcpClientException.hpp"
-#include "BadArgumentsException.hpp"
+#include "exceptions.h"
 #include <boost/lexical_cast.hpp>
 #include "QtTcpClient.hpp"
 #include "WindowManager.hpp"
@@ -52,5 +51,15 @@ bool Babel::Client::BabelClient::connect()
         connected = false;
         std::cerr << e.getComponent() << ": " << e.what() << std::endl;
         return false;
+    }
+}
+
+void Babel::Client::BabelClient::signup(std::string username, std::string password)
+{
+    if (connect()) {
+        return;
+    } else {
+        throw Exceptions::SignupFailedException(
+            "Can't connect to server.", "Babel::Client::BabelClient::signup");
     }
 }

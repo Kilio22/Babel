@@ -20,6 +20,7 @@ namespace Babel::Client
             ~BabelClient() = default;
 
             bool connect() final;
+            void signup(std::string username, std::string password) final;
         private:
             unsigned short port;
             std::string ip;

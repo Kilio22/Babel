@@ -13,3 +13,5 @@
 #include "exceptions/MissingPasswordException.hpp"
 #include "exceptions/MissingUsernameException.hpp"
 #include "exceptions/SignupFailedException.hpp"
+#include "exceptions/QtTcpClientException.hpp"
+#include "exceptions/BadArgumentsException.hpp"

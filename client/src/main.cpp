@@ -22,9 +22,9 @@ int main(int ac, char **av)
         QApplication app (ac, av);
         // Babel::Audio::AudioManager mnger;
         Babel::Client::BabelClient babelClient(ac, av);
+
         // mnger.startListening();
         // mnger.stopListening();
-        babelClient.connect();
         app.exec();
     } catch (const Babel::Client::Exceptions::ClientException &e) {
         std::cerr << e.getComponent() << ": " << e.what() << std::endl;
