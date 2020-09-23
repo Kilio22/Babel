@@ -113,7 +113,7 @@ void Babel::Client::Gui::LoginWindow::evaluateForms() {
     }
     if (username.text().toStdString().size() < 3 || username.text().toStdString().size() > 32)
         throw Babel::Client::Exceptions::InvalidUsernameException(ERROR_STR, "Invalid Username Format.");
-    if (password.text().toStdString().size() < 3 || password.text().toStdString().size() > 32)
+    if (password.text().toStdString().size() < 3 || password.text().toStdString().size() > 42)
         throw Babel::Client::Exceptions::InvalidPasswordException(ERROR_STR, "Invalid Password Format.");
 }
 
