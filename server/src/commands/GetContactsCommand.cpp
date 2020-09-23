@@ -5,7 +5,7 @@
 ** GetContactsCommand
 */
 
-#include "GetContactsCommand.hpp"
+#include "commands/GetContactsCommand.hpp"
 #include "UserManager.hpp"
 
 void Babel::Server::Commands::GetContactsCommand::handle(const unsigned char *, ITcpClient *tcpClient) const
