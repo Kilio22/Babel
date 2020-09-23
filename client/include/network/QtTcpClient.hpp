@@ -27,7 +27,7 @@ namespace Babel::Client::Network
             void connectSocket();
             bool isConnected() const;
         signals:
-    
+
         public slots:
             void connected();
             void disconnected();
