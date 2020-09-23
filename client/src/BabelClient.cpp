@@ -22,7 +22,7 @@ Babel::Client::BabelClient::BabelClient()
 
 void Babel::Client::BabelClient::create(int ac, char *av[])
 {
-        if (ac != 3)
+    if (ac != 3)
         throw Exceptions::BadArgumentsException(
             "Bad args number, got: " + std::to_string(ac) + "but 3 are needed.", "Babel::Client::BabelClient::BabelClient");
     try {
@@ -39,18 +39,17 @@ void Babel::Client::BabelClient::create(int ac, char *av[])
             "Bad argument, got: \"" + std::string(av[2]) + "\" but a valid port number is needed: " + std::string(e.what()) + ".",
             "Babel::Client::BabelClient::BabelClient");
     }
+    tcpClient = new Babel::Client::Network::QtTcpClient(this->ip, this->port);
 }
 
 bool Babel::Client::BabelClient::connect()
 {
     try {
-        if (connected == false) {
-            tcpClient = new Babel::Client::Network::QtTcpClient(this->ip, this->port);
-            connected = true;
-        }
+        if (tcpClient->isConnected())
+            return true;
+        tcpClient->connectSocket();
         return true;
     } catch (Babel::Client::Exceptions::QtTcpClientException &e) {
-        connected = false;
         std::cerr << e.getComponent() << ": " << e.what() << std::endl;
         return false;
     }
@@ -63,6 +62,20 @@ void Babel::Client::BabelClient::signup(const std::string &username, const std::
         strcpy(registerRequest.username, username.c_str());
         strcpy(registerRequest.password, password.c_str());
         tcpClient->send(reinterpret_cast<const unsigned char *>(&registerRequest), sizeof(Commands::RegisterRequest));
+        return;
+    } else {
+        throw Exceptions::SignupFailedException(
+            "Can't connect to server.", "Babel::Client::BabelClient::signup");
+    }
+}
+
+void Babel::Client::BabelClient::login(const std::string &username, const std::string &password)
+{
+    if (connect()) {
+        Commands::LoginRequest loginRequest = { Commands::Header(Commands::COMMAND_TYPE::LOGIN)};
+        strcpy(loginRequest.username, username.c_str());
+        strcpy(loginRequest.password, password.c_str());
+        tcpClient->send(reinterpret_cast<const unsigned char *>(&loginRequest), sizeof(Commands::LoginRequest));
         return;
     } else {
         throw Exceptions::SignupFailedException(

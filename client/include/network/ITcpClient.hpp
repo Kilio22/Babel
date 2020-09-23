@@ -18,6 +18,8 @@ namespace Babel::Client::Network
             virtual ~ITcpClient() = default;
 
             virtual bool send(const unsigned char *data, size_t size) = 0;
+            virtual void connectSocket() = 0;
+            virtual bool isConnected() const = 0;
     };
 }
 

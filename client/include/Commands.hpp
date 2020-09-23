@@ -54,8 +54,8 @@ namespace Babel::Client::Commands
     struct LoginRequest
     {
         Header header;
-        char username[32];
-        char password[42];
+        char username[33];
+        char password[43];
     };
     struct LoginResponse
     {
@@ -68,8 +68,8 @@ namespace Babel::Client::Commands
     struct RegisterRequest
     {
         Header header;
-        char username[32];
-        char password[42];
+        char username[33];
+        char password[43];
     };
     struct RegisterResponse
     {

@@ -22,6 +22,8 @@ namespace Babel::Client::Network
             ~QtTcpClient();
 
             bool send(const unsigned char *data, size_t size);
+            void connectSocket();
+            bool isConnected() const;
         signals:
     
         public slots:
@@ -31,6 +33,8 @@ namespace Babel::Client::Network
 
         private:
             QTcpSocket *socket;
+            std::string ip;
+            unsigned short port;
     };
 }
 

@@ -17,7 +17,7 @@ void Babel::Server::Commands::RegisterCommand::handle(const unsigned char *data,
     const std::string username = registerRequest->username;
     const std::string password = registerRequest->password;
 
-    std::cout << "Username : " << username << " && password : " << password << std::endl; //debug
+    std::cout << "REGISTER - Username : " << username << " && password : " << password << std::endl; //debug
     if (username.length() < 3) {
         registerResponse.responseCode = REGISTER_RESPONSE_CODE::WRONG_USERNAME_LENGTH;
         return tcpClient->write(reinterpret_cast<const unsigned char *>(&registerResponse), sizeof(RegisterResponse));
@@ -33,5 +33,6 @@ void Babel::Server::Commands::RegisterCommand::handle(const unsigned char *data,
     } catch (const std::exception &) {
         registerResponse.responseCode = REGISTER_RESPONSE_CODE::OTHER;
     }
+    std::cout << "REGISTER SUCCESS" << std::endl; //debug
     return tcpClient->write(reinterpret_cast<const unsigned char *>(&registerResponse), sizeof(RegisterResponse));
 }

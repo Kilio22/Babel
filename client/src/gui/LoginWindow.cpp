@@ -120,10 +120,7 @@ void Babel::Client::Gui::LoginWindow::evaluateForms() {
 void Babel::Client::Gui::LoginWindow::submitLogin() {
     try {
         evaluateForms();
-        // TODO
-        // POUR ANTOINE (ou moi plus tard jsp).
-        // On se connecte ici. Si ça marche pas, throw InvalidCredentialsException ou LoginFailedException.
-        ServiceLocator::getInstance().get<BabelClient>(); // TON INSTANCE de babelclient;
+        ServiceLocator::getInstance().get<BabelClient>().login(username.text().toStdString(), password.text().toStdString());
     } catch (const Babel::Client::Exceptions::InvalidUsernameException &e) {
         (void)e;
         topText.setText("Un pseudo doit contenir entre 3 et 32 caractères alphanumériques.");

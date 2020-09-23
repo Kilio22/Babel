@@ -8,6 +8,7 @@
 #include "commands/LoginCommand.hpp"
 #include "SqlDb.hpp"
 #include "UserManager.hpp"
+#include <iostream>
 
 void Babel::Server::Commands::LoginCommand::handle(const unsigned char *data, ITcpClient *tcpClient) const
 {
@@ -16,6 +17,7 @@ void Babel::Server::Commands::LoginCommand::handle(const unsigned char *data, IT
     std::vector<std::string> userLogs;
     std::shared_ptr<Babel::Server::IUser> user = UserManager::getInstance().getUserByTcpClient(tcpClient);
 
+    std::cout << "LOGIN - Username : " << loginRequest->username << " && password : " << loginRequest->password << std::endl; //debug
     if (user == nullptr)
         return;
     if (user->isLoggedIn()) {
@@ -41,5 +43,6 @@ void Babel::Server::Commands::LoginCommand::handle(const unsigned char *data, IT
         return tcpClient->write(reinterpret_cast<const unsigned char *>(&loginResponse), sizeof(LoginCommand::LoginResponse));
     }
     user->setLoggedIn(true);
+    std::cout << "LOGIN SUCCESS" << std::endl; //debug
     return tcpClient->write(reinterpret_cast<const unsigned char *>(&loginResponse), sizeof(LoginCommand::LoginResponse));
 }
