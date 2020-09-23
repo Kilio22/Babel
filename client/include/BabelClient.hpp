@@ -21,7 +21,7 @@ namespace Babel::Client
 
             void create(int ac, char *av[]);
             bool connect() final;
-            void signup(std::string username, std::string password) final;
+            void signup(const std::string &username, const std::string &password) final;
         private:
             unsigned short port;
             std::string ip;
