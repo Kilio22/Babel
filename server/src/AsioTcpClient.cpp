@@ -19,7 +19,6 @@ Babel::Server::AsioTcpClient::AsioTcpClient(boost::asio::io_context &io_context)
 Babel::Server::AsioTcpClient::~AsioTcpClient()
 {
     this->disconnect();
-    UserManager::getInstance().removeUserByTcpClient(this);
 }
 
 boost::asio::ip::tcp::socket &Babel::Server::AsioTcpClient::getSocket()
@@ -42,7 +41,6 @@ void Babel::Server::AsioTcpClient::handleRead(const boost::system::error_code &e
 {
     if (error) {
         this->disconnect();
-        UserManager::getInstance().removeUserByTcpClient(this);
         return;
     }
     for (size_t i = 0; i < 4096; i++) {
@@ -58,6 +56,7 @@ void Babel::Server::AsioTcpClient::disconnect()
 {
     if (this->socket.is_open()) {
         std::cout << "disconnected!" << std::endl;
+        UserManager::getInstance().removeUserByTcpClient(this);
         this->socket.close();
     }
 }
@@ -67,7 +66,6 @@ void Babel::Server::AsioTcpClient::handleWrite(const boost::system::error_code &
     if (error) {
         std::cerr << "Something went wrong: " << error.message() << std::endl;
         this->disconnect();
-        UserManager::getInstance().removeUserByTcpClient(this);
     }
 }
 

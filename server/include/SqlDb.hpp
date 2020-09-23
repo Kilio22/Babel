@@ -19,10 +19,12 @@ namespace Babel::Server
 
         static SqlDb &getInstance();
 
-        void setSqlResults(int argc, char **argv, char **azColName);
+        void setSqlResults(int argc, char **argv);
 
         void addUser(const std::string &username, const std::string &password) final;
-        const char **getUserLogs(const std::string &username) final;
+        const std::vector<std::string> &getUserLogs(const std::string &username) final;
+        const std::vector<std::string> &getUserContacts(const std::string &username) final;
+        void addContact(const std::string &username, const std::string &contact_username) final;
 
         static int callback(void *NotUsed, int argc, char **argv, char **azColName);
 
@@ -33,9 +35,7 @@ namespace Babel::Server
 
         static SqlDb sqlDbInstance;
         sqlite3 *db;
-        int argc;
-        char **argv;
-        char **azColName;
+        std::vector<std::string> queryResults;
     };
 } // namespace Babel::Server
 

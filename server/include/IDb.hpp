@@ -9,6 +9,7 @@
 #define IDB_HPP_
 
 #include <string>
+#include <vector>
 
 namespace Babel::Server
 {
@@ -17,7 +18,9 @@ namespace Babel::Server
         virtual ~IDb() = default;
 
         virtual void addUser(const std::string &username, const std::string &password) = 0;
-        virtual const char **getUserLogs(const std::string &username) = 0;
+        virtual const std::vector<std::string> &getUserLogs(const std::string &username) = 0;
+        virtual const std::vector<std::string> &getUserContacts(const std::string &username) = 0;
+        virtual void addContact(const std::string &username, const std::string &contact_username) = 0;
     };
 } // namespace Babel::Server
 

@@ -24,6 +24,7 @@ namespace Babel::Server::Commands
         {
             OK,
             BAD_COMBINAISON,
+            ALREADY_LOGGED,
             OTHER
         };
 

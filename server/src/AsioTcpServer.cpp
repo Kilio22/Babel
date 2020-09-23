@@ -40,7 +40,6 @@ void Babel::Server::AsioTcpServer::acceptHandler(boost::shared_ptr<AsioTcpClient
     if (error) {
         std::cerr << "Something went wrong: " << error.message() << std::endl;
         asioTcpClient->disconnect();
-        UserManager::getInstance().removeUserByTcpClient(asioTcpClient.get());
     } else {
         std::cout << "New client!" << std::endl;
         asioTcpClient->read();
