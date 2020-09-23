@@ -36,7 +36,7 @@ void Babel::Server::Commands::LoginCommand::handle(const unsigned char *data, IT
         loginResponse.responseCode = LOGIN_RESPONSE_CODE::BAD_COMBINAISON;
         return tcpClient->write(reinterpret_cast<const unsigned char *>(&loginResponse), sizeof(LoginCommand::LoginResponse));
     }
-    if (std::string(loginRequest->password) == std::string(userLogs[1])) {
+    if (std::string(loginRequest->password) != std::string(userLogs[1])) {
         loginResponse.responseCode = LOGIN_RESPONSE_CODE::BAD_COMBINAISON;
         return tcpClient->write(reinterpret_cast<const unsigned char *>(&loginResponse), sizeof(LoginCommand::LoginResponse));
     }
