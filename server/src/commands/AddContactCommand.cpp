@@ -9,6 +9,7 @@
 #include "SqlDb.hpp"
 #include "UserManager.hpp"
 #include <boost/asio/streambuf.hpp>
+#include <iostream>
 
 void Babel::Server::Commands::AddContactCommand::handle(const unsigned char *data, const std::shared_ptr<IUser> &user) const
 {
