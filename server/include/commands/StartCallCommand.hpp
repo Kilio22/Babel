@@ -1,0 +1,50 @@
+/*
+** EPITECH PROJECT, 2020
+** B-CPP-500-REN-5-1-babel-kylian.balan
+** File description:
+** StartCallCommand
+*/
+
+#ifndef STARTCALLCOMMAND_HPP_
+#define STARTCALLCOMMAND_HPP_
+
+#include "CommandParser.hpp"
+#include "ICommand.hpp"
+
+namespace Babel::Server::Commands
+{
+    class StartCallCommand : public ICommand {
+    public:
+        StartCallCommand() = default;
+        ~StartCallCommand() = default;
+
+        void handle(const unsigned char *, size_t, const std::shared_ptr<IUser> &) const final;
+
+    private:
+#pragma pack(push, 1)
+        struct Username
+        {
+            char username[33];
+        };
+
+        struct StartCallRequest
+        {
+            Header header;
+        };
+
+        enum class START_CALL_RESPONSE_CODE
+        {
+            OK,
+            NOT_LOGGED_IN,
+            OTHER
+        };
+        struct RegisterResponse
+        {
+            Header header;
+            enum START_CALL_RESPONSE_CODE responseCode;
+        };
+#pragma pack(pop)
+    };
+} // namespace Babel::Server::Commands
+
+#endif /* !STARTCALLCOMMAND_HPP_ */

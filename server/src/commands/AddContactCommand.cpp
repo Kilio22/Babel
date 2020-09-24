@@ -11,7 +11,7 @@
 #include <boost/asio/streambuf.hpp>
 #include <iostream>
 
-void Babel::Server::Commands::AddContactCommand::handle(const unsigned char *data, const std::shared_ptr<IUser> &user) const
+void Babel::Server::Commands::AddContactCommand::handle(const unsigned char *data, size_t, const std::shared_ptr<IUser> &user) const
 {
     const AddContactRequest *addContactRequest = reinterpret_cast<const AddContactRequest *>(data);
     AddContactsResponse addContactResponse = { { COMMAND_TYPE::ADD_CONTACT }, ADD_CONTACT_RESPONSE_CODE::OK };

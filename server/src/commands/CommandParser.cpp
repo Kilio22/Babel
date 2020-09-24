@@ -29,7 +29,7 @@ void Babel::Server::CommandParser::parseCommand(const unsigned char *data, size_
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&responseHeader), sizeof(Commands::Header));
     }
     try {
-        CommandFactory::createCommandFromCommandType(header->commandType)->handle(data, user);
+        CommandFactory::createCommandFromCommandType(header->commandType)->handle(data, bytes_transfered, user);
     } catch (const std::exception &) {
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&responseHeader), sizeof(Commands::Header));
     }

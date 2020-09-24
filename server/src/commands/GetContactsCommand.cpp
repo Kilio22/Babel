@@ -11,7 +11,7 @@
 #include <boost/asio/streambuf.hpp>
 #include <iostream>
 
-void Babel::Server::Commands::GetContactsCommand::handle(const unsigned char *, const std::shared_ptr<IUser> &user) const
+void Babel::Server::Commands::GetContactsCommand::handle(const unsigned char *, size_t, const std::shared_ptr<IUser> &user) const
 {
     GetContactsResponse getContactsResponse = { Header(COMMAND_TYPE::GET_CONTACTS), GET_CONTACTS_RESPONSE_CODE::OK };
     boost::asio::streambuf b;

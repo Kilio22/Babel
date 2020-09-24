@@ -6,6 +6,8 @@
 */
 
 #include "commands/CommandFactory.hpp"
+#include "commands/AddContactCommand.hpp"
+#include "commands/GetContactsCommand.hpp"
 #include "commands/LoginCommand.hpp"
 #include "commands/RegisterCommand.hpp"
 
@@ -13,7 +15,9 @@ using namespace Babel::Server::Commands;
 
 const std::map<const enum COMMAND_TYPE, std::function<std::unique_ptr<ICommand>()>> Babel::Server::CommandFactory::commandMap
     = { { COMMAND_TYPE::REGISTER, []() { return CommandFactory::createCommand<RegisterCommand>(); } },
-          { COMMAND_TYPE::LOGIN, []() { return CommandFactory::createCommand<LoginCommand>(); } } };
+          { COMMAND_TYPE::LOGIN, []() { return CommandFactory::createCommand<LoginCommand>(); } },
+          { COMMAND_TYPE::ADD_CONTACT, []() { return CommandFactory::createCommand<AddContactCommand>(); } },
+          { COMMAND_TYPE::GET_CONTACTS, []() { return CommandFactory::createCommand<GetContactsCommand>(); } } };
 
 std::unique_ptr<Babel::Server::Commands::ICommand> Babel::Server::CommandFactory::createCommandFromCommandType(
     const enum Babel::Server::Commands::COMMAND_TYPE &commandType)

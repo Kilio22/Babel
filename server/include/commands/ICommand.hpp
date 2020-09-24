@@ -16,7 +16,7 @@ namespace Babel::Server::Commands
     public:
         virtual ~ICommand() = default;
 
-        virtual void handle(const unsigned char *, const std::shared_ptr<IUser> &) const = 0;
+        virtual void handle(const unsigned char *, size_t, const std::shared_ptr<IUser> &) const = 0;
     };
 } // namespace Babel::Server::Commands
 

@@ -20,7 +20,7 @@ namespace Babel::Server::Commands
         AddContactCommand() = default;
         ~AddContactCommand() = default;
 
-        void handle(const unsigned char *, const std::shared_ptr<IUser> &) const final;
+        void handle(const unsigned char *, size_t, const std::shared_ptr<IUser> &) const final;
 
     private:
 #pragma pack(push, 1)

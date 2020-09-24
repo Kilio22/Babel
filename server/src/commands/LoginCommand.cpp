@@ -10,7 +10,7 @@
 #include "UserManager.hpp"
 #include <iostream>
 
-void Babel::Server::Commands::LoginCommand::handle(const unsigned char *data, const std::shared_ptr<IUser> &user) const
+void Babel::Server::Commands::LoginCommand::handle(const unsigned char *data, size_t, const std::shared_ptr<IUser> &user) const
 {
     const LoginCommand::LoginRequest *loginRequest = reinterpret_cast<const LoginCommand::LoginRequest *>(data);
     LoginCommand::LoginResponse loginResponse = { Header(Commands::COMMAND_TYPE::LOGIN), LOGIN_RESPONSE_CODE::OK };

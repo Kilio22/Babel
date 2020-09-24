@@ -18,8 +18,9 @@ namespace Babel::Server::Commands
         LoginCommand() = default;
         ~LoginCommand() = default;
 
-        void handle(const unsigned char *, const std::shared_ptr<IUser> &) const final;
+        void handle(const unsigned char *, size_t, const std::shared_ptr<IUser> &) const final;
 
+    private:
         enum class LOGIN_RESPONSE_CODE
         {
             OK,

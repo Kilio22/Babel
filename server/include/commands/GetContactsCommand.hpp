@@ -19,7 +19,7 @@ namespace Babel::Server::Commands
         GetContactsCommand() = default;
         ~GetContactsCommand() = default;
 
-        void handle(const unsigned char *, const std::shared_ptr<IUser> &) const;
+        void handle(const unsigned char *, size_t, const std::shared_ptr<IUser> &) const;
 
     private:
 #pragma pack(push, 1)
