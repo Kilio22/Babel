@@ -8,7 +8,7 @@
 #include "RegisterCommand.hpp"
 #include <iostream>
 
-void Babel::Client::Commands::RegisterCommand::handle(const unsigned char *data) const
+void Babel::Client::Commands::RegisterCommand::handle(const unsigned char *data, size_t bytes) const
 {
     const RegisterResponse *registerResponse = reinterpret_cast<const struct RegisterResponse *>(data);
     // RegisterResponse registerResponse = { Header(COMMAND_TYPE::REGISTER), REGISTER_RESPONSE_CODE::OK };

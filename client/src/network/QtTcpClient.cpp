@@ -7,7 +7,6 @@
 
 #include "QtTcpClient.hpp"
 #include "QtTcpClientException.hpp"
-#include "Commands.hpp"
 #include <iostream>
 
 Babel::Client::Network::QtTcpClient::QtTcpClient(QObject *parent)

@@ -14,7 +14,7 @@ namespace Babel::Client::Commands
     public:
         virtual ~ICommand() = default;
 
-        virtual void handle(const unsigned char *) const = 0;
+        virtual void handle(const unsigned char *, size_t) const = 0;
     };
 } // namespace Babel::Client::Commands
 

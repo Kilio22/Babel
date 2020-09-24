@@ -8,7 +8,7 @@
 #include "LoginCommand.hpp"
 #include <iostream>
 
-void Babel::Client::Commands::LoginCommand::handle(const unsigned char *data) const
+void Babel::Client::Commands::LoginCommand::handle(const unsigned char *data, size_t bytes) const
 {
     const LoginResponse *loginResponse = reinterpret_cast<const struct LoginResponse *>(data);
 

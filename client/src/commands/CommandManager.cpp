@@ -6,7 +6,6 @@
 */
 
 #include "CommandManager.hpp"
-#include "Commands.hpp"
 #include "exceptions.h"
 #include <iostream>
 
@@ -55,6 +54,31 @@ void Babel::Client::CommandManager::login(const std::string &username, const std
         strcpy(loginRequest.username, username.c_str());
         strcpy(loginRequest.password, password.c_str());
         tcpClient->send(reinterpret_cast<const unsigned char *>(&loginRequest), sizeof(Commands::LoginRequest));
+        return;
+    } else {
+        throw Exceptions::LoginFailedException(
+            "Can't connect to server.", "Babel::Client::CommandManager::signup");
+    }
+}
+
+void Babel::Client::CommandManager::addContact(const std::string &username)
+{
+    if (connect()) {
+        Commands::AddContactRequest contactRequest = { Commands::Header(Commands::COMMAND_TYPE::ADD_CONTACT)};
+        strcpy(contactRequest.username, username.c_str());
+        tcpClient->send(reinterpret_cast<const unsigned char *>(&contactRequest), sizeof(Commands::AddContactRequest));
+        return;
+    } else {
+        throw Exceptions::LoginFailedException(
+            "Can't connect to server.", "Babel::Client::CommandManager::signup");
+    }
+}
+
+void Babel::Client::CommandManager::getContacts()
+{
+    if (connect()) {
+        const Commands::Header getContactRequest(Commands::COMMAND_TYPE::ADD_CONTACT);
+        tcpClient->send(reinterpret_cast<const unsigned char *>(&getContactRequest), sizeof(Commands::Header));
         return;
     } else {
         throw Exceptions::LoginFailedException(
