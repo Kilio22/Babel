@@ -9,20 +9,29 @@
 #define AUDIOOUTPUTDEVICE_HPP_
 
 #include "IAudioDevice.hpp"
+#include <portaudio.h>
+#include <queue>
 
 namespace Babel::Audio
 {
-    class AudioOutputDevice : public IAudioDevice
+    class AudioOutputDevice : public IOutputDevice
     {
     public:
         AudioOutputDevice();
-        ~AudioOutputDevice() = default;
+        ~AudioOutputDevice();
 
         void startStream() override;
         void stopStream() override;
+        void setSound(const SoundBuffer &soundBuffer) override;
 
-    protected:
     private:
+        static int callback(const void *input, void *output, unsigned long frameCount, const PaStreamCallbackTimeInfo *timeInfo,
+            PaStreamCallbackFlags statusFlags, void *data);
+
+    private:
+        PaStream *stream;
+        PaStreamParameters params;
+        std::queue<SoundBuffer> soundBuffers;
     };
 }
 

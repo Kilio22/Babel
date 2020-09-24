@@ -6,26 +6,25 @@
 */
 
 // Faut move tout ça après aussi ...
-#include <QtWidgets/QApplication>
-#include <opus.h>
-#include <cstdlib>
 #include "BabelClient.hpp"
-#include <iostream>
-#include "exceptions.h"
-#include "WindowManager.hpp"
+#include "CallManager.hpp"
 #include "ServiceLocator.hpp"
-#include "AudioManager.hpp"
+#include "WindowManager.hpp"
+#include "exceptions.h"
+#include <QtWidgets/QApplication>
+#include <cstdlib>
+#include <iostream>
 
 int main(int ac, char **av)
 {
     try {
-        QApplication app (ac, av);
-        // Babel::Audio::AudioManager mnger;
+        QApplication app(ac, av);
         Babel::Client::ServiceLocator::getInstance().get<Babel::Client::BabelClient>().create(ac, av);
+        Babel::Audio::CallManager callManager;
 
-        // mnger.startListening();
-        // mnger.stopListening();
+        callManager.beginCall();
         app.exec();
+        callManager.endCall();
     } catch (const Babel::Client::Exceptions::ClientException &e) {
         std::cerr << e.getComponent() << ": " << e.what() << std::endl;
         return 84;
@@ -35,6 +34,3 @@ int main(int ac, char **av)
     }
     return 0;
 }
-
-// Username : entre 3 et 32 char
-// Password : entre 3 et 42 char

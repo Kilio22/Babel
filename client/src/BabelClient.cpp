@@ -16,7 +16,6 @@
 
 Babel::Client::BabelClient::BabelClient()
 {
-    ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Login);
 }
 
 void Babel::Client::BabelClient::create(int ac, char *av[])
@@ -39,6 +38,7 @@ void Babel::Client::BabelClient::create(int ac, char *av[])
             "Babel::Client::BabelClient::BabelClient");
     }
     tcpClient = new Babel::Client::Network::QtTcpClient(this->ip, this->port);
+    ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Login);
 }
 
 bool Babel::Client::BabelClient::connect()

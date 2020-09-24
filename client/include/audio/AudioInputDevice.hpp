@@ -8,29 +8,31 @@
 #ifndef AUDIOINPUTDEVICE_HPP_
 #define AUDIOINPUTDEVICE_HPP_
 
-#include "Audio.hpp"
 #include "IAudioDevice.hpp"
-#include "portaudio.h"
+#include <portaudio.h>
+#include <queue>
 
 namespace Babel::Audio
 {
-    class AudioInputDevice : public IAudioDevice
+    class AudioInputDevice : public IInputDevice
     {
     public:
-        AudioInputDevice();
-        ~AudioInputDevice() = default;
+        AudioInputDevice(ISoundInputAvailableEventListener *listener);
+        ~AudioInputDevice();
 
         void startStream() override;
         void stopStream() override;
+        SoundBuffer getSound() override;
 
+    private:
         static int callback(const void *input, void *output, unsigned long frameCount, const PaStreamCallbackTimeInfo *timeInfo,
             PaStreamCallbackFlags statusFlags, void *data);
 
     private:
+        ISoundInputAvailableEventListener *listener;
         PaStream *stream;
         PaStreamParameters params;
-        bool streamOpened;
-        std::vector<SoundBuffer> soundBuffers;
+        std::queue<SoundBuffer> soundBuffers;
     };
 }
 
