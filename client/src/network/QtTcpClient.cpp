@@ -10,8 +10,8 @@
 #include "Commands.hpp"
 #include <iostream>
 
-Babel::Client::Network::QtTcpClient::QtTcpClient(const std::string &ipv4, unsigned short port, QObject *parent)
-    : QObject(parent), ip(ipv4), port(port)
+Babel::Client::Network::QtTcpClient::QtTcpClient(QObject *parent)
+    : QObject(parent)
 {
     socket = new QTcpSocket();
     connect(socket, SIGNAL(connected()), this, SLOT(connected()));
@@ -23,15 +23,23 @@ Babel::Client::Network::QtTcpClient::~QtTcpClient()
 {
 }
 
-bool Babel::Client::Network::QtTcpClient::send(const unsigned char *data, size_t size)
+bool Babel::Client::Network::QtTcpClient::send(const unsigned char *data, size_t size) const
 {
     socket->write((char *)data, size);
     return socket->waitForBytesWritten(5000);
 }
 
-void Babel::Client::Network::QtTcpClient::connectSocket()
+std::pair<size_t, const unsigned char *> Babel::Client::Network::QtTcpClient::getData()
 {
-    socket->connectToHost(QString::fromStdString(ip), port);
+    std::pair<size_t, const unsigned char *> data;
+    data.first = this->bytes_transfered;
+    data.second = reinterpret_cast<unsigned char *>(this->data.data());
+    return data;
+}
+
+void Babel::Client::Network::QtTcpClient::connectSocket(const std::string &ipv4, unsigned short port)
+{
+    socket->connectToHost(QString::fromStdString(ipv4), port);
     if (!socket->waitForConnected(5000)) {
         throw Babel::Client::Exceptions::QtTcpClientException(
             "Can't connect to server: " + socket->errorString().toStdString(), "Babel::Client::Network::QtTcpClient::QtTcpClient");
@@ -58,18 +66,12 @@ void Babel::Client::Network::QtTcpClient::disconnected()
 void Babel::Client::Network::QtTcpClient::handleReadyRead()
 {
     std::cout << "Ready to read !" << std::endl;
-    std::fill(std::begin(this->data), std::end(this->data), '\0');
-    size_t bytes_transfered = socket->read(data, readSize);
-    if (bytes_transfered == -1)
+    this->data.fill('\0');
+    this->bytes_transfered = socket->read(this->data.data(), readSize);
+    if (this->bytes_transfered == -1)
         return;
-    for (size_t i = 0; i < 4096; i++) {
-        if (this->data[i] != 0) {
-            std::cout << (char)this->data[i] << std::endl;
-        }
-    }
-    std::cout << bytes_transfered << " bytes !" << std::endl; //debug
-    // TODO
-    // Emettre un signal de réponse à la window signup
+    std::cout << this->bytes_transfered << " bytes !" << std::endl; //debug
+    emit dataAvailable();
 }
 
 #include "moc_QtTcpClient.cpp"

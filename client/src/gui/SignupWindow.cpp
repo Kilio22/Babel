@@ -10,7 +10,7 @@
 #include <QtGui/QScreen>
 #include <QtGui/QGuiApplication>
 #include <QtGui/QPixmap>
-#include "BabelClient.hpp"
+#include "CommandManager.hpp"
 
 #include "exceptions.h"
 #include "ServiceLocator.hpp"
@@ -120,7 +120,7 @@ void Babel::Client::Gui::SignupWindow::evaluateForms() {
 void Babel::Client::Gui::SignupWindow::submitSignup() {
     try {
         evaluateForms();
-        ServiceLocator::getInstance().get<BabelClient>().signup(username.text().toStdString(), password.text().toStdString());
+        ServiceLocator::getInstance().get<CommandManager>().signup(username.text().toStdString(), password.text().toStdString());
     } catch (const Babel::Client::Exceptions::InvalidUsernameException &e) {
         (void)e;
         topText.setText("Un pseudo doit contenir entre 3 et 32 caractères alphanumériques.");

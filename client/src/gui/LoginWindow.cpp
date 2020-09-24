@@ -14,7 +14,7 @@
 #include "exceptions.h"
 #include "ServiceLocator.hpp"
 #include "WindowManager.hpp"
-#include "BabelClient.hpp"
+#include "CommandManager.hpp"
 
 Babel::Client::Gui::LoginWindow::LoginWindow(QWidget *parent) 
 : QMainWindow(parent)
@@ -120,7 +120,7 @@ void Babel::Client::Gui::LoginWindow::evaluateForms() {
 void Babel::Client::Gui::LoginWindow::submitLogin() {
     try {
         evaluateForms();
-        ServiceLocator::getInstance().get<BabelClient>().login(username.text().toStdString(), password.text().toStdString());
+        ServiceLocator::getInstance().get<CommandManager>().login(username.text().toStdString(), password.text().toStdString());
     } catch (const Babel::Client::Exceptions::InvalidUsernameException &e) {
         (void)e;
         topText.setText("Un pseudo doit contenir entre 3 et 32 caractères alphanumériques.");

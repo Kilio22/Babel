@@ -11,10 +11,12 @@
 #include "QtTcpClient.hpp"
 #include "WindowManager.hpp"
 #include "ServiceLocator.hpp"
-#include "Commands.hpp"
+#include "CommandManager.hpp"
+#include "CommandParser.hpp"
 #include <iostream>
 
-Babel::Client::BabelClient::BabelClient()
+Babel::Client::BabelClient::BabelClient(QObject *parent)
+    : QObject(parent)
 {
 }
 
@@ -37,47 +39,22 @@ void Babel::Client::BabelClient::create(int ac, char *av[])
             "Bad argument, got: \"" + std::string(av[2]) + "\" but a valid port number is needed: " + std::string(e.what()) + ".",
             "Babel::Client::BabelClient::BabelClient");
     }
-    tcpClient = new Babel::Client::Network::QtTcpClient(this->ip, this->port);
+    tcpClient = new Babel::Client::Network::QtTcpClient();
+    QObject::connect(dynamic_cast<QObject *>(tcpClient), SIGNAL (dataAvailable()), this, SLOT (onDataAvailable()));
+    ServiceLocator::getInstance().get<Babel::Client::CommandManager>().create(this->ip, this->port, this->tcpClient);
     ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Login);
 }
 
-bool Babel::Client::BabelClient::connect()
+void Babel::Client::BabelClient::onDataAvailable()
 {
-    try {
-        if (tcpClient->isConnected())
-            return true;
-        tcpClient->connectSocket();
-        return true;
-    } catch (Babel::Client::Exceptions::QtTcpClientException &e) {
-        std::cerr << e.getComponent() << ": " << e.what() << std::endl;
-        return false;
+    std::cout << "There is some data !" << std::endl;
+    std::pair<size_t, const unsigned char *> data = tcpClient->getData();
+    for (size_t i = 0; i < 4096; i++) {
+        if (data.second[i] != 0) {
+            std::cout << data.second[i] << std::endl;
+        }
     }
+    CommandParser::getInstance().parseCommand(data.second, data.first);
 }
 
-void Babel::Client::BabelClient::signup(const std::string &username, const std::string &password)
-{
-    if (connect()) {
-        Commands::RegisterRequest registerRequest = { Commands::Header(Commands::COMMAND_TYPE::REGISTER)};
-        strcpy(registerRequest.username, username.c_str());
-        strcpy(registerRequest.password, password.c_str());
-        tcpClient->send(reinterpret_cast<const unsigned char *>(&registerRequest), sizeof(Commands::RegisterRequest));
-        return;
-    } else {
-        throw Exceptions::SignupFailedException(
-            "Can't connect to server.", "Babel::Client::BabelClient::signup");
-    }
-}
-
-void Babel::Client::BabelClient::login(const std::string &username, const std::string &password)
-{
-    if (connect()) {
-        Commands::LoginRequest loginRequest = { Commands::Header(Commands::COMMAND_TYPE::LOGIN)};
-        strcpy(loginRequest.username, username.c_str());
-        strcpy(loginRequest.password, password.c_str());
-        tcpClient->send(reinterpret_cast<const unsigned char *>(&loginRequest), sizeof(Commands::LoginRequest));
-        return;
-    } else {
-        throw Exceptions::LoginFailedException(
-            "Can't connect to server.", "Babel::Client::BabelClient::signup");
-    }
-}
+#include "moc_BabelClient.cpp"
