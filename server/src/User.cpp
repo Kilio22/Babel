@@ -6,6 +6,9 @@
 */
 
 #include "User.hpp"
+#include "UserManager.hpp"
+#include "commands/CommandParser.hpp"
+#include <utility>
 
 Babel::Server::User::User(const boost::shared_ptr<ITcpClient> &tcpClient)
     : tcpClient(tcpClient)
@@ -38,4 +41,11 @@ bool Babel::Server::User::isLoggedIn() const
 void Babel::Server::User::setLoggedIn(bool loggedIn)
 {
     this->loggedIn = loggedIn;
+}
+
+void Babel::Server::User::tcpClientHasData() const
+{
+    std::pair<size_t, const unsigned char *> data = this->tcpClient->getData();
+
+    CommandParser::getInstance().parseCommand(data.second, data.first, UserManager::getInstance().getUserByTcpClient(this->tcpClient.get()));
 }

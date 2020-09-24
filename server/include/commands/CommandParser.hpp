@@ -10,6 +10,7 @@
 
 #include "CommandFactory.hpp"
 #include "ITcpClient.hpp"
+#include <memory>
 
 namespace Babel::Server
 {
@@ -39,7 +40,7 @@ namespace Babel::Server
 
         static CommandParser &getInstance();
 
-        void parseCommand(const unsigned char *, size_t bytes_transfered, ITcpClient *) const;
+        void parseCommand(const unsigned char *, size_t bytes_transfered, const std::shared_ptr<IUser> &) const;
 
     private:
         CommandParser() = default;

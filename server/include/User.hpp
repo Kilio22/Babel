@@ -22,6 +22,7 @@ namespace Babel::Server
         void setUsername(const std::string &) final;
         bool isLoggedIn() const final;
         void setLoggedIn(bool loggedIn) final;
+        void tcpClientHasData() const final;
 
     private:
         std::string username;

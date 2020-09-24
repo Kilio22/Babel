@@ -10,6 +10,7 @@
 
 #include "ICommand.hpp"
 #include "commands/CommandParser.hpp"
+#include <cstring>
 
 namespace Babel::Server::Commands
 {
@@ -18,8 +19,9 @@ namespace Babel::Server::Commands
         GetContactsCommand() = default;
         ~GetContactsCommand() = default;
 
-        void handle(const unsigned char *data, ITcpClient *tcpClient) const;
+        void handle(const unsigned char *, const std::shared_ptr<IUser> &) const;
 
+    private:
 #pragma pack(push, 1)
         enum class GET_CONTACTS_RESPONSE_CODE
         {
@@ -28,15 +30,26 @@ namespace Babel::Server::Commands
             OTHER
         };
 
+        struct Contact
+        {
+            Contact(const char *username, bool loggedIn)
+                : loggedIn(loggedIn)
+            {
+                std::strncpy(this->username, username, 33);
+            }
+            char username[33];
+            bool loggedIn;
+        };
+
         struct GetContactsResponse
         {
             Header header;
             enum GET_CONTACTS_RESPONSE_CODE responseCode;
-            char *contacts;
         };
 #pragma pack(pop)
+
+        std::vector<Contact> getContacts(const std::string &) const;
     };
 } // namespace Babel::Server::Commands
 
 #endif /* !GETCONTACTSCOMMAND_HPP_ */
-

@@ -39,3 +39,13 @@ std::shared_ptr<Babel::Server::IUser> Babel::Server::UserManager::getUserByTcpCl
     }
     return nullptr;
 }
+
+std::shared_ptr<Babel::Server::IUser> Babel::Server::UserManager::getUserByUsername(const std::string &username) const
+{
+    for (const auto &user : this->userList) {
+        if (user->getUsername() == username) {
+            return user;
+        }
+    }
+    return nullptr;
+}
