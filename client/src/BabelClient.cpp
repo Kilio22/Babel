@@ -14,7 +14,8 @@
 #include "Commands.hpp"
 #include <iostream>
 
-Babel::Client::BabelClient::BabelClient()
+Babel::Client::BabelClient::BabelClient(QObject *parent)
+    : QObject(parent)
 {
 }
 
@@ -38,7 +39,19 @@ void Babel::Client::BabelClient::create(int ac, char *av[])
             "Babel::Client::BabelClient::BabelClient");
     }
     tcpClient = new Babel::Client::Network::QtTcpClient(this->ip, this->port);
+    QObject::connect(dynamic_cast<QObject *>(tcpClient), SIGNAL (dataAvailable()), this, SLOT (onDataAvailable()));
     ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Login);
+}
+
+void Babel::Client::BabelClient::onDataAvailable()
+{
+    std::cout << "There is some data !" << std::endl;
+    char *data = tcpClient->getData();
+    for (size_t i = 0; i < 4096; i++) {
+        if (data[i] != 0) {
+            std::cout << data[i] << std::endl;
+        }
+    }
 }
 
 bool Babel::Client::BabelClient::connect()
@@ -81,3 +94,5 @@ void Babel::Client::BabelClient::login(const std::string &username, const std::s
             "Can't connect to server.", "Babel::Client::BabelClient::signup");
     }
 }
+
+#include "moc_BabelClient.cpp"

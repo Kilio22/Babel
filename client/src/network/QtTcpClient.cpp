@@ -23,10 +23,15 @@ Babel::Client::Network::QtTcpClient::~QtTcpClient()
 {
 }
 
-bool Babel::Client::Network::QtTcpClient::send(const unsigned char *data, size_t size)
+bool Babel::Client::Network::QtTcpClient::send(const unsigned char *data, size_t size) const
 {
     socket->write((char *)data, size);
     return socket->waitForBytesWritten(5000);
+}
+
+char *Babel::Client::Network::QtTcpClient::getData()
+{
+    return this->data.data();
 }
 
 void Babel::Client::Network::QtTcpClient::connectSocket()
@@ -58,18 +63,12 @@ void Babel::Client::Network::QtTcpClient::disconnected()
 void Babel::Client::Network::QtTcpClient::handleReadyRead()
 {
     std::cout << "Ready to read !" << std::endl;
-    std::fill(std::begin(this->data), std::end(this->data), '\0');
-    size_t bytes_transfered = socket->read(data, readSize);
+    this->data.fill('\0');
+    size_t bytes_transfered = socket->read(this->data.data(), readSize);
     if (bytes_transfered == -1)
         return;
-    for (size_t i = 0; i < 4096; i++) {
-        if (this->data[i] != 0) {
-            std::cout << (char)this->data[i] << std::endl;
-        }
-    }
     std::cout << bytes_transfered << " bytes !" << std::endl; //debug
-    // TODO
-    // Emettre un signal de réponse à la window signup
+    emit dataAvailable();
 }
 
 #include "moc_QtTcpClient.cpp"
