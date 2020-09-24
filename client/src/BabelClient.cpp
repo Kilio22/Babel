@@ -47,9 +47,8 @@ void Babel::Client::BabelClient::create(int ac, char *av[])
 
 void Babel::Client::BabelClient::onDataAvailable()
 {
-    std::cout << "There is some data !" << std::endl;
-    std::pair<size_t, const unsigned char *> data = tcpClient->getData();
-    for (size_t i = 0; i < 4096; i++) {
+    std::pair<std::size_t, const unsigned char *> data = tcpClient->getData();
+    for (std::size_t i = 0; i < 4096; i++) {
         if (data.second[i] != 0) {
             std::cout << data.second[i] << std::endl;
         }

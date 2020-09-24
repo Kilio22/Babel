@@ -18,7 +18,7 @@ namespace Babel::Client::Commands
         RegisterCommand() = default;
         ~RegisterCommand() = default;
 
-        void handle(const unsigned char *, size_t) const final;
+        void handle(const unsigned char *, std::size_t) const final;
 
     private:
 #pragma pack(push, 1)

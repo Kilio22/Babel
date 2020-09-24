@@ -8,14 +8,14 @@
 #include "RegisterCommand.hpp"
 #include <iostream>
 
-void Babel::Client::Commands::RegisterCommand::handle(const unsigned char *data, size_t bytes) const
+void Babel::Client::Commands::RegisterCommand::handle(const unsigned char *data, std::size_t bytes) const
 {
     const RegisterResponse *registerResponse = reinterpret_cast<const struct RegisterResponse *>(data);
     // RegisterResponse registerResponse = { Header(COMMAND_TYPE::REGISTER), REGISTER_RESPONSE_CODE::OK };
     // const std::string username = registerRequest->username;
     // const std::string password = registerRequest->password;
 
-    // std::cout << "REGISTER - Username : " << username << " && password : " << password << std::endl; // debug
+    std::cout << "REGISTER - SERVEUR ANSWER !" << std::endl; // debug
     // if (username.length() < 3) {
     //     registerResponse.responseCode = REGISTER_RESPONSE_CODE::WRONG_USERNAME_LENGTH;
     //     return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&registerResponse), sizeof(RegisterResponse));

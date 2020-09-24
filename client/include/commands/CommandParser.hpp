@@ -40,7 +40,7 @@ namespace Babel::Client
 
         static CommandParser &getInstance();
 
-        void parseCommand(const unsigned char *, size_t bytes_transfered) const;
+        void parseCommand(const unsigned char *, std::size_t bytes_transfered) const;
 
     private:
         CommandParser() = default;
