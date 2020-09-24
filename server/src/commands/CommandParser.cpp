@@ -15,22 +15,22 @@ Babel::Server::CommandParser &Babel::Server::CommandParser::getInstance()
     return commandParserInstance;
 }
 
-void Babel::Server::CommandParser::parseCommand(const unsigned char *data, size_t bytes_transfered, Babel::Server::ITcpClient *tcpClient) const
+void Babel::Server::CommandParser::parseCommand(const unsigned char *data, size_t bytes_transfered, const std::shared_ptr<IUser> &user) const
 {
     const Commands::Header responseHeader(Commands::COMMAND_TYPE::ERR);
-    std::cout << bytes_transfered << " bytes !" << std::endl; //debug
+    std::cout << bytes_transfered << " bytes !" << std::endl; // debug
     if (bytes_transfered < sizeof(Commands::Header)) {
-        return tcpClient->write(reinterpret_cast<const unsigned char *>(&responseHeader), sizeof(Commands::Header));
+        return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&responseHeader), sizeof(Commands::Header));
     }
     const Commands::Header *header = reinterpret_cast<const Commands::Header *>(data);
 
     std::cout << "received something, header : " << header->commandType << std::endl;
     if (header->corewarMagic != Commands::corewarMagic) {
-        return tcpClient->write(reinterpret_cast<const unsigned char *>(&responseHeader), sizeof(Commands::Header));
+        return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&responseHeader), sizeof(Commands::Header));
     }
     try {
-        CommandFactory::createCommandFromCommandType(header->commandType)->handle(data, tcpClient);
+        CommandFactory::createCommandFromCommandType(header->commandType)->handle(data, user);
     } catch (const std::exception &) {
-        return tcpClient->write(reinterpret_cast<const unsigned char *>(&responseHeader), sizeof(Commands::Header));
+        return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&responseHeader), sizeof(Commands::Header));
     }
 }

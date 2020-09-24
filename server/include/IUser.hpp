@@ -23,6 +23,7 @@ namespace Babel::Server
         virtual void setUsername(const std::string &) = 0;
         virtual bool isLoggedIn() const = 0;
         virtual void setLoggedIn(bool loggedIn) = 0;
+        virtual void tcpClientHasData() const = 0;
     };
 } // namespace Babel::Server
 

@@ -10,6 +10,7 @@
 #include "exceptions/CreateTableException.hpp"
 #include "exceptions/OpenDatabaseException.hpp"
 #include "exceptions/QueryDatabaseException.hpp"
+#include <cstring>
 #include <iostream>
 
 Babel::Server::SqlDb Babel::Server::SqlDb::sqlDbInstance;
@@ -71,17 +72,17 @@ const std::vector<std::string> &Babel::Server::SqlDb::getUserLogs(const std::str
     return this->queryResults;
 }
 
-const std::vector<std::string> &Babel::Server::SqlDb::getUserContacts(const std::string &username)
+const std::vector<Babel::Server::Username> &Babel::Server::SqlDb::getUserContacts(const std::string &username)
 {
     int rc = 0;
     char *errorMessage = nullptr;
     std::string query = "SELECT contact_username FROM users_contacts WHERE username=\"" + username + "\";";
 
-    rc = sqlite3_exec(db, query.c_str(), SqlDb::callback, 0, &errorMessage);
+    rc = sqlite3_exec(db, query.c_str(), SqlDb::contactCallback, 0, &errorMessage);
     if (rc != SQLITE_OK) {
         throw Exceptions::QueryDatabaseException("Can't get user contacts: " + std::string(errorMessage), "Babel::Server::SqlDb::getUserContacts");
     }
-    return this->queryResults;
+    return this->contactQueryResults;
 }
 
 void Babel::Server::SqlDb::addContact(const std::string &username, const std::string &contact_username)
@@ -98,16 +99,29 @@ void Babel::Server::SqlDb::addContact(const std::string &username, const std::st
     }
 }
 
-int Babel::Server::SqlDb::callback(void *NotUsed, int argc, char **argv, char **)
+int Babel::Server::SqlDb::callback(void *, int argc, char **argv, char **)
 {
-    SqlDb::getInstance().setSqlResults(argc, argv);
+    sqlDbInstance.setSqlResults(argc, argv, false);
     return 0;
 }
 
-void Babel::Server::SqlDb::setSqlResults(int argc, char **argv)
+int Babel::Server::SqlDb::contactCallback(void *, int argc, char **argv, char **)
 {
-    this->queryResults.clear();
-    for (int i = 0; i < argc; i++) {
-        this->queryResults.push_back(std::string(argv[i]));
+    sqlDbInstance.setSqlResults(argc, argv, true);
+    return 0;
+}
+
+void Babel::Server::SqlDb::setSqlResults(int argc, char **argv, bool isUsername)
+{
+    if (isUsername) {
+        this->contactQueryResults.clear();
+        for (int i = 0; i < argc; i++) {
+            this->contactQueryResults.push_back({ argv[i] });
+        }
+    } else {
+        this->queryResults.clear();
+        for (int i = 0; i < argc; i++) {
+            this->queryResults.push_back(argv[i]);
+        }
     }
 }
