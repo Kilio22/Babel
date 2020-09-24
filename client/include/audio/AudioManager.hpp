@@ -15,7 +15,7 @@
 
 namespace Babel::Audio
 {
-    class AudioManager : public QObject
+    class AudioManager : public QObject, public ISoundInputAvailableEventListener
     {
         Q_OBJECT
 
@@ -23,17 +23,20 @@ namespace Babel::Audio
         AudioManager();
         ~AudioManager();
 
+        void onSoundInputAvailable() override;
+
         void startRecording();
         void stopRecording();
-        void startListening();
-        void stopListening();
+        void startSpeaking();
+        void stopSpeaking();
+        void queueAudio(const SoundBuffer &);
 
     signals:
-        void audioReady(const SoundBuffer &soundBuffer);
+        void inputAvailable(const SoundBuffer &);
 
     private:
-        std::unique_ptr<IAudioDevice> inputDevice;
-        std::unique_ptr<IAudioDevice> outputDevice;
+        std::unique_ptr<IInputDevice> inputDevice;
+        std::unique_ptr<IOutputDevice> outputDevice;
     };
 }
 
