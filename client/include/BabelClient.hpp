@@ -22,9 +22,6 @@ namespace Babel::Client
             ~BabelClient() = default;
 
             void create(int ac, char *av[]);
-            bool connect() final;
-            void signup(const std::string &username, const std::string &password) final;
-            void login(const std::string &username, const std::string &password) final;
         private slots:
             void onDataAvailable();
         private:

@@ -10,8 +10,8 @@
 #include "Commands.hpp"
 #include <iostream>
 
-Babel::Client::Network::QtTcpClient::QtTcpClient(const std::string &ipv4, unsigned short port, QObject *parent)
-    : QObject(parent), ip(ipv4), port(port)
+Babel::Client::Network::QtTcpClient::QtTcpClient(QObject *parent)
+    : QObject(parent)
 {
     socket = new QTcpSocket();
     connect(socket, SIGNAL(connected()), this, SLOT(connected()));
@@ -29,14 +29,17 @@ bool Babel::Client::Network::QtTcpClient::send(const unsigned char *data, size_t
     return socket->waitForBytesWritten(5000);
 }
 
-char *Babel::Client::Network::QtTcpClient::getData()
+std::pair<size_t, const unsigned char *> Babel::Client::Network::QtTcpClient::getData()
 {
-    return this->data.data();
+    std::pair<size_t, const unsigned char *> data;
+    data.first = this->bytes_transfered;
+    data.second = reinterpret_cast<unsigned char *>(this->data.data());
+    return data;
 }
 
-void Babel::Client::Network::QtTcpClient::connectSocket()
+void Babel::Client::Network::QtTcpClient::connectSocket(const std::string &ipv4, unsigned short port)
 {
-    socket->connectToHost(QString::fromStdString(ip), port);
+    socket->connectToHost(QString::fromStdString(ipv4), port);
     if (!socket->waitForConnected(5000)) {
         throw Babel::Client::Exceptions::QtTcpClientException(
             "Can't connect to server: " + socket->errorString().toStdString(), "Babel::Client::Network::QtTcpClient::QtTcpClient");
@@ -64,10 +67,10 @@ void Babel::Client::Network::QtTcpClient::handleReadyRead()
 {
     std::cout << "Ready to read !" << std::endl;
     this->data.fill('\0');
-    size_t bytes_transfered = socket->read(this->data.data(), readSize);
-    if (bytes_transfered == -1)
+    this->bytes_transfered = socket->read(this->data.data(), readSize);
+    if (this->bytes_transfered == -1)
         return;
-    std::cout << bytes_transfered << " bytes !" << std::endl; //debug
+    std::cout << this->bytes_transfered << " bytes !" << std::endl; //debug
     emit dataAvailable();
 }
 
