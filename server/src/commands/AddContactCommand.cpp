@@ -18,9 +18,6 @@ void Babel::Server::Commands::AddContactCommand::handle(const unsigned char *dat
     boost::asio::streambuf b;
     std::ostream os(&b);
 
-    if (user == nullptr) {
-        return;
-    }
     if (!user->isLoggedIn()) {
         addContactResponse.responseCode = ADD_CONTACT_RESPONSE_CODE::NOT_LOGGED_IN;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&addContactResponse), sizeof(AddContactsResponse));

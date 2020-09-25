@@ -17,8 +17,6 @@ void Babel::Server::Commands::LoginCommand::handle(const unsigned char *data, si
     std::vector<std::string> userLogs;
 
     std::cout << "LOGIN - Username : " << loginRequest->username << " && password : " << loginRequest->password << std::endl; // debug
-    if (user == nullptr)
-        return;
     if (user->isLoggedIn()) {
         loginResponse.responseCode = LOGIN_RESPONSE_CODE::ALREADY_LOGGED;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&loginResponse), sizeof(LoginCommand::LoginResponse));

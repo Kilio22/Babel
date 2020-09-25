@@ -5,8 +5,8 @@
 ** ICommandHandler
 */
 
-#ifndef ICOMMANDHANDLER_HPP_
-#define ICOMMANDHANDLER_HPP_
+#ifndef ICOMMANDHANDLER_HPP
+#define ICOMMANDHANDLER_HPP
 
 #include "IUser.hpp"
 

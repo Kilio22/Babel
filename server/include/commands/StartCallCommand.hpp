@@ -10,6 +10,7 @@
 
 #include "CommandParser.hpp"
 #include "ICommand.hpp"
+#include <cstring>
 
 namespace Babel::Server::Commands
 {
@@ -27,6 +28,16 @@ namespace Babel::Server::Commands
             char username[33];
         };
 
+        struct UserCallInfos
+        {
+            UserCallInfos(const char *username, const char *ip)
+            {
+                std::strncpy(this->username, username, 33);
+                std::strncpy(this->ip, ip, 13);
+            }
+            char username[33];
+            char ip[13];
+        };
         struct StartCallRequest
         {
             Header header;
@@ -36,14 +47,17 @@ namespace Babel::Server::Commands
         {
             OK,
             NOT_LOGGED_IN,
+            USER_DISCONNECTED,
             OTHER
         };
-        struct RegisterResponse
+        struct StartCallResponse
         {
             Header header;
             enum START_CALL_RESPONSE_CODE responseCode;
         };
 #pragma pack(pop)
+        void sendInfosToUsers(const std::vector<Username> &, StartCallResponse &) const;
+        void sendLoop(const std::vector<std::shared_ptr<IUser>> &, const std::vector<UserCallInfos> &, StartCallResponse &) const;
     };
 } // namespace Babel::Server::Commands
 

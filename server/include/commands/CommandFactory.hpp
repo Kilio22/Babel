@@ -10,8 +10,8 @@
 
 #include "ICommand.hpp"
 #include <functional>
-#include <map>
 #include <memory>
+#include <unordered_map>
 
 namespace Babel::Server
 {
@@ -23,6 +23,7 @@ namespace Babel::Server
             LOGIN,
             GET_CONTACTS,
             ADD_CONTACT,
+            START_CALL,
             ERR
         };
     } // namespace Commands
@@ -33,15 +34,17 @@ namespace Babel::Server
         ~CommandFactory();
 
         template <class T>
-        static std::unique_ptr<T> createCommand()
+        static T &createCommand()
         {
-            return std::make_unique<T>();
+            static T instance;
+
+            return instance;
         }
 
-        static std::unique_ptr<Commands::ICommand> createCommandFromCommandType(const enum Babel::Server::Commands::COMMAND_TYPE &commandType);
+        static Commands::ICommand *createCommandFromCommandType(const enum Babel::Server::Commands::COMMAND_TYPE &commandType);
 
     private:
-        static const std::map<const enum Babel::Server::Commands::COMMAND_TYPE, std::function<std::unique_ptr<Commands::ICommand>()>> commandMap;
+        static const std::unordered_map<const enum Babel::Server::Commands::COMMAND_TYPE, std::function<Commands::ICommand *()>> commandMap;
     };
 } // namespace Babel::Server
 
