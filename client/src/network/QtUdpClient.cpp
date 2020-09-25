@@ -27,11 +27,13 @@ void Babel::Client::Network::QtUdpClient::send(const char *data, long size, cons
     this->socket->writeDatagram(data, size, addr, port);
 }
 
-char *Babel::Client::Network::QtUdpClient::getData()
+std::vector<char> Babel::Client::Network::QtUdpClient::getData()
 {
     auto &datagram = this->dataQueue.front();
-    char *bytes = datagram.data().data();
+    auto byteArray = datagram.data();
+    std::vector<char> bytes;
 
+    bytes.assign(byteArray.begin(), byteArray.end());
     this->dataQueue.pop();
     return bytes;
 }
@@ -40,8 +42,8 @@ void Babel::Client::Network::QtUdpClient::readPendingDatagrams()
 {
     while (this->socket->hasPendingDatagrams()) {
         this->dataQueue.push(this->socket->receiveDatagram());
+        emit this->dataAvailable();
     }
-    emit this->dataAvailable();
 }
 
 #include "moc_QtUdpClient.cpp"

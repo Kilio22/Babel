@@ -12,7 +12,10 @@
 Babel::Audio::AudioPacketSender::AudioPacketSender()
     : udpClient(std::make_unique<Client::Network::QtUdpClient>())
 {
-    QObject::connect(reinterpret_cast<QObject *>(this->udpClient.get()), SIGNAL(dataAvailable()), this, SLOT(onDataAvailable()));
+    auto newClient = new Client::Network::QtUdpClient();
+
+    QObject::connect(newClient, &Client::Network::QtUdpClient::dataAvailable, this, &AudioPacketSender::onDataAvailable);
+    this->udpClient.reset(newClient);
 }
 
 void Babel::Audio::AudioPacketSender::connectTo(const std::vector<std::string> &hosts)
@@ -36,7 +39,8 @@ void Babel::Audio::AudioPacketSender::sendAudio(const CompressedBuffer &compress
 void Babel::Audio::AudioPacketSender::onDataAvailable()
 {
     CompressedBuffer compressedBuffer;
-    SoundPacket *packetPtr = reinterpret_cast<SoundPacket *>(this->udpClient->getData());
+    std::vector<char> data = this->udpClient->getData();
+    SoundPacket *packetPtr = reinterpret_cast<SoundPacket *>(data.data());
 
     compressedBuffer.size = packetPtr->size;
     compressedBuffer.samples.assign(packetPtr->data, packetPtr->data + packetPtr->size);
