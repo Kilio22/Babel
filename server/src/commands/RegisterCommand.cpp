@@ -10,6 +10,7 @@
 #include "exceptions/ConstraintDatabaseException.hpp"
 #include <boost/shared_ptr.hpp>
 #include <iostream>
+
 void Babel::Server::Commands::RegisterCommand::handle(const unsigned char *data, size_t, const std::shared_ptr<IUser> &user) const
 {
     const RegisterRequest *registerRequest = reinterpret_cast<const struct RegisterRequest *>(data);

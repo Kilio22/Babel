@@ -10,15 +10,23 @@
 
 #include "CommandParser.hpp"
 #include "ICommand.hpp"
+#include <QtCore/QObject>
 
 namespace Babel::Client::Commands
 {
-    class LoginCommand : public ICommand {
+    class LoginCommand : public QObject, public ICommand {
+        Q_OBJECT
     public:
         LoginCommand() = default;
         ~LoginCommand() = default;
 
-        void handle(const unsigned char *, std::size_t) const final;
+        void handle(const unsigned char *, std::size_t) final;
+    
+    signals:
+        void loginSuccess();
+        void badLoginCombinaison();
+        void alreadyLoggedIn();
+        void otherError();
 
     private:
 #pragma pack(push, 1)
