@@ -10,15 +10,23 @@
 
 #include "CommandParser.hpp"
 #include "ICommand.hpp"
+#include <QtCore/QObject>
 
 namespace Babel::Client::Commands
 {
-    class RegisterCommand : public ICommand {
+    class RegisterCommand : public QObject, public ICommand {
+        Q_OBJECT
     public:
         RegisterCommand() = default;
         ~RegisterCommand() = default;
 
-        void handle(const unsigned char *, std::size_t) const final;
+        void handle(const unsigned char *, std::size_t) final;
+    signals:
+        void registerSuccess();
+        void registerWrongUsernameLength();
+        void registerWrongPasswordLength();
+        void registerUsernameTaken();
+        void otherError();
 
     private:
 #pragma pack(push, 1)

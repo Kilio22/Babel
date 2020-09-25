@@ -8,6 +8,7 @@
 #include "commands/StartCallCommand.hpp"
 #include "UserManager.hpp"
 #include <boost/asio/streambuf.hpp>
+#include <iostream>
 
 void Babel::Server::Commands::StartCallCommand::handle(const unsigned char *data, size_t bytesTransfered, const std::shared_ptr<IUser> &user) const
 {
