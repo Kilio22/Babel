@@ -5,6 +5,7 @@
 ** exceptions
 */
 
+#include "exceptions/BadArgumentsException.hpp"
 #include "exceptions/ClientException.hpp"
 #include "exceptions/InvalidCredentialsException.hpp"
 #include "exceptions/InvalidPasswordException.hpp"
@@ -12,6 +13,6 @@
 #include "exceptions/LoginFailedException.hpp"
 #include "exceptions/MissingPasswordException.hpp"
 #include "exceptions/MissingUsernameException.hpp"
-#include "exceptions/SignupFailedException.hpp"
 #include "exceptions/QtTcpClientException.hpp"
-#include "exceptions/BadArgumentsException.hpp"
+#include "exceptions/QtUcpClientException.hpp"
+#include "exceptions/SignupFailedException.hpp"

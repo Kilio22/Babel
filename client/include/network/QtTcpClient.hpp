@@ -24,8 +24,8 @@ namespace Babel::Client::Network
             explicit QtTcpClient(QObject *parent = 0);
             ~QtTcpClient();
 
-            bool send(const unsigned char *data, size_t size) const;
-            std::pair<size_t, const unsigned char *> getData();
+            bool send(const unsigned char *data, std::size_t size) const;
+            std::pair<std::size_t, const unsigned char *> getData();
             void connectSocket(const std::string &ipv4, unsigned short port);
             bool isConnected() const;
         signals:
@@ -38,7 +38,7 @@ namespace Babel::Client::Network
         private:
             QTcpSocket *socket;
             std::array<char, readSize> data;
-            size_t bytes_transfered;
+            std::size_t bytes_transfered;
     };
 }
 

@@ -7,7 +7,6 @@
 
 #include "QtTcpClient.hpp"
 #include "QtTcpClientException.hpp"
-#include "Commands.hpp"
 #include <iostream>
 
 Babel::Client::Network::QtTcpClient::QtTcpClient(QObject *parent)
@@ -23,15 +22,15 @@ Babel::Client::Network::QtTcpClient::~QtTcpClient()
 {
 }
 
-bool Babel::Client::Network::QtTcpClient::send(const unsigned char *data, size_t size) const
+bool Babel::Client::Network::QtTcpClient::send(const unsigned char *data, std::size_t size) const
 {
     socket->write((char *)data, size);
     return socket->waitForBytesWritten(5000);
 }
 
-std::pair<size_t, const unsigned char *> Babel::Client::Network::QtTcpClient::getData()
+std::pair<std::size_t, const unsigned char *> Babel::Client::Network::QtTcpClient::getData()
 {
-    std::pair<size_t, const unsigned char *> data;
+    std::pair<std::size_t, const unsigned char *> data;
     data.first = this->bytes_transfered;
     data.second = reinterpret_cast<unsigned char *>(this->data.data());
     return data;
@@ -70,7 +69,6 @@ void Babel::Client::Network::QtTcpClient::handleReadyRead()
     this->bytes_transfered = socket->read(this->data.data(), readSize);
     if (this->bytes_transfered == -1)
         return;
-    std::cout << this->bytes_transfered << " bytes !" << std::endl; //debug
     emit dataAvailable();
 }
 

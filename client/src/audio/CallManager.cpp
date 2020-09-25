@@ -17,15 +17,14 @@ Babel::Audio::CallManager::CallManager()
     QObject::connect(&this->audioPacketSender, &AudioPacketSender::audioPacketRecieved, this, &CallManager::onOutputAvailable);
 }
 
-Babel::Audio::CallManager::~CallManager() {}
-
-void Babel::Audio::CallManager::beginCall()
+void Babel::Audio::CallManager::beginCall(const std::vector<std::string> &hosts)
 {
+    this->audioPacketSender.connectTo(hosts);
     this->audioManager.startRecording();
     this->audioManager.startSpeaking();
 }
 
-void Babel::Audio::CallManager::endCall()
+void Babel::Audio::CallManager::endCall() const
 {
     this->audioManager.stopRecording();
     this->audioManager.stopSpeaking();

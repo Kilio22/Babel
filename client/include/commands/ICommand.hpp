@@ -8,13 +8,15 @@
 #ifndef ICOMMANDHANDLER_HPP_
 #define ICOMMANDHANDLER_HPP_
 
+#include <memory>
+
 namespace Babel::Client::Commands
 {
     class ICommand {
     public:
         virtual ~ICommand() = default;
 
-        virtual void handle(const unsigned char *) const = 0;
+        virtual void handle(const unsigned char *, std::size_t) const = 0;
     };
 } // namespace Babel::Client::Commands
 

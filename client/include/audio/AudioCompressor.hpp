@@ -20,8 +20,8 @@ namespace Babel::Audio
         AudioCompressor();
         ~AudioCompressor();
 
-        CompressedBuffer compressAudio(const SoundBuffer &soundBuffer) override;
-        SoundBuffer extractAudio(const CompressedBuffer &compressedBuffer) override;
+        CompressedBuffer compressAudio(const SoundBuffer &soundBuffer) const override;
+        SoundBuffer extractAudio(const CompressedBuffer &compressedBuffer) const override;
 
     private:
         OpusDecoder *decoder;

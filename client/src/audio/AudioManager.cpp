@@ -36,29 +36,29 @@ void Babel::Audio::AudioManager::onSoundInputAvailable()
     emit this->inputAvailable(this->inputDevice->getSound());
 }
 
-void Babel::Audio::AudioManager::queueAudio(const SoundBuffer &soundBuffer)
-{
-    this->outputDevice->setSound(soundBuffer);
-}
-
-void Babel::Audio::AudioManager::startRecording()
+void Babel::Audio::AudioManager::startRecording() const
 {
     this->inputDevice->startStream();
 }
 
-void Babel::Audio::AudioManager::stopRecording()
+void Babel::Audio::AudioManager::stopRecording() const
 {
     this->inputDevice->stopStream();
 }
 
-void Babel::Audio::AudioManager::startSpeaking()
+void Babel::Audio::AudioManager::startSpeaking() const
 {
     this->outputDevice->startStream();
 }
 
-void Babel::Audio::AudioManager::stopSpeaking()
+void Babel::Audio::AudioManager::stopSpeaking() const
 {
     this->outputDevice->stopStream();
+}
+
+void Babel::Audio::AudioManager::queueAudio(const SoundBuffer &soundBuffer) const
+{
+    this->outputDevice->setSound(soundBuffer);
 }
 
 #include "moc_AudioManager.cpp"

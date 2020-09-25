@@ -18,8 +18,10 @@ namespace Babel::Client::Commands
         LoginCommand() = default;
         ~LoginCommand() = default;
 
-        void handle(const unsigned char *) const final;
+        void handle(const unsigned char *, std::size_t) const final;
 
+    private:
+#pragma pack(push, 1)
         enum class LOGIN_RESPONSE_CODE
         {
             OK,
@@ -27,8 +29,6 @@ namespace Babel::Client::Commands
             ALREADY_LOGGED,
             OTHER
         };
-
-#pragma pack(push, 1)
         struct LoginRequest
         {
             Header header;

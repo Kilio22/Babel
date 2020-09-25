@@ -18,8 +18,10 @@ namespace Babel::Client::Commands
         RegisterCommand() = default;
         ~RegisterCommand() = default;
 
-        void handle(const unsigned char *) const final;
+        void handle(const unsigned char *, std::size_t) const final;
 
+    private:
+#pragma pack(push, 1)
         enum class REGISTER_RESPONSE_CODE
         {
             OK,
@@ -28,8 +30,6 @@ namespace Babel::Client::Commands
             USERNAME_TAKEN,
             OTHER
         };
-
-#pragma pack(push, 1)
         struct RegisterRequest
         {
             Header header;

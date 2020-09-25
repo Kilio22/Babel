@@ -8,11 +8,11 @@
 #include "LoginCommand.hpp"
 #include <iostream>
 
-void Babel::Client::Commands::LoginCommand::handle(const unsigned char *data) const
+void Babel::Client::Commands::LoginCommand::handle(const unsigned char *data, std::size_t bytes) const
 {
     const LoginResponse *loginResponse = reinterpret_cast<const struct LoginResponse *>(data);
 
-    // std::cout << "LOGIN ANSWER - Username : " << loginRequest->username << " && password : " << loginRequest->password << std::endl; // debug
+    std::cout << "LOGIN - SERVEUR ANSWER !" << std::endl; // debug
     // if (user == nullptr)
     //     return;
     // if (user->isLoggedIn()) {
