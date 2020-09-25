@@ -16,6 +16,8 @@ void Babel::Client::Commands::GetContactsCommand::handle(const unsigned char *da
         std::cout << "GET CONTACTS - SUCCESS !" << std::endl; // debug
         std::vector<Contact> contacts;
         contacts.assign(reinterpret_cast<const Contact *>(&data[sizeof(GetContactsResponse)]), reinterpret_cast<const Contact *>(data + bytes));
+        for (int i = 0; i < contacts.size(); i++)
+            std::cout << contacts.at(i).username << std::endl;
         emit this->getContacts(contacts);
         return;
     }
