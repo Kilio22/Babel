@@ -114,9 +114,12 @@ void Babel::Server::SqlDb::setSqlResults(int argc, char **argv, bool isUsername)
 {
     if (isUsername) {
         this->contactQueryResults.clear();
+        std::cout << "start of query" << std::endl;
         for (int i = 0; i < argc; i++) {
+            std::cout << i << std::endl;
             this->contactQueryResults.push_back({ argv[i] });
         }
+        std::cout << "end of query" << std::endl;
     } else {
         this->queryResults.clear();
         for (int i = 0; i < argc; i++) {

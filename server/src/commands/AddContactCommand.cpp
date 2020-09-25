@@ -26,6 +26,9 @@ void Babel::Server::Commands::AddContactCommand::handle(const unsigned char *dat
         SqlDb::getInstance().addContact(user->getUsername(), addContactRequest->username);
         std::vector<Contact> contacts = this->getContacts(user->getUsername());
 
+        for(int i=0; i < contacts.size(); i++)
+            std::cout << contacts.at(i).username << std::endl;
+
         os.write(reinterpret_cast<const char *>(&addContactResponse), sizeof(AddContactsResponse));
         os.write(reinterpret_cast<const char *>(contacts.data()), sizeof(Contact) * contacts.size());
         user->getTcpClient()->write(
@@ -42,6 +45,10 @@ std::vector<Babel::Server::Commands::AddContactCommand::Contact> Babel::Server::
     const std::vector<Username> &contactsUsername = SqlDb::getInstance().getUserContacts(username);
     std::vector<Contact> contacts;
 
+    std::cout << "contacts username" << std::endl;
+    for(int i=0; i < contactsUsername.size(); i++)
+            std::cout << contactsUsername.at(i).username << std::endl;
+    std::cout << "end" << std::endl;
     for (const auto &contactUsername : contactsUsername) {
         std::shared_ptr<IUser> user = UserManager::getInstance().getUserByUsername(contactUsername.username);
 
