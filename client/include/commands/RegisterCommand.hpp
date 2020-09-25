@@ -21,12 +21,6 @@ namespace Babel::Client::Commands
         ~RegisterCommand() = default;
 
         void handle(const unsigned char *, std::size_t) final;
-    signals:
-        void registerSuccess();
-        void registerWrongUsernameLength();
-        void registerWrongPasswordLength();
-        void registerUsernameTaken();
-        void otherError();
 
     private:
 #pragma pack(push, 1)
@@ -50,6 +44,13 @@ namespace Babel::Client::Commands
             enum REGISTER_RESPONSE_CODE responseCode;
         };
 #pragma pack(pop)
+
+    signals:
+        void registerSuccess();
+        void registerWrongUsernameLength();
+        void registerWrongPasswordLength();
+        void registerUsernameTaken();
+        void otherError();
     };
 } // namespace Babel::Client::Commands
 

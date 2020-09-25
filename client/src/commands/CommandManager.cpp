@@ -77,7 +77,7 @@ void Babel::Client::CommandManager::addContact(const std::string &username)
 void Babel::Client::CommandManager::getContacts()
 {
     if (connect()) {
-        const Commands::Header getContactRequest(Commands::COMMAND_TYPE::ADD_CONTACT);
+        const Commands::Header getContactRequest(Commands::COMMAND_TYPE::GET_CONTACTS);
         tcpClient->send(reinterpret_cast<const unsigned char *>(&getContactRequest), sizeof(Commands::Header));
         return;
     } else {

@@ -21,12 +21,6 @@ namespace Babel::Client::Commands
         ~LoginCommand() = default;
 
         void handle(const unsigned char *, std::size_t) final;
-    
-    signals:
-        void loginSuccess();
-        void badLoginCombinaison();
-        void alreadyLoggedIn();
-        void otherError();
 
     private:
 #pragma pack(push, 1)
@@ -49,6 +43,12 @@ namespace Babel::Client::Commands
             enum LOGIN_RESPONSE_CODE responseCode;
         };
 #pragma pack(pop)
+
+    signals:
+        void loginSuccess();
+        void badLoginCombinaison();
+        void alreadyLoggedIn();
+        void otherError();
     };
 } // namespace Babel::Client::Commands
 
