@@ -55,7 +55,7 @@ void Babel::Server::Commands::StartCallCommand::sendLoop(
         std::copy_if(usersCallInfos.begin(), usersCallInfos.end(), std::back_insert_iterator(infosToSend),
             [user](const UserCallInfos &userCallInfos) { return user->getUsername().compare(std::string(userCallInfos.username)) != 0; });
         os.write(reinterpret_cast<const char *>(&startCallResponse), sizeof(StartCallResponse));
-        os.write(reinterpret_cast<const char *>(&infosToSend), infosToSend.size() * sizeof(UserCallInfos));
+        os.write(reinterpret_cast<const char *>(infosToSend.data()), infosToSend.size() * sizeof(UserCallInfos));
         user->getTcpClient()->write(
             boost::asio::buffer_cast<const unsigned char *>(b.data()), sizeof(UserCallInfos) * infosToSend.size() + sizeof(StartCallResponse));
     }
