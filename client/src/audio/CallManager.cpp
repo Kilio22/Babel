@@ -35,9 +35,11 @@ void Babel::Audio::CallManager::onInputAvailable(const SoundBuffer &soundBuffer)
     this->audioPacketSender.sendAudio(this->audioCompressor->compressAudio(soundBuffer));
 }
 
-void Babel::Audio::CallManager::onOutputAvailable(const CompressedBuffer &compressedBuffer)
+void Babel::Audio::CallManager::onOutputAvailable(const CompressedBuffer &compressedBuffer, const std::string &host)
 {
-    this->audioManager.queueAudio(this->audioCompressor->extractAudio(compressedBuffer));
+    auto soundBuffer = this->audioCompressor->extractAudio(compressedBuffer);
+
+    this->audioManager.queueAudio(soundBuffer, host);
 }
 
 #include "moc_CallManager.cpp"

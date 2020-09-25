@@ -35,7 +35,7 @@ namespace Babel::Audio
     public:
         virtual ~IOutputDevice() = default;
 
-        virtual void setSound(const SoundBuffer &) = 0;
+        virtual void setSound(const SoundBuffer &, const std::string &) = 0;
     };
 
     class ISoundInputAvailableEventListener

@@ -11,6 +11,7 @@
 #include "IAudioDevice.hpp"
 #include <portaudio.h>
 #include <queue>
+#include <unordered_map>
 
 namespace Babel::Audio
 {
@@ -22,16 +23,17 @@ namespace Babel::Audio
 
         void startStream() override;
         void stopStream() override;
-        void setSound(const SoundBuffer &soundBuffer) override;
+        void setSound(const SoundBuffer &soundBuffer, const std::string &idFrom) override;
 
     private:
-        static int callback(const void *input, void *output, unsigned long frameCount, const PaStreamCallbackTimeInfo *timeInfo,
-            PaStreamCallbackFlags statusFlags, void *data);
+        static int callback(const void *, void *, unsigned long, const PaStreamCallbackTimeInfo *, PaStreamCallbackFlags, void *);
+
+        bool soundQueuesEmpty() const;
 
     private:
         PaStream *stream;
         PaStreamParameters params;
-        std::queue<SoundBuffer> soundBuffers;
+        std::unordered_map<std::string, std::queue<SoundBuffer>> soundBuffers;
     };
 }
 

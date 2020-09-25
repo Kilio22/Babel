@@ -27,8 +27,8 @@ namespace Babel::Client::Network
         ~QtUdpClient() = default;
 
         void connect(unsigned short port) override;
-        void send(const char *data, long size, const std::string &host, unsigned short port) const override;
-        std::vector<char> getData() override;
+        void send(const DataPacket &dataPacket) const override;
+        DataPacket getData() override;
 
         void sendPacketsTo(std::vector<std::pair<std::string, unsigned short>> hosts);
 

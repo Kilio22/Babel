@@ -26,25 +26,34 @@ void Babel::Audio::AudioPacketSender::connectTo(const std::vector<std::string> &
 
 void Babel::Audio::AudioPacketSender::sendAudio(const CompressedBuffer &compressedBuffer)
 {
+    Client::Network::IUdpClient::DataPacket dataPacket;
     SoundPacket soundPacket = {};
     char *ptr;
+
+    dataPacket.port = DefaultAudioPort;
 
     soundPacket.size = compressedBuffer.size;
     std::memcpy(soundPacket.data, compressedBuffer.samples.data(), compressedBuffer.size);
     ptr = reinterpret_cast<char *>(&soundPacket);
-    for (auto &host : this->hosts)
-        this->udpClient->send(ptr, sizeof(SoundPacket), host, DefaultAudioPort);
+
+    dataPacket.data.assign(ptr, ptr + sizeof(SoundPacket));
+    for (auto &host : this->hosts) {
+        dataPacket.host = host;
+        std::cout << "Sending packet of size " << dataPacket.data.size() << " to " << dataPacket.host << std::endl;
+        this->udpClient->send(dataPacket);
+    }
 }
 
 void Babel::Audio::AudioPacketSender::onDataAvailable()
 {
     CompressedBuffer compressedBuffer;
-    std::vector<char> data = this->udpClient->getData();
-    SoundPacket *packetPtr = reinterpret_cast<SoundPacket *>(data.data());
+    Client::Network::IUdpClient::DataPacket dataPacket = this->udpClient->getData();
+    SoundPacket *packetDataPtr = reinterpret_cast<SoundPacket *>(dataPacket.data.data());
 
-    compressedBuffer.size = packetPtr->size;
-    compressedBuffer.samples.assign(packetPtr->data, packetPtr->data + packetPtr->size);
-    emit this->audioPacketRecieved(compressedBuffer);
+    compressedBuffer.size = packetDataPtr->size;
+    compressedBuffer.samples.assign(packetDataPtr->data, packetDataPtr->data + packetDataPtr->size);
+    std::cout << "Recieved packet of size " << dataPacket.data.size() << " from " << dataPacket.host << std::endl;
+    emit this->audioPacketRecieved(compressedBuffer, dataPacket.host);
 }
 
 #include "moc_AudioPacketSender.cpp"

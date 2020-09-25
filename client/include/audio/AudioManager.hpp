@@ -29,7 +29,7 @@ namespace Babel::Audio
         void stopRecording() const;
         void startSpeaking() const;
         void stopSpeaking() const;
-        void queueAudio(const SoundBuffer &) const;
+        void queueAudio(const SoundBuffer &soundBuffer, const std::string &hostFrom) const;
 
     signals:
         void inputAvailable(const SoundBuffer &);

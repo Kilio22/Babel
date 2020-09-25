@@ -15,11 +15,18 @@ namespace Babel::Client::Network
     class IUdpClient
     {
     public:
+        struct DataPacket {
+            std::vector<char> data;
+            std::string host;
+            unsigned short port;
+        };
+
+    public:
         virtual ~IUdpClient() = default;
 
         virtual void connect(unsigned short port) = 0;
-        virtual void send(const char *data, long size, const std::string &host, unsigned short port) const = 0;
-        virtual std::vector<char> getData() = 0;
+        virtual void send(const DataPacket &dataPacket) const = 0;
+        virtual DataPacket getData() = 0;
 
     signals:
         virtual void dataAvailable() = 0;

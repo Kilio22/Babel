@@ -20,7 +20,7 @@ int main(int ac, char **av)
         Babel::Client::ServiceLocator::getInstance().get<Babel::Client::BabelClient>().create(ac, av);
         Babel::Audio::CallManager callManager;
 
-        callManager.beginCall({ "" });
+        callManager.beginCall({ "127.0.0.1" });
         app.exec();
         callManager.endCall();
     } catch (const Babel::Client::Exceptions::ClientException &e) {

@@ -9,8 +9,7 @@
 #include "QtTcpClientException.hpp"
 #include <iostream>
 
-Babel::Client::Network::QtTcpClient::QtTcpClient(QObject *parent)
-    : QObject(parent)
+Babel::Client::Network::QtTcpClient::QtTcpClient()
 {
     socket = new QTcpSocket();
     connect(socket, SIGNAL(connected()), this, SLOT(connected()));

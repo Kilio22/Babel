@@ -40,7 +40,7 @@ namespace Babel::Audio
         void onDataAvailable();
 
     signals:
-        void audioPacketRecieved(const CompressedBuffer &);
+        void audioPacketRecieved(const CompressedBuffer &, const std::string &);
 
     private:
         std::unique_ptr<Client::Network::IUdpClient> udpClient;

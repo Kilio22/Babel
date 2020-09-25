@@ -56,9 +56,9 @@ void Babel::Audio::AudioManager::stopSpeaking() const
     this->outputDevice->stopStream();
 }
 
-void Babel::Audio::AudioManager::queueAudio(const SoundBuffer &soundBuffer) const
+void Babel::Audio::AudioManager::queueAudio(const SoundBuffer &soundBuffer, const std::string &hostFrom) const
 {
-    this->outputDevice->setSound(soundBuffer);
+    this->outputDevice->setSound(soundBuffer, hostFrom);
 }
 
 #include "moc_AudioManager.cpp"
