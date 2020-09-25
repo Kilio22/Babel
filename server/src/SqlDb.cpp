@@ -85,13 +85,12 @@ const std::vector<Babel::Server::Username> &Babel::Server::SqlDb::getUserContact
     return this->contactQueryResults;
 }
 
-void Babel::Server::SqlDb::addContact(const std::string &username, const std::string &contact_username)
+void Babel::Server::SqlDb::addContact(const std::string &username, const std::string &contactUsername)
 {
     int rc = 0;
     char *errorMessage = nullptr;
-    std::string query = "INSERT INTO users_contacts (username, contact_username) SELECT * FROM (SELECT \"" + username + "\", \"" + contact_username
-        + "\") WHERE not exists (SELECT username,contact_username FROM users_contacts WHERE users_contacts.username=\"" + username
-        + "\" AND users_contacts.contact_username=\"" + contact_username + "\");";
+    std::string query = "INSERT INTO users_contacts(username,contact_username) SELECT \"" + username + "\", \"" + contactUsername
+        + "\" WHERE NOT EXISTS(SELECT 1 FROM users_contacts WHERE username=\"" + username + "\" AND contact_username=\"" + contactUsername + "\");";
 
     rc = sqlite3_exec(db, query.c_str(), NULL, 0, &errorMessage);
     if (rc != SQLITE_OK) {
