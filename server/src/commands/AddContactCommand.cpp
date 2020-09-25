@@ -22,6 +22,10 @@ void Babel::Server::Commands::AddContactCommand::handle(const unsigned char *dat
         addContactResponse.responseCode = ADD_CONTACT_RESPONSE_CODE::NOT_LOGGED_IN;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&addContactResponse), sizeof(AddContactsResponse));
     }
+    if (user->getUsername().compare(addContactRequest->username) == 0) {
+        addContactResponse.responseCode = ADD_CONTACT_RESPONSE_CODE::BAD_CONTACT;
+        return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&addContactResponse), sizeof(AddContactsResponse));
+    }
     try {
         SqlDb::getInstance().addContact(user->getUsername(), addContactRequest->username);
         std::vector<Contact> contacts = this->getContacts(user->getUsername());

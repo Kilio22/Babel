@@ -28,6 +28,7 @@ namespace Babel::Server::Commands
         {
             OK,
             NOT_LOGGED_IN,
+            BAD_CONTACT,
             OTHER
         };
 
