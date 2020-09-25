@@ -24,10 +24,10 @@ void Babel::Server::Commands::GetContactsCommand::handle(const unsigned char *, 
     try {
         std::vector<Contact> contacts = this->getContacts(user->getUsername());
 
-        os.write(reinterpret_cast<const char *>(&getContactsResponse), sizeof(GetContactsCommand));
+        os.write(reinterpret_cast<const char *>(&getContactsResponse), sizeof(GetContactsResponse));
         os.write(reinterpret_cast<const char *>(contacts.data()), sizeof(Contact) * contacts.size());
         user->getTcpClient()->write(
-            boost::asio::buffer_cast<const unsigned char *>(b.data()), (sizeof(Contact) * contacts.size() + sizeof(GetContactsCommand)));
+            boost::asio::buffer_cast<const unsigned char *>(b.data()), (sizeof(Contact) * contacts.size() + sizeof(GetContactsResponse)));
     } catch (const std::exception &e) {
         getContactsResponse.responseCode = GET_CONTACTS_RESPONSE_CODE::OTHER;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&getContactsResponse), sizeof(GetContactsResponse));
