@@ -20,9 +20,9 @@ int main(int ac, char **av)
         Babel::Client::ServiceLocator::getInstance().get<Babel::Client::BabelClient>().create(ac, av);
         Babel::Audio::CallManager callManager;
 
-        callManager.beginCall({ "" });
+        // callManager.beginCall({ "10.19.254.55" });
         app.exec();
-        callManager.endCall();
+        // callManager.endCall();
     } catch (const Babel::Client::Exceptions::ClientException &e) {
         std::cerr << e.getComponent() << ": " << e.what() << std::endl;
         return 84;
