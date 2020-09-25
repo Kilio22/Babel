@@ -51,11 +51,13 @@ int Babel::Audio::AudioOutputDevice::callback(
     const void *, void *outputBuffer, unsigned long frameCount, const PaStreamCallbackTimeInfo *, PaStreamCallbackFlags, void *data)
 {
     AudioOutputDevice *_this = static_cast<AudioOutputDevice *>(data);
-
-    if (_this->soundBuffers.empty())
-        return paContinue;
-
     float *output = static_cast<float *>(outputBuffer);
+
+    if (_this->soundBuffers.empty()) {
+        std::memset(output, 0, Audio::ElementsPerBuffer * sizeof(float));
+        return paContinue;
+    }
+
     SoundBuffer &soundBuffer = _this->soundBuffers.front();
 
     std::memcpy(output, soundBuffer.samples.data(), Audio::ElementsPerBuffer * sizeof(float));

@@ -19,7 +19,7 @@ namespace Babel::Client::Network
 
         virtual void connect(unsigned short port) = 0;
         virtual void send(const char *data, long size, const std::string &host, unsigned short port) const = 0;
-        virtual char *getData() = 0;
+        virtual std::vector<char> getData() = 0;
 
     signals:
         virtual void dataAvailable() = 0;

@@ -28,7 +28,7 @@ namespace Babel::Client::Network
 
         void connect(unsigned short port) override;
         void send(const char *data, long size, const std::string &host, unsigned short port) const override;
-        char *getData() override;
+        std::vector<char> getData() override;
 
         void sendPacketsTo(std::vector<std::pair<std::string, unsigned short>> hosts);
 
