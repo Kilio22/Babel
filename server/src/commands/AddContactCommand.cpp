@@ -29,7 +29,7 @@ void Babel::Server::Commands::AddContactCommand::handle(const unsigned char *dat
         os.write(reinterpret_cast<const char *>(&addContactResponse), sizeof(AddContactsResponse));
         os.write(reinterpret_cast<const char *>(contacts.data()), sizeof(Contact) * contacts.size());
         user->getTcpClient()->write(
-            boost::asio::buffer_cast<const unsigned char *>(b.data()), sizeof(Contact) * contacts.size() + sizeof(AddContactsResponse));
+            boost::asio::buffer_cast<const unsigned char *>(b.data()), (sizeof(Contact) * contacts.size() + sizeof(AddContactsResponse)));
     } catch (const std::exception &e) {
         addContactResponse.responseCode = ADD_CONTACT_RESPONSE_CODE::OTHER;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&addContactResponse), sizeof(AddContactsResponse));

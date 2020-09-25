@@ -18,9 +18,9 @@ namespace Babel::Server
 
     struct Username
     {
-        Username(const std::string &username)
+        Username(const char *username)
         {
-            std::strncpy(this->username, username.c_str(), 33);
+            std::strncpy(this->username, username, 33);
         }
         char username[33];
     };

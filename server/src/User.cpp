@@ -13,6 +13,7 @@
 Babel::Server::User::User(const boost::shared_ptr<ITcpClient> &tcpClient)
     : tcpClient(tcpClient)
     , loggedIn(false)
+    , inCall(false)
 {
 }
 
@@ -48,4 +49,23 @@ void Babel::Server::User::tcpClientHasData() const
     std::pair<size_t, const unsigned char *> data = this->tcpClient->getData();
 
     CommandParser::getInstance().parseCommand(data.second, data.first, UserManager::getInstance().getUserByTcpClient(this->tcpClient.get()));
+}
+
+bool Babel::Server::User::isInCall() const
+{
+    return this->inCall;
+}
+
+void Babel::Server::User::setInCall(bool inCall)
+{
+    this->inCall = inCall;
+}
+const std::vector<std::string> &Babel::Server::User::getCalledUsers() const
+{
+    return this->calledUsers;
+}
+
+void Babel::Server::User::setCalledUsers(const std::vector<std::string> &calledUsers)
+{
+    this->calledUsers = calledUsers;
 }
