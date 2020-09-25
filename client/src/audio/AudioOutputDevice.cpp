@@ -11,6 +11,11 @@
 
 Babel::Audio::AudioOutputDevice::AudioOutputDevice()
 {
+    auto err = Pa_Initialize();
+
+    if (err != paNoError)
+        throw Client::Exceptions::AudioException(Pa_GetErrorText(err));
+
     this->params.device = Pa_GetDefaultOutputDevice();
     if (this->params.device == paNoDevice) {
         throw Client::Exceptions::AudioException("Could not find input device.");
@@ -25,6 +30,7 @@ Babel::Audio::AudioOutputDevice::~AudioOutputDevice()
 {
     if (!Pa_IsStreamStopped(this->stream))
         Pa_CloseStream(this->stream);
+    Pa_Terminate();
 }
 
 void Babel::Audio::AudioOutputDevice::startStream()

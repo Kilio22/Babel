@@ -9,26 +9,13 @@
 #include "AudioInputDevice.hpp"
 #include "AudioOutputDevice.hpp"
 #include "exceptions/AudioException.hpp"
-#include "portaudio.h"
 #include <iostream>
 #include <iomanip>
 
 Babel::Audio::AudioManager::AudioManager()
-    : inputDevice(nullptr)
-    , outputDevice(nullptr)
+    : inputDevice(std::make_unique<AudioInputDevice>(this))
+    , outputDevice(std::make_unique<AudioOutputDevice>())
 {
-    auto err = Pa_Initialize();
-
-    if (err != paNoError) {
-        throw Client::Exceptions::AudioException(Pa_GetErrorText(err));
-    }
-    this->inputDevice = std::make_unique<AudioInputDevice>(this);
-    this->outputDevice = std::make_unique<AudioOutputDevice>();
-}
-
-Babel::Audio::AudioManager::~AudioManager()
-{
-    Pa_Terminate();
 }
 
 void Babel::Audio::AudioManager::onSoundInputAvailable()
