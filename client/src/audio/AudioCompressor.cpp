@@ -33,7 +33,7 @@ Babel::Audio::AudioCompressor::~AudioCompressor()
         opus_decoder_destroy(this->decoder);
 }
 
-Babel::Audio::CompressedBuffer Babel::Audio::AudioCompressor::compressAudio(const SoundBuffer &sb)
+Babel::Audio::CompressedBuffer Babel::Audio::AudioCompressor::compressAudio(const SoundBuffer &sb) const
 {
     CompressedBuffer compressedBuffer;
     int nEncode = opus_encode_float(this->encoder, sb.samples.data(), Audio::FramesPerBuffer, compressedBuffer.samples.data(), sb.samples.size());
@@ -44,7 +44,7 @@ Babel::Audio::CompressedBuffer Babel::Audio::AudioCompressor::compressAudio(cons
     return compressedBuffer;
 }
 
-Babel::Audio::SoundBuffer Babel::Audio::AudioCompressor::extractAudio(const CompressedBuffer &cb)
+Babel::Audio::SoundBuffer Babel::Audio::AudioCompressor::extractAudio(const CompressedBuffer &cb) const
 {
     SoundBuffer soundBuffer;
     int nDecode = opus_decode_float(this->decoder, cb.samples.data(), cb.size, soundBuffer.samples.data(), Audio::FramesPerBuffer, 0);

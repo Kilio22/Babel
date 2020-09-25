@@ -21,10 +21,10 @@ namespace Babel::Audio
 
     public:
         CallManager();
-        ~CallManager();
+        ~CallManager() = default;
 
-        void beginCall();
-        void endCall();
+        void beginCall(const std::vector<std::string> &hosts);
+        void endCall() const;
 
     private slots:
         void onInputAvailable(const SoundBuffer &);

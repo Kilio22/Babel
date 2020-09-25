@@ -25,11 +25,11 @@ namespace Babel::Audio
 
         void onSoundInputAvailable() override;
 
-        void startRecording();
-        void stopRecording();
-        void startSpeaking();
-        void stopSpeaking();
-        void queueAudio(const SoundBuffer &);
+        void startRecording() const;
+        void stopRecording() const;
+        void startSpeaking() const;
+        void stopSpeaking() const;
+        void queueAudio(const SoundBuffer &) const;
 
     signals:
         void inputAvailable(const SoundBuffer &);

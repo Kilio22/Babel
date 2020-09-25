@@ -5,14 +5,12 @@
 ** main
 */
 
-// Faut move tout ça après aussi ...
 #include "BabelClient.hpp"
 #include "CallManager.hpp"
 #include "ServiceLocator.hpp"
 #include "WindowManager.hpp"
 #include "exceptions.h"
 #include <QtWidgets/QApplication>
-#include <cstdlib>
 #include <iostream>
 
 int main(int ac, char **av)
@@ -22,7 +20,7 @@ int main(int ac, char **av)
         Babel::Client::ServiceLocator::getInstance().get<Babel::Client::BabelClient>().create(ac, av);
         Babel::Audio::CallManager callManager;
 
-        callManager.beginCall();
+        callManager.beginCall({ "" });
         app.exec();
         callManager.endCall();
     } catch (const Babel::Client::Exceptions::ClientException &e) {

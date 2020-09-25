@@ -17,8 +17,8 @@ namespace Babel::Audio
     public:
         virtual ~IAudioCompressor() = default;
 
-        virtual CompressedBuffer compressAudio(const SoundBuffer &) = 0;
-        virtual SoundBuffer extractAudio(const CompressedBuffer &) = 0;
+        virtual CompressedBuffer compressAudio(const SoundBuffer &) const = 0;
+        virtual SoundBuffer extractAudio(const CompressedBuffer &) const = 0;
     };
 }
 
