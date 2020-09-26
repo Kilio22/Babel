@@ -6,6 +6,7 @@
 */
 
 #include "UserManager.hpp"
+#include "commands/CommandFactory.hpp"
 
 Babel::Server::UserManager Babel::Server::UserManager::userManagerInstance;
 
@@ -25,6 +26,14 @@ void Babel::Server::UserManager::addUser(const std::shared_ptr<Babel::Server::IU
 
 void Babel::Server::UserManager::removeUserByTcpClient(const ITcpClient *tcpClient)
 {
+    for (const auto &user : this->userList) {
+        if (user->getTcpClient().get() == tcpClient && user->isInCall()) {
+            CommandFactory::createCommandFromCommandType(Commands::COMMAND_TYPE::STOP_CALL)->handle(nullptr, 0, user);
+        }
+        if (user->getTcpClient().get() == tcpClient) {
+            break;
+        }
+    }
     this->userList.erase(std::remove_if(this->userList.begin(), this->userList.end(),
                              [tcpClient](const std::shared_ptr<IUser> &user) { return user->getTcpClient().get() == tcpClient; }),
         this->userList.end());

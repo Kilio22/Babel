@@ -33,10 +33,10 @@ namespace Babel::Server::Commands
             UserCallInfos(const char *username, const char *ip)
             {
                 std::strncpy(this->username, username, 33);
-                std::strncpy(this->ip, ip, 13);
+                std::strncpy(this->ip, ip, 16);
             }
             char username[33];
-            char ip[13];
+            char ip[16];
         };
         struct StartCallRequest
         {
@@ -56,6 +56,7 @@ namespace Babel::Server::Commands
             enum START_CALL_RESPONSE_CODE responseCode;
         };
 #pragma pack(pop)
+
         void sendInfosToUsers(const std::vector<Username> &, StartCallResponse &) const;
         void sendLoop(const std::vector<std::shared_ptr<IUser>> &, const std::vector<UserCallInfos> &, StartCallResponse &) const;
     };

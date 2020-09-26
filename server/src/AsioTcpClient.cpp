@@ -57,8 +57,8 @@ void Babel::Server::AsioTcpClient::disconnect()
     if (this->socket.is_open()) {
         std::cout << "disconnected!" << std::endl;
         this->socket.close();
-        UserManager::getInstance().removeUserByTcpClient(this);
     }
+    UserManager::getInstance().removeUserByTcpClient(this);
 }
 
 void Babel::Server::AsioTcpClient::handleWrite(const boost::system::error_code &error, std::size_t bytes_transferred)

@@ -21,10 +21,26 @@ namespace Babel::Server::Commands
         void handle(const unsigned char *, size_t, const std::shared_ptr<IUser> &) const final;
 
     private:
+#pragma pack(push, 1)
         struct StopCallRequest
         {
             Header header;
         };
+
+        enum class STOP_CALL_RESPONSE_CODE
+        {
+            OK,
+            NOT_LOGGED_IN,
+            NOT_IN_CALL,
+            OTHER
+        };
+
+        struct StopCallResponse
+        {
+            Header header;
+            enum STOP_CALL_RESPONSE_CODE responseCode;
+        };
+#pragma pack(pop)
     };
 } // namespace Babel::Server::Commands
 
