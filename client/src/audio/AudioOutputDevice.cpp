@@ -14,11 +14,11 @@ Babel::Client::Audio::AudioOutputDevice::AudioOutputDevice()
     auto err = Pa_Initialize();
 
     if (err != paNoError)
-        throw AudioException(Pa_GetErrorText(err));
+        throw Exceptions::AudioException(Pa_GetErrorText(err));
 
     this->params.device = Pa_GetDefaultOutputDevice();
     if (this->params.device == paNoDevice)
-        throw AudioException("Could not find input device.");
+        throw Exceptions::AudioException("Could not find input device.");
     this->params.channelCount = Audio::ChannelCount;
     this->params.sampleFormat = paFloat32;
     this->params.suggestedLatency = Pa_GetDeviceInfo(this->params.device)->defaultLowOutputLatency;
@@ -36,16 +36,16 @@ void Babel::Client::Audio::AudioOutputDevice::startStream()
 {
     if (Pa_OpenStream(&this->stream, NULL, &this->params, Audio::SampleRate, Audio::FramesPerBuffer, paClipOff, AudioOutputDevice::callback, this)
         != paNoError)
-        throw AudioException("Could not open output stream.");
+        throw Exceptions::AudioException("Could not open output stream.");
     if (Pa_StartStream(this->stream) != paNoError)
-        throw AudioException("Could not start output stream.");
+        throw Exceptions::AudioException("Could not start output stream.");
 }
 
 void Babel::Client::Audio::AudioOutputDevice::stopStream()
 {
     this->soundBuffers.clear();
     if (Pa_CloseStream(this->stream) != paNoError)
-        throw AudioException("Could not close output stream.");
+        throw Exceptions::AudioException("Could not close output stream.");
 }
 
 void Babel::Client::Audio::AudioOutputDevice::setSound(const SoundBuffer &soundBuffer, const std::string &idFrom)
