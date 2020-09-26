@@ -23,8 +23,7 @@ const std::unordered_map<const enum COMMAND_TYPE, std::function<ICommand *()>> B
           { COMMAND_TYPE::START_CALL, []() { return &CommandFactory::createCommand<StartCallCommand>(); } },
           { COMMAND_TYPE::STOP_CALL, []() { return &CommandFactory::createCommand<StopCallCommand>(); } } };
 
-Babel::Server::Commands::ICommand *Babel::Server::CommandFactory::createCommandFromCommandType(
-    const enum Babel::Server::Commands::COMMAND_TYPE &commandType)
+Babel::Server::Commands::ICommand *Babel::Server::CommandFactory::createCommandFromCommandType(enum COMMAND_TYPE commandType)
 {
     return m_commandMap.at(commandType)();
 }
