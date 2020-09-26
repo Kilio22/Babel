@@ -13,7 +13,7 @@
 #include <cstring>
 #include <vector>
 
-namespace Babel::Audio
+namespace Babel::Client::Audio
 {
     const int SampleRate = 48000;
     const int FramesPerBuffer = 480;
@@ -45,6 +45,6 @@ namespace Babel::Audio
     };
 }
 
-Q_DECLARE_METATYPE(Babel::Audio::SoundBuffer);
+Q_DECLARE_METATYPE(Babel::Client::Audio::SoundBuffer);
 
 #endif /* !SOUND_HPP_ */

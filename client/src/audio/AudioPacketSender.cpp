@@ -9,24 +9,26 @@
 #include "QtUdpClient.hpp"
 #include <iostream>
 
-Babel::Audio::AudioPacketSender::AudioPacketSender()
-    : udpClient(std::make_unique<Client::Network::QtUdpClient>())
-{
-    auto newClient = new Client::Network::QtUdpClient();
+using namespace Babel::Client::Network;
 
-    QObject::connect(newClient, &Client::Network::QtUdpClient::dataAvailable, this, &AudioPacketSender::onDataAvailable);
+Babel::Client::Audio::AudioPacketSender::AudioPacketSender()
+    : udpClient(std::make_unique<QtUdpClient>())
+{
+    auto newClient = new QtUdpClient();
+
+    QObject::connect(newClient, &QtUdpClient::dataAvailable, this, &AudioPacketSender::onDataAvailable);
     this->udpClient.reset(newClient);
 }
 
-void Babel::Audio::AudioPacketSender::connectTo(const std::vector<std::string> &hosts)
+void Babel::Client::Audio::AudioPacketSender::connectTo(const std::vector<std::string> &hosts)
 {
     this->hosts = hosts;
     this->udpClient->connect(DefaultAudioPort);
 }
 
-void Babel::Audio::AudioPacketSender::sendAudio(const CompressedBuffer &compressedBuffer)
+void Babel::Client::Audio::AudioPacketSender::sendAudio(const CompressedBuffer &compressedBuffer)
 {
-    Client::Network::IUdpClient::DataPacket dataPacket;
+    IUdpClient::DataPacket dataPacket;
     SoundPacket soundPacket = {};
     char *ptr;
 
@@ -44,10 +46,10 @@ void Babel::Audio::AudioPacketSender::sendAudio(const CompressedBuffer &compress
     }
 }
 
-void Babel::Audio::AudioPacketSender::onDataAvailable()
+void Babel::Client::Audio::AudioPacketSender::onDataAvailable()
 {
     CompressedBuffer compressedBuffer;
-    Client::Network::IUdpClient::DataPacket dataPacket = this->udpClient->getData();
+    IUdpClient::DataPacket dataPacket = this->udpClient->getData();
     SoundPacket *packetDataPtr = reinterpret_cast<SoundPacket *>(dataPacket.data.data());
 
     compressedBuffer.size = packetDataPtr->size;

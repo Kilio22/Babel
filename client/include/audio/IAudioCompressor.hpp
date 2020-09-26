@@ -10,7 +10,7 @@
 
 #include "Audio.hpp"
 
-namespace Babel::Audio
+namespace Babel::Client::Audio
 {
     class IAudioCompressor
     {

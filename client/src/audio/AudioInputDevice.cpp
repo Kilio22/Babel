@@ -10,52 +10,51 @@
 #include <iostream>
 #include <iomanip>
 
-Babel::Audio::AudioInputDevice::AudioInputDevice(ISoundInputAvailableEventListener *listener)
+Babel::Client::Audio::AudioInputDevice::AudioInputDevice(ISoundInputAvailableEventListener *listener)
     : listener(listener)
 {
     auto err = Pa_Initialize();
 
     if (err != paNoError)
-        throw Client::Exceptions::AudioException(Pa_GetErrorText(err));
+        throw Exceptions::AudioException(Pa_GetErrorText(err));
 
     this->params.device = Pa_GetDefaultInputDevice();
-    if (this->params.device == paNoDevice) {
-        throw Client::Exceptions::AudioException("Could not find input device.");
-    }
+    if (this->params.device == paNoDevice)
+        throw Exceptions::AudioException("Could not find input device.");
     this->params.channelCount = Audio::ChannelCount;
     this->params.sampleFormat = paFloat32;
     this->params.suggestedLatency = Pa_GetDeviceInfo(this->params.device)->defaultLowInputLatency;
     this->params.hostApiSpecificStreamInfo = NULL;
 }
 
-Babel::Audio::AudioInputDevice::~AudioInputDevice()
+Babel::Client::Audio::AudioInputDevice::~AudioInputDevice()
 {
     if (!Pa_IsStreamStopped(this->stream))
         Pa_CloseStream(this->stream);
     Pa_Terminate();
 }
 
-void Babel::Audio::AudioInputDevice::startStream()
+void Babel::Client::Audio::AudioInputDevice::startStream()
 {
     if (Pa_OpenStream(&this->stream, &this->params, NULL, Audio::SampleRate, Audio::FramesPerBuffer, paClipOff, AudioInputDevice::callback, this)
         != paNoError)
-        throw Client::Exceptions::AudioException("Could not open input stream.");
+        throw Exceptions::AudioException("Could not open input stream.");
 
     if (Pa_StartStream(this->stream) != paNoError)
-        throw Client::Exceptions::AudioException("Could not start input stream.");
+        throw Exceptions::AudioException("Could not start input stream.");
 
     std::cout << "Steaming input." << std::endl;
 }
 
-void Babel::Audio::AudioInputDevice::stopStream()
+void Babel::Client::Audio::AudioInputDevice::stopStream()
 {
     if (Pa_CloseStream(this->stream) != paNoError)
-        throw Client::Exceptions::AudioException("Could not close input stream.");
+        throw Exceptions::AudioException("Could not close input stream.");
 
     std::cout << "Stopped streaming input." << std::endl;
 }
 
-Babel::Audio::SoundBuffer Babel::Audio::AudioInputDevice::getSound()
+Babel::Client::Audio::SoundBuffer Babel::Client::Audio::AudioInputDevice::getSound()
 {
     auto top = this->soundBuffers.front();
 
@@ -63,7 +62,7 @@ Babel::Audio::SoundBuffer Babel::Audio::AudioInputDevice::getSound()
     return top;
 }
 
-int Babel::Audio::AudioInputDevice::callback(
+int Babel::Client::Audio::AudioInputDevice::callback(
     const void *inputBuffer, void *, unsigned long frameCount, const PaStreamCallbackTimeInfo *, PaStreamCallbackFlags, void *data)
 {
     AudioInputDevice *_this = static_cast<AudioInputDevice *>(data);

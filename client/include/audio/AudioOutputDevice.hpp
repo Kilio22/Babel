@@ -13,7 +13,7 @@
 #include <queue>
 #include <unordered_map>
 
-namespace Babel::Audio
+namespace Babel::Client::Audio
 {
     class AudioOutputDevice : public IOutputDevice
     {

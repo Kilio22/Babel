@@ -9,52 +9,51 @@
 #include "AudioException.hpp"
 #include <iostream>
 
-Babel::Audio::AudioOutputDevice::AudioOutputDevice()
+Babel::Client::Audio::AudioOutputDevice::AudioOutputDevice()
 {
     auto err = Pa_Initialize();
 
     if (err != paNoError)
-        throw Client::Exceptions::AudioException(Pa_GetErrorText(err));
+        throw AudioException(Pa_GetErrorText(err));
 
     this->params.device = Pa_GetDefaultOutputDevice();
-    if (this->params.device == paNoDevice) {
-        throw Client::Exceptions::AudioException("Could not find input device.");
-    }
+    if (this->params.device == paNoDevice)
+        throw AudioException("Could not find input device.");
     this->params.channelCount = Audio::ChannelCount;
     this->params.sampleFormat = paFloat32;
     this->params.suggestedLatency = Pa_GetDeviceInfo(this->params.device)->defaultLowOutputLatency;
     this->params.hostApiSpecificStreamInfo = NULL;
 }
 
-Babel::Audio::AudioOutputDevice::~AudioOutputDevice()
+Babel::Client::Audio::AudioOutputDevice::~AudioOutputDevice()
 {
     if (!Pa_IsStreamStopped(this->stream))
         Pa_CloseStream(this->stream);
     Pa_Terminate();
 }
 
-void Babel::Audio::AudioOutputDevice::startStream()
+void Babel::Client::Audio::AudioOutputDevice::startStream()
 {
     if (Pa_OpenStream(&this->stream, NULL, &this->params, Audio::SampleRate, Audio::FramesPerBuffer, paClipOff, AudioOutputDevice::callback, this)
         != paNoError)
-        throw Client::Exceptions::AudioException("Could not open output stream.");
+        throw AudioException("Could not open output stream.");
     if (Pa_StartStream(this->stream) != paNoError)
-        throw Client::Exceptions::AudioException("Could not start output stream.");
+        throw AudioException("Could not start output stream.");
 }
 
-void Babel::Audio::AudioOutputDevice::stopStream()
+void Babel::Client::Audio::AudioOutputDevice::stopStream()
 {
     this->soundBuffers.clear();
     if (Pa_CloseStream(this->stream) != paNoError)
-        throw Client::Exceptions::AudioException("Could not close output stream.");
+        throw AudioException("Could not close output stream.");
 }
 
-void Babel::Audio::AudioOutputDevice::setSound(const SoundBuffer &soundBuffer, const std::string &idFrom)
+void Babel::Client::Audio::AudioOutputDevice::setSound(const SoundBuffer &soundBuffer, const std::string &idFrom)
 {
     this->soundBuffers[idFrom].push(soundBuffer);
 }
 
-int Babel::Audio::AudioOutputDevice::callback(
+int Babel::Client::Audio::AudioOutputDevice::callback(
     const void *, void *outputBuffer, unsigned long frameCount, const PaStreamCallbackTimeInfo *, PaStreamCallbackFlags, void *data)
 {
     AudioOutputDevice *_this = static_cast<AudioOutputDevice *>(data);
@@ -78,7 +77,7 @@ int Babel::Audio::AudioOutputDevice::callback(
     return paContinue;
 }
 
-bool Babel::Audio::AudioOutputDevice::soundQueuesEmpty() const
+bool Babel::Client::Audio::AudioOutputDevice::soundQueuesEmpty() const
 {
     for (auto &pair : this->soundBuffers) {
         if (pair.second.empty() == false)

@@ -13,7 +13,7 @@
 #include <QtCore/QObject>
 #include <memory>
 
-namespace Babel::Audio
+namespace Babel::Client::Audio
 {
     class AudioPacketSender : public QObject
     {
@@ -43,7 +43,7 @@ namespace Babel::Audio
         void audioPacketRecieved(const CompressedBuffer &, const std::string &);
 
     private:
-        std::unique_ptr<Client::Network::IUdpClient> udpClient;
+        std::unique_ptr<Network::IUdpClient> udpClient;
         std::vector<std::string> hosts;
     };
 }

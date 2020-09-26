@@ -12,7 +12,7 @@
 #include <portaudio.h>
 #include <queue>
 
-namespace Babel::Audio
+namespace Babel::Client::Audio
 {
     class AudioInputDevice : public IInputDevice
     {

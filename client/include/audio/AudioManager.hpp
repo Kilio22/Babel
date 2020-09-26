@@ -13,7 +13,7 @@
 #include <QtCore/QObject>
 #include <memory>
 
-namespace Babel::Audio
+namespace Babel::Client::Audio
 {
     class AudioManager : public QObject, public ISoundInputAvailableEventListener
     {

@@ -13,7 +13,7 @@
 #include "AudioManager.hpp"
 #include "AudioPacketSender.hpp"
 
-namespace Babel::Audio
+namespace Babel::Client::Audio
 {
     class CallManager : public QObject
     {

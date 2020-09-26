@@ -11,7 +11,7 @@
 #include "Audio.hpp"
 #include <QtPlugin>
 
-namespace Babel::Audio
+namespace Babel::Client::Audio
 {
     class IAudioDevice
     {

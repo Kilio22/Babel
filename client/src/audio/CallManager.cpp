@@ -9,7 +9,7 @@
 #include <QtCore/QDebug>
 #include <iostream>
 
-Babel::Audio::CallManager::CallManager()
+Babel::Client::Audio::CallManager::CallManager()
     : audioCompressor(std::make_unique<AudioCompressor>())
 {
     qRegisterMetaType<SoundBuffer>("SoundBuffer");
@@ -17,25 +17,25 @@ Babel::Audio::CallManager::CallManager()
     QObject::connect(&this->audioPacketSender, &AudioPacketSender::audioPacketRecieved, this, &CallManager::onOutputAvailable);
 }
 
-void Babel::Audio::CallManager::beginCall(const std::vector<std::string> &hosts)
+void Babel::Client::Audio::CallManager::beginCall(const std::vector<std::string> &hosts)
 {
     this->audioPacketSender.connectTo(hosts);
     this->audioManager.startRecording();
     this->audioManager.startSpeaking();
 }
 
-void Babel::Audio::CallManager::endCall() const
+void Babel::Client::Audio::CallManager::endCall() const
 {
     this->audioManager.stopRecording();
     this->audioManager.stopSpeaking();
 }
 
-void Babel::Audio::CallManager::onInputAvailable(const SoundBuffer &soundBuffer)
+void Babel::Client::Audio::CallManager::onInputAvailable(const SoundBuffer &soundBuffer)
 {
     this->audioPacketSender.sendAudio(this->audioCompressor->compressAudio(soundBuffer));
 }
 
-void Babel::Audio::CallManager::onOutputAvailable(const CompressedBuffer &compressedBuffer, const std::string &host)
+void Babel::Client::Audio::CallManager::onOutputAvailable(const CompressedBuffer &compressedBuffer, const std::string &host)
 {
     auto soundBuffer = this->audioCompressor->extractAudio(compressedBuffer);
 

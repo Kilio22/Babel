@@ -12,7 +12,7 @@
 #include "IAudioCompressor.hpp"
 #include <opus.h>
 
-namespace Babel::Audio
+namespace Babel::Client::Audio
 {
     class AudioCompressor : public IAudioCompressor
     {

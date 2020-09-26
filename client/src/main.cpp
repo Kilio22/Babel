@@ -18,7 +18,7 @@ int main(int ac, char **av)
     try {
         QApplication app(ac, av);
         Babel::Client::ServiceLocator::getInstance().get<Babel::Client::BabelClient>().create(ac, av);
-        Babel::Audio::CallManager callManager;
+        Babel::Client::Audio::CallManager callManager;
 
         callManager.beginCall({ "127.0.0.1" });
         app.exec();
