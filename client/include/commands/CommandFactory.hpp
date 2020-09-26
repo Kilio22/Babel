@@ -10,8 +10,8 @@
 
 #include "ICommand.hpp"
 #include <functional>
-#include <map>
 #include <memory>
+#include <unordered_map>
 
 namespace Babel::Client
 {
@@ -35,7 +35,7 @@ namespace Babel::Client
         static Commands::ICommand *createCommandFromCommandType(const Babel::Client::Commands::COMMAND_TYPE commandType);
 
     private:
-        static const std::map<const Babel::Client::Commands::COMMAND_TYPE, const std::function<Commands::ICommand *()>> commandMap;
+        static const std::unordered_map<Babel::Client::Commands::COMMAND_TYPE, const std::function<Commands::ICommand *()>> commandMap;
     };
 } // namespace Babel::Client
 

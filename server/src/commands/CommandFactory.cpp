@@ -15,7 +15,7 @@
 
 using namespace Babel::Server::Commands;
 
-const std::map<const enum COMMAND_TYPE, const std::function<ICommand *()>> Babel::Server::CommandFactory::m_commandMap
+const std::unordered_map<enum COMMAND_TYPE, const std::function<ICommand *()>> Babel::Server::CommandFactory::m_commandMap
     = { { COMMAND_TYPE::REGISTER, []() { return &CommandFactory::createCommand<RegisterCommand>(); } },
           { COMMAND_TYPE::LOGIN, []() { return &CommandFactory::createCommand<LoginCommand>(); } },
           { COMMAND_TYPE::ADD_CONTACT, []() { return &CommandFactory::createCommand<AddContactCommand>(); } },

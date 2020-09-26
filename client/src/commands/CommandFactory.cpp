@@ -14,7 +14,7 @@
 
 using namespace Babel::Client::Commands;
 
-const std::map<const enum COMMAND_TYPE, const std::function<ICommand *()>> Babel::Client::CommandFactory::commandMap = {
+const std::unordered_map<enum COMMAND_TYPE, const std::function<ICommand *()>> Babel::Client::CommandFactory::commandMap = {
         {
             COMMAND_TYPE::REGISTER,
             []() { return &ServiceLocator::getInstance().get<RegisterCommand>(); }
