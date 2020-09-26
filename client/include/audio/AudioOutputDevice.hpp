@@ -15,6 +15,9 @@
 
 namespace Babel::Client::Audio
 {
+    /**
+     * @brief Implementation of IOutputDevice using portaudio library
+     */
     class AudioOutputDevice : public IOutputDevice
     {
     public:
