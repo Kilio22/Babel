@@ -22,6 +22,7 @@ namespace Babel::Client::Network
             virtual std::pair<std::size_t, const unsigned char *> getData() = 0;
             virtual void connectSocket(const std::string &ipv4, unsigned short port) = 0;
             virtual bool isConnected() const = 0;
+
         signals:
             virtual void dataAvailable() = 0;
     };

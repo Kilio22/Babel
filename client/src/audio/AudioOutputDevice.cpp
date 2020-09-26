@@ -11,6 +11,11 @@
 
 Babel::Audio::AudioOutputDevice::AudioOutputDevice()
 {
+    auto err = Pa_Initialize();
+
+    if (err != paNoError)
+        throw Client::Exceptions::AudioException(Pa_GetErrorText(err));
+
     this->params.device = Pa_GetDefaultOutputDevice();
     if (this->params.device == paNoDevice) {
         throw Client::Exceptions::AudioException("Could not find input device.");
@@ -25,6 +30,7 @@ Babel::Audio::AudioOutputDevice::~AudioOutputDevice()
 {
     if (!Pa_IsStreamStopped(this->stream))
         Pa_CloseStream(this->stream);
+    Pa_Terminate();
 }
 
 void Babel::Audio::AudioOutputDevice::startStream()
@@ -38,13 +44,14 @@ void Babel::Audio::AudioOutputDevice::startStream()
 
 void Babel::Audio::AudioOutputDevice::stopStream()
 {
+    this->soundBuffers.clear();
     if (Pa_CloseStream(this->stream) != paNoError)
         throw Client::Exceptions::AudioException("Could not close output stream.");
 }
 
-void Babel::Audio::AudioOutputDevice::setSound(const SoundBuffer &soundBuffer)
+void Babel::Audio::AudioOutputDevice::setSound(const SoundBuffer &soundBuffer, const std::string &idFrom)
 {
-    this->soundBuffers.push(soundBuffer);
+    this->soundBuffers[idFrom].push(soundBuffer);
 }
 
 int Babel::Audio::AudioOutputDevice::callback(
@@ -53,14 +60,29 @@ int Babel::Audio::AudioOutputDevice::callback(
     AudioOutputDevice *_this = static_cast<AudioOutputDevice *>(data);
     float *output = static_cast<float *>(outputBuffer);
 
-    if (_this->soundBuffers.empty()) {
-        std::memset(output, 0, Audio::ElementsPerBuffer * sizeof(float));
+    std::memset(output, 0, Audio::ElementsPerBuffer * sizeof(float));
+    if (_this->soundQueuesEmpty())
         return paContinue;
+
+    SoundBuffer &soundBuffer = _this->soundBuffers.begin()->second.front();
+    for (auto &pair : _this->soundBuffers) {
+        if (pair.second.empty())
+            continue;
+
+        auto &soundBuffer = pair.second.front();
+
+        for (int i = 0; i < Audio::ElementsPerBuffer; ++i)
+            output[i] += soundBuffer.samples[i];
+        pair.second.pop();
     }
-
-    SoundBuffer &soundBuffer = _this->soundBuffers.front();
-
-    std::memcpy(output, soundBuffer.samples.data(), Audio::ElementsPerBuffer * sizeof(float));
-    _this->soundBuffers.pop();
     return paContinue;
+}
+
+bool Babel::Audio::AudioOutputDevice::soundQueuesEmpty() const
+{
+    for (auto &pair : this->soundBuffers) {
+        if (pair.second.empty() == false)
+            return false;
+    }
+    return true;
 }

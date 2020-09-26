@@ -28,7 +28,7 @@ namespace Babel::Audio
 
     private slots:
         void onInputAvailable(const SoundBuffer &);
-        void onOutputAvailable(const CompressedBuffer &);
+        void onOutputAvailable(const CompressedBuffer &, const std::string &);
 
     private:
         AudioManager audioManager;

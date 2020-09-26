@@ -20,22 +20,25 @@ void Babel::Client::Network::QtUdpClient::connect(unsigned short port)
         throw Exceptions::QtUcpClientException(ERROR_STR, "connect");
 }
 
-void Babel::Client::Network::QtUdpClient::send(const char *data, long size, const std::string &host, unsigned short port) const
+void Babel::Client::Network::QtUdpClient::send(const DataPacket &dataPacket) const
 {
+    const auto& [data, host, port] = dataPacket;
     QHostAddress addr(QString::fromStdString(host));
 
-    this->socket->writeDatagram(data, size, addr, port);
+    this->socket->writeDatagram(data.data(), data.size(), addr, port);
 }
 
-std::vector<char> Babel::Client::Network::QtUdpClient::getData()
+Babel::Client::Network::IUdpClient::DataPacket Babel::Client::Network::QtUdpClient::getData()
 {
-    auto &datagram = this->dataQueue.front();
-    auto byteArray = datagram.data();
-    std::vector<char> bytes;
+    QNetworkDatagram &datagram = this->dataQueue.front();
+    QByteArray byteArray = datagram.data();
+    DataPacket dataPacket;
 
-    bytes.assign(byteArray.begin(), byteArray.end());
+    dataPacket.host = datagram.senderAddress().toString().toStdString();
+    dataPacket.port = datagram.senderPort();
+    dataPacket.data.assign(byteArray.begin(), byteArray.end());
     this->dataQueue.pop();
-    return bytes;
+    return dataPacket;
 }
 
 void Babel::Client::Network::QtUdpClient::readPendingDatagrams()

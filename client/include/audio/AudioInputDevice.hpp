@@ -25,8 +25,7 @@ namespace Babel::Audio
         SoundBuffer getSound() override;
 
     private:
-        static int callback(const void *input, void *output, unsigned long frameCount, const PaStreamCallbackTimeInfo *timeInfo,
-            PaStreamCallbackFlags statusFlags, void *data);
+        static int callback(const void *, void *, unsigned long, const PaStreamCallbackTimeInfo *, PaStreamCallbackFlags, void *);
 
     private:
         ISoundInputAvailableEventListener *listener;
