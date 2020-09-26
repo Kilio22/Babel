@@ -11,7 +11,7 @@
 #include "ICommand.hpp"
 #include <functional>
 #include <memory>
-#include <unordered_map>
+#include <map>
 
 namespace Babel::Server
 {
@@ -35,16 +35,17 @@ namespace Babel::Server
         ~CommandFactory();
 
         template <class T>
-        static std::unique_ptr<T> createCommand()
+        static T &createCommand()
         {
-            return std::make_unique<T>();
+            static T instance;
+
+            return instance;
         }
 
-        static std::unique_ptr<Commands::ICommand> createCommandFromCommandType(const enum Babel::Server::Commands::COMMAND_TYPE commandType);
+        static Commands::ICommand *createCommandFromCommandType(const enum Babel::Server::Commands::COMMAND_TYPE commandType);
 
     private:
-        static const std::unordered_map<const enum Babel::Server::Commands::COMMAND_TYPE, std::function<std::unique_ptr<Commands::ICommand>()>>
-            m_commandMap;
+        static const std::map<const enum Babel::Server::Commands::COMMAND_TYPE, const std::function<Commands::ICommand *()>> m_commandMap;
     };
 } // namespace Babel::Server
 

@@ -12,6 +12,10 @@
 #include <vector>
 #include <memory>
 
+#include "gui/LoginWindow.hpp"
+#include "gui/SignupWindow.hpp"
+#include "gui/MainWindow.hpp"
+
 namespace Babel::Client {
     /**
      * @brief This class is used to managed all the windows and their interactions.
@@ -27,7 +31,6 @@ namespace Babel::Client {
                 Login,
                 Main,
                 Call,
-                About,
                 LastEnum
             };
 
@@ -43,6 +46,9 @@ namespace Babel::Client {
              * @return const WindowManager::State& 
              */
             const WindowManager::State &getState() const;
+            Babel::Client::Gui::LoginWindow *getLoginWindow() const;
+            Babel::Client::Gui::SignupWindow *getSignupWindow() const;
+            Babel::Client::Gui::MainWindow *getMainWindow() const;
 
         private:
             WindowManager::State state;

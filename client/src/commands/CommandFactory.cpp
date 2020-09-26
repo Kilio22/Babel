@@ -14,7 +14,7 @@
 
 using namespace Babel::Client::Commands;
 
-const std::unordered_map<const enum COMMAND_TYPE, std::function<ICommand *()>> Babel::Client::CommandFactory::commandMap = {
+const std::map<const enum COMMAND_TYPE, const std::function<ICommand *()>> Babel::Client::CommandFactory::commandMap = {
         {
             COMMAND_TYPE::REGISTER,
             []() { return &ServiceLocator::getInstance().get<RegisterCommand>(); }
@@ -34,7 +34,7 @@ const std::unordered_map<const enum COMMAND_TYPE, std::function<ICommand *()>> B
     };
 
 Babel::Client::Commands::ICommand *Babel::Client::CommandFactory::createCommandFromCommandType(
-    const Babel::Client::Commands::COMMAND_TYPE &commandType)
+    const Babel::Client::Commands::COMMAND_TYPE commandType)
 {
     return commandMap.at(commandType)();
 }

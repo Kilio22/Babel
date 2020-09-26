@@ -6,8 +6,6 @@
 */
 
 #include "WindowManager.hpp"
-#include "gui/LoginWindow.hpp"
-#include "gui/SignupWindow.hpp"
 
 Babel::Client::WindowManager::WindowManager()
 : state(Babel::Client::WindowManager::State::Login)
@@ -20,6 +18,7 @@ Babel::Client::WindowManager::WindowManager()
     }
     windows[int(State::Login)].reset(new Gui::LoginWindow());
     windows[int(State::Signup)].reset(new Gui::SignupWindow());
+    windows[int(State::Main)].reset(new Gui::MainWindow());
     windows[int(state)]->show();
 }
 
@@ -44,4 +43,31 @@ void Babel::Client::WindowManager::setState(const Babel::Client::WindowManager::
 const Babel::Client::WindowManager::State &Babel::Client::WindowManager::getState() const
 {
     return (state);
+}
+
+Babel::Client::Gui::LoginWindow *Babel::Client::WindowManager::getLoginWindow() const
+{
+    if (Babel::Client::Gui::LoginWindow* c = dynamic_cast<Babel::Client::Gui::LoginWindow*>(windows[int(State::Login)].get()))
+    {
+        return (c);
+    }
+    return (nullptr);
+}
+
+Babel::Client::Gui::SignupWindow *Babel::Client::WindowManager::getSignupWindow() const
+{
+    if (Babel::Client::Gui::SignupWindow* c = dynamic_cast<Babel::Client::Gui::SignupWindow*>(windows[int(State::Login)].get()))
+    {
+        return (c);
+    }
+    return (nullptr);
+}
+
+Babel::Client::Gui::MainWindow *Babel::Client::WindowManager::getMainWindow() const
+{
+    if (Babel::Client::Gui::MainWindow* c = dynamic_cast<Babel::Client::Gui::MainWindow*>(windows[int(State::Login)].get()))
+    {
+        return (c);
+    }
+    return (nullptr);
 }
