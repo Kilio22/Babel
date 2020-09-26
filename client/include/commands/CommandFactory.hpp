@@ -10,7 +10,7 @@
 
 #include "ICommand.hpp"
 #include <functional>
-#include <unordered_map>
+#include <map>
 #include <memory>
 
 namespace Babel::Client
@@ -32,16 +32,10 @@ namespace Babel::Client
         CommandFactory();
         ~CommandFactory();
 
-        template <class T>
-        static std::unique_ptr<T> createCommand()
-        {
-            return std::make_unique<T>();
-        }
-
-        static Commands::ICommand *createCommandFromCommandType(const Babel::Client::Commands::COMMAND_TYPE &commandType);
+        static Commands::ICommand *createCommandFromCommandType(const Babel::Client::Commands::COMMAND_TYPE commandType);
 
     private:
-        static const std::unordered_map<const Babel::Client::Commands::COMMAND_TYPE, std::function<Commands::ICommand *()>> commandMap;
+        static const std::map<const Babel::Client::Commands::COMMAND_TYPE, const std::function<Commands::ICommand *()>> commandMap;
     };
 } // namespace Babel::Client
 

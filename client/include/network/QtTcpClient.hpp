@@ -11,6 +11,7 @@
 #include "ITcpClient.hpp"
 #include <QtNetwork/QTcpSocket>
 #include <QtCore/QObject>
+#include <array>
 
 namespace Babel::Client::Network
 {
