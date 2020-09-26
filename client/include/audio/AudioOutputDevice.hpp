@@ -12,7 +12,6 @@
 #include <portaudio.h>
 #include <queue>
 #include <unordered_map>
-#include <cstdint>
 
 namespace Babel::Client::Audio
 {
@@ -30,7 +29,7 @@ namespace Babel::Client::Audio
         void setSound(const SoundBuffer &soundBuffer, const std::string &idFrom) override;
 
     private:
-        static int callback(const void *, void *, uint64_t, const PaStreamCallbackTimeInfo *, PaStreamCallbackFlags, void *);
+        static int callback(const void *, void *, unsigned long, const PaStreamCallbackTimeInfo *, PaStreamCallbackFlags, void *);
 
         bool soundQueuesEmpty() const;
 

@@ -11,7 +11,6 @@
 #include "IAudioDevice.hpp"
 #include <portaudio.h>
 #include <queue>
-#include <cstdint>
 
 namespace Babel::Client::Audio
 {
@@ -26,7 +25,7 @@ namespace Babel::Client::Audio
         SoundBuffer getSound() override;
 
     private:
-        static int callback(const void *, void *, uint64_t, const PaStreamCallbackTimeInfo *, PaStreamCallbackFlags, void *);
+        static int callback(const void *, void *, unsigned long, const PaStreamCallbackTimeInfo *, PaStreamCallbackFlags, void *);
 
     private:
         ISoundInputAvailableEventListener *listener;

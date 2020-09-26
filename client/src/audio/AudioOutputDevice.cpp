@@ -54,7 +54,7 @@ void Babel::Client::Audio::AudioOutputDevice::setSound(const SoundBuffer &soundB
 }
 
 int Babel::Client::Audio::AudioOutputDevice::callback(
-    const void *, void *outputBuffer, uint64_t frameCount, const PaStreamCallbackTimeInfo *, PaStreamCallbackFlags, void *data)
+    const void *, void *outputBuffer, unsigned long frameCount, const PaStreamCallbackTimeInfo *, PaStreamCallbackFlags, void *data)
 {
     AudioOutputDevice *_this = static_cast<AudioOutputDevice *>(data);
     float *output = static_cast<float *>(outputBuffer);
