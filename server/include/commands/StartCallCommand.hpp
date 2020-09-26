@@ -11,16 +11,19 @@
 #include "CommandParser.hpp"
 #include "ICommand.hpp"
 #include "IDb.hpp"
+#include "Username.hpp"
 #include <cstring>
 
 namespace Babel::Server::Commands
 {
+    const std::size_t IP_LENGTH = 16;
+
     class StartCallCommand : public ICommand {
     public:
         StartCallCommand() = default;
         ~StartCallCommand() = default;
 
-        void handle(const unsigned char *, std::size_t, IUser *) const final;
+        void handle(const unsigned char *, const std::size_t, IUser *) const final;
 
     private:
         enum class START_CALL_RESPONSE_CODE
@@ -36,11 +39,11 @@ namespace Babel::Server::Commands
         {
             UserCallInfos(const char *username, const char *ip)
             {
-                std::strncpy(this->username, username, 33);
-                std::strncpy(this->ip, ip, 16);
+                std::strncpy(this->username, username, USERNAME_LENGTH);
+                std::strncpy(this->ip, ip, IP_LENGTH);
             }
-            char username[33];
-            char ip[16];
+            char username[USERNAME_LENGTH];
+            char ip[IP_LENGTH];
         };
 
         struct StartCallRequest

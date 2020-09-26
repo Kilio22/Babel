@@ -15,7 +15,7 @@
 
 namespace Babel::Server
 {
-    const int readSize = 4096;
+    const int READ_SIZE = 4096;
 
     class AsioTcpClient : public boost::enable_shared_from_this<AsioTcpClient>, public ITcpClient {
     public:
@@ -35,7 +35,7 @@ namespace Babel::Server
         void handleWrite(const boost::system::error_code &error, std::size_t bytes_transferred);
 
         boost::asio::ip::tcp::socket m_socket;
-        unsigned char m_data[readSize];
+        unsigned char m_data[READ_SIZE];
         std::size_t m_bytesTransfered;
     };
 } // namespace Babel::Server

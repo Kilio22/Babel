@@ -10,8 +10,8 @@
 
 #include "ICommand.hpp"
 #include <functional>
-#include <memory>
 #include <map>
+#include <memory>
 
 namespace Babel::Server
 {

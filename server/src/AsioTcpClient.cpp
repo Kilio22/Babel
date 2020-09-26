@@ -33,7 +33,7 @@ std::string Babel::Server::AsioTcpClient::getIp() const
 
 void Babel::Server::AsioTcpClient::read()
 {
-    this->m_socket.async_read_some(boost::asio::buffer(this->m_data, readSize),
+    this->m_socket.async_read_some(boost::asio::buffer(this->m_data, READ_SIZE),
         boost::bind(&AsioTcpClient::handleRead, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 }
 

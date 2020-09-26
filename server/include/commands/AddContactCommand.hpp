@@ -9,6 +9,7 @@
 #define ADDCONTACTCOMMAND_HPP_
 
 #include "ITcpClient.hpp"
+#include "Username.hpp"
 #include "commands/CommandParser.hpp"
 #include "commands/ICommand.hpp"
 #include <cstring>
@@ -20,7 +21,7 @@ namespace Babel::Server::Commands
         AddContactCommand() = default;
         ~AddContactCommand() = default;
 
-        void handle(const unsigned char *, std::size_t, IUser *) const final;
+        void handle(const unsigned char *, const std::size_t, IUser *) const final;
 
     private:
         enum class ADD_CONTACT_RESPONSE_CODE
@@ -37,16 +38,16 @@ namespace Babel::Server::Commands
             Contact(const char *username, bool loggedIn)
                 : loggedIn(loggedIn)
             {
-                std::strncpy(this->username, username, 33);
+                std::strncpy(this->username, username, USERNAME_LENGTH);
             }
-            char username[33];
+            char username[USERNAME_LENGTH];
             bool loggedIn;
         };
 
         struct AddContactRequest
         {
             Header header;
-            char username[33];
+            char username[USERNAME_LENGTH];
         };
 
         struct AddContactsResponse

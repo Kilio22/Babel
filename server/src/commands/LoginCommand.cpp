@@ -10,7 +10,7 @@
 #include "UserManager.hpp"
 #include <iostream>
 
-void Babel::Server::Commands::LoginCommand::handle(const unsigned char *data, std::size_t, IUser *user) const
+void Babel::Server::Commands::LoginCommand::handle(const unsigned char *data, const std::size_t, IUser *user) const
 {
     LoginCommand::LoginResponse loginResponse = { Header(Commands::COMMAND_TYPE::LOGIN), LOGIN_RESPONSE_CODE::OK };
     if (user->isLoggedIn()) {

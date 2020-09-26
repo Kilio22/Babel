@@ -8,7 +8,7 @@
 #include "commands/StopCallCommand.hpp"
 #include "UserManager.hpp"
 
-void Babel::Server::Commands::StopCallCommand::handle(const unsigned char *, std::size_t, Babel::Server::IUser *user) const
+void Babel::Server::Commands::StopCallCommand::handle(const unsigned char *, const std::size_t, Babel::Server::IUser *user) const
 {
     StopCallResponse stopCallResponse = { { COMMAND_TYPE::STOP_CALL }, STOP_CALL_RESPONSE_CODE::OK };
     if (!user->isLoggedIn()) {

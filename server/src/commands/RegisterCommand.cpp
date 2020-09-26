@@ -11,7 +11,7 @@
 #include <boost/shared_ptr.hpp>
 #include <iostream>
 
-void Babel::Server::Commands::RegisterCommand::handle(const unsigned char *data, std::size_t, IUser *user) const
+void Babel::Server::Commands::RegisterCommand::handle(const unsigned char *data, const std::size_t, IUser *user) const
 {
     const RegisterRequest *registerRequest = reinterpret_cast<const struct RegisterRequest *>(data);
     RegisterResponse registerResponse = { Header(COMMAND_TYPE::REGISTER), REGISTER_RESPONSE_CODE::OK };

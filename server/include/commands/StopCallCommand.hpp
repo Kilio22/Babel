@@ -18,7 +18,7 @@ namespace Babel::Server::Commands
         StopCallCommand() = default;
         ~StopCallCommand() = default;
 
-        void handle(const unsigned char *, std::size_t, IUser *) const final;
+        void handle(const unsigned char *, const std::size_t, IUser *) const final;
 
     private:
         enum class STOP_CALL_RESPONSE_CODE

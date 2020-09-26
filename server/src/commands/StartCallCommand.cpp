@@ -10,18 +10,18 @@
 #include <boost/asio/streambuf.hpp>
 #include <iostream>
 
-void Babel::Server::Commands::StartCallCommand::handle(const unsigned char *data, std::size_t bytesTransfered, IUser *user) const
+void Babel::Server::Commands::StartCallCommand::handle(const unsigned char *data, const std::size_t bytesTransfered, IUser *user) const
 {
     StartCallResponse startCallResponse = { Header(COMMAND_TYPE::START_CALL), START_CALL_RESPONSE_CODE::OK };
     if (!user->isLoggedIn()) {
         startCallResponse.responseCode = START_CALL_RESPONSE_CODE::NOT_LOGGED_IN;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&startCallResponse), sizeof(StartCallResponse));
     }
-
     if (bytesTransfered - sizeof(StartCallRequest) < sizeof(Username)) {
         startCallResponse.responseCode = START_CALL_RESPONSE_CODE::OTHER;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&startCallResponse), sizeof(StartCallResponse));
     }
+
     std::vector<Username> usernames;
     usernames.assign(reinterpret_cast<const Username *>(&data[sizeof(StartCallRequest)]), reinterpret_cast<const Username *>(data + bytesTransfered));
     usernames.push_back({ user->getUsername() });

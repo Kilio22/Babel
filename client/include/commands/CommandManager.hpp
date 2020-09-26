@@ -8,27 +8,28 @@
 #ifndef COMMANDMANAGER_HPP_
 #define COMMANDMANAGER_HPP_
 
-#include "ITcpClient.hpp"
 #include "CommandParser.hpp"
+#include "ITcpClient.hpp"
 #include <cstring>
 
 namespace Babel::Client
 {
     class CommandManager {
-        public:
-            CommandManager();
-            ~CommandManager() = default;
+    public:
+        CommandManager();
+        ~CommandManager() = default;
 
-            void create(const std::string &ip, unsigned short port, Network::ITcpClient *tcpClient);
-            bool connect();
-            void signup(const std::string &username, const std::string &password);
-            void login(const std::string &username, const std::string &password);
-            void addContact(const std::string &username);
-            void getContacts();
-        private:
-            unsigned short port;
-            std::string ip;
-            Network::ITcpClient *tcpClient;
+        void create(const std::string &ip, unsigned short port, Network::ITcpClient *tcpClient);
+        bool connect();
+        void signup(const std::string &username, const std::string &password);
+        void login(const std::string &username, const std::string &password);
+        void addContact(const std::string &username);
+        void getContacts();
+
+    private:
+        unsigned short port;
+        std::string ip;
+        Network::ITcpClient *tcpClient;
     };
 
     namespace Commands

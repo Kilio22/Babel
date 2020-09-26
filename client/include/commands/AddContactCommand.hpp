@@ -10,8 +10,8 @@
 
 #include "CommandParser.hpp"
 #include "ICommand.hpp"
-#include <cstring>
 #include <QtCore/QObject>
+#include <cstring>
 
 namespace Babel::Client::Commands
 {

@@ -9,6 +9,7 @@
 #define GETCONTACTSCOMMAND_HPP_
 
 #include "ICommand.hpp"
+#include "Username.hpp"
 #include "commands/CommandParser.hpp"
 #include <cstring>
 
@@ -19,7 +20,7 @@ namespace Babel::Server::Commands
         GetContactsCommand() = default;
         ~GetContactsCommand() = default;
 
-        void handle(const unsigned char *, std::size_t, IUser *) const;
+        void handle(const unsigned char *, const std::size_t, IUser *) const;
 
     private:
         enum class GET_CONTACTS_RESPONSE_CODE
@@ -35,9 +36,9 @@ namespace Babel::Server::Commands
             Contact(const char *username, bool loggedIn)
                 : loggedIn(loggedIn)
             {
-                std::strncpy(this->username, username, 33);
+                std::strncpy(this->username, username, USERNAME_LENGTH);
             }
-            char username[33];
+            char username[USERNAME_LENGTH];
             bool loggedIn;
         };
 

@@ -45,7 +45,7 @@ Babel::Server::SqlDb::~SqlDb()
     sqlite3_close(this->m_db);
 }
 
-void Babel::Server::SqlDb::addUser(const std::string &username, const std::string &password)
+void Babel::Server::SqlDb::addUser(const std::string &username, const std::string &password) const
 {
     int rc = 0;
     char *errorMessage = nullptr;
@@ -59,7 +59,7 @@ void Babel::Server::SqlDb::addUser(const std::string &username, const std::strin
     }
 }
 
-const std::vector<std::string> &Babel::Server::SqlDb::getUserLogs(const std::string &username)
+const std::vector<std::string> &Babel::Server::SqlDb::getUserLogs(const std::string &username) const
 {
     int rc = 0;
     char *errorMessage = nullptr;
@@ -73,7 +73,7 @@ const std::vector<std::string> &Babel::Server::SqlDb::getUserLogs(const std::str
     return this->m_queryResults;
 }
 
-const std::vector<Babel::Server::Username> &Babel::Server::SqlDb::getUserContacts(const std::string &username)
+const std::vector<Babel::Server::Username> &Babel::Server::SqlDb::getUserContacts(const std::string &username) const
 {
     int rc = 0;
     char *errorMessage = nullptr;
@@ -87,7 +87,7 @@ const std::vector<Babel::Server::Username> &Babel::Server::SqlDb::getUserContact
     return this->m_contactQueryResults;
 }
 
-void Babel::Server::SqlDb::addContact(const std::string &username, const std::string &contactUsername)
+void Babel::Server::SqlDb::addContact(const std::string &username, const std::string &contactUsername) const
 {
     int rc = 0;
     char *errorMessage = nullptr;

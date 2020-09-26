@@ -8,8 +8,10 @@
 #ifndef LOGINCOMMAND_HPP_
 #define LOGINCOMMAND_HPP_
 
+#include "Username.hpp"
 #include "commands/CommandParser.hpp"
 #include "commands/ICommand.hpp"
+#include "commands/RegisterCommand.hpp"
 
 namespace Babel::Server::Commands
 {
@@ -18,7 +20,7 @@ namespace Babel::Server::Commands
         LoginCommand() = default;
         ~LoginCommand() = default;
 
-        void handle(const unsigned char *, std::size_t, IUser *) const final;
+        void handle(const unsigned char *, const std::size_t, IUser *) const final;
 
     private:
         enum class LOGIN_RESPONSE_CODE
@@ -33,8 +35,8 @@ namespace Babel::Server::Commands
         struct LoginRequest
         {
             Header header;
-            char username[33];
-            char password[43];
+            char username[USERNAME_LENGTH];
+            char password[PASSWORD_LENGTH];
         };
 
         struct LoginResponse
