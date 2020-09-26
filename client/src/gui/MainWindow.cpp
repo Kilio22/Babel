@@ -37,6 +37,7 @@ Babel::Client::Gui::MainWindow::MainWindow(QWidget *parent)
     this->setStyleSheet("background-color: white;");
     this->setFixedSize(640, 800);
     this->move(screenGeometry.width() / 2 - this->width() / 2, screenGeometry.height() / 2 - this->height() / 2);
+    this->setWindowIcon(QIcon("./assets/logo.jpg"));
 
     avatar.setPixmap(pixmap);
     avatar.setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);

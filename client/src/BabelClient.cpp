@@ -42,7 +42,7 @@ void Babel::Client::BabelClient::create(int ac, char *av[])
     tcpClient = new Babel::Client::Network::QtTcpClient();
     QObject::connect(dynamic_cast<QObject *>(tcpClient), SIGNAL (dataAvailable()), this, SLOT (onDataAvailable()));
     ServiceLocator::getInstance().get<Babel::Client::CommandManager>().create(this->ip, this->port, this->tcpClient);
-    ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Login);
+    ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Signup);
 }
 
 void Babel::Client::BabelClient::onDataAvailable()

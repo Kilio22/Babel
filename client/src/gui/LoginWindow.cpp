@@ -11,7 +11,6 @@
 #include <QtGui/QScreen>
 #include <QtGui/QGuiApplication>
 #include <QtGui/QPixmap>
-
 #include "exceptions.h"
 #include "ServiceLocator.hpp"
 #include "WindowManager.hpp"
@@ -38,6 +37,7 @@ Babel::Client::Gui::LoginWindow::LoginWindow(QWidget *parent)
     this->setStyleSheet("background-color: white;");
     this->setFixedSize(640, 800);
     this->move(screenGeometry.width() / 2 - this->width() / 2, screenGeometry.height() / 2 - this->height() / 2);
+    this->setWindowIcon(QIcon("./assets/logo.jpg"));
 
     mainWidget.setStyleSheet("background-color: white;");
     mainWidget.setFixedSize(640, 800);
@@ -47,10 +47,11 @@ Babel::Client::Gui::LoginWindow::LoginWindow(QWidget *parent)
     logo.resize(484, 200);
     logo.move(this->width() / 2 - logo.width() / 2, 50);
 
-    loaderGif.setFixedSize(200, 200);
+    loaderGif.setFixedSize(50, 50);
     loaderGif.move(this->width() / 2 - loaderGif.width()  / 2, this->height() / 2 - loaderGif.height()  / 2);
     loaderGif.setMovie(&movie);
 
+    movie.setScaledSize(QSize(50, 50));
     movie.start();
 
     loginBtn.setFixedSize(350, 64);
@@ -86,6 +87,7 @@ Babel::Client::Gui::LoginWindow::LoginWindow(QWidget *parent)
     password.setPlaceholderText("Mot de passe");
     password.setEchoMode(QLineEdit::Password);
 
+    loaderGif.hide();
     mainWidget.show();
     loginBtn.show();
     logo.show();
@@ -153,6 +155,8 @@ void Babel::Client::Gui::LoginWindow::submitLogin() {
         return;
     }
     reset();
+    mainWidget.hide();
+    loaderGif.show();
     //activer le truc qui tourne ici
 }
 
@@ -175,12 +179,18 @@ void Babel::Client::Gui::LoginWindow::reset() {
 void Babel::Client::Gui::LoginWindow::setError(const std::string & errorStr)
 {
     reset();
+    mainWidget.show();
+    loaderGif.hide();
     topText.setText(errorStr.c_str());
 }
 
 void Babel::Client::Gui::LoginWindow::loginWorked(const std::string & username)
 {
-    reset();
+    this->username.clear();
+    password.clear();
+    topText.setText("");
+    mainWidget.show();
+    loaderGif.hide();
     ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Main);
     ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setUsername(username);
 }

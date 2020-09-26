@@ -13,6 +13,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QLabel>
+#include <QtGui/QMovie>
 
 namespace Babel::Client::Gui {
     /**
@@ -23,6 +24,7 @@ namespace Babel::Client::Gui {
     {
         Q_OBJECT
         private:
+            QWidget mainWidget;
             QLabel logo;
             QPushButton submitBtn;
             QLineEdit username;
@@ -30,6 +32,8 @@ namespace Babel::Client::Gui {
             QPushButton loginBtn;
             QLabel bottomText;
             QLabel topText;
+            QLabel loaderGif;
+            QMovie movie;
 
             /**
              * @brief Evalute if the inputs in the form are valid.
