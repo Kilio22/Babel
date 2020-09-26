@@ -18,13 +18,11 @@ Babel::Server::CommandParser &Babel::Server::CommandParser::getInstance()
 void Babel::Server::CommandParser::parseCommand(const unsigned char *data, size_t bytes_transfered, const std::shared_ptr<IUser> &user) const
 {
     const Commands::Header responseHeader(Commands::COMMAND_TYPE::ERR);
-    std::cout << bytes_transfered << " bytes !" << std::endl; // debug
     if (bytes_transfered < sizeof(Commands::Header)) {
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&responseHeader), sizeof(Commands::Header));
     }
-    const Commands::Header *header = reinterpret_cast<const Commands::Header *>(data);
 
-    std::cout << "received something, header : " << header->commandType << std::endl;
+    const Commands::Header *header = reinterpret_cast<const Commands::Header *>(data);
     if (header->corewarMagic != Commands::corewarMagic) {
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&responseHeader), sizeof(Commands::Header));
     }

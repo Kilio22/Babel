@@ -19,15 +19,15 @@ namespace Babel::Server
 
         static SqlDb &getInstance();
 
-        void setSqlResults(int argc, char **argv, bool isUsername);
+        void setSqlResults(int argc, char **argv, bool isUsername, bool *shouldClear);
 
         void addUser(const std::string &username, const std::string &password) final;
         const std::vector<std::string> &getUserLogs(const std::string &username) final;
         const std::vector<Username> &getUserContacts(const std::string &username) final;
         void addContact(const std::string &username, const std::string &contact_username) final;
 
-        static int callback(void *, int argc, char **argv, char **azColName);
-        static int contactCallback(void *, int argc, char **argv, char **azColName);
+        static int callback(void *, int argc, char **argv, char **);
+        static int contactCallback(void *, int argc, char **argv, char **);
 
     private:
         SqlDb();

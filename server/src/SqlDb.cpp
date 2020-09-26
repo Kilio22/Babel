@@ -23,7 +23,7 @@ Babel::Server::SqlDb &Babel::Server::SqlDb::getInstance()
 Babel::Server::SqlDb::SqlDb()
     : db(nullptr)
 {
-    int rc = sqlite3_open("babel_dev", &this->db);
+    int rc = sqlite3_open("babel_dev.db", &this->db);
     char *errorMessage = nullptr;
 
     if (rc) {
@@ -64,8 +64,9 @@ const std::vector<std::string> &Babel::Server::SqlDb::getUserLogs(const std::str
     int rc = 0;
     char *errorMessage = nullptr;
     std::string query = "SELECT username, password FROM users WHERE username=\"" + username + "\";";
+    bool shouldClear = true;
 
-    rc = sqlite3_exec(db, query.c_str(), SqlDb::callback, 0, &errorMessage);
+    rc = sqlite3_exec(db, query.c_str(), SqlDb::callback, &shouldClear, &errorMessage);
     if (rc != SQLITE_OK) {
         throw Exceptions::QueryDatabaseException("Can't get user logs: " + std::string(errorMessage), "Babel::Server::SqlDb::getUserLogs");
     }
@@ -76,22 +77,22 @@ const std::vector<Babel::Server::Username> &Babel::Server::SqlDb::getUserContact
 {
     int rc = 0;
     char *errorMessage = nullptr;
-    std::string query = "SELECT contact_username FROM users_contacts WHERE username=\"" + username + "\";";
+    std::string query = "SELECT contact_username FROM users_contacts WHERE users_contacts.username=\"" + username + "\";";
+    bool shouldClear = true;
 
-    rc = sqlite3_exec(db, query.c_str(), SqlDb::contactCallback, 0, &errorMessage);
+    rc = sqlite3_exec(db, query.c_str(), SqlDb::contactCallback, &shouldClear, &errorMessage);
     if (rc != SQLITE_OK) {
         throw Exceptions::QueryDatabaseException("Can't get user contacts: " + std::string(errorMessage), "Babel::Server::SqlDb::getUserContacts");
     }
     return this->contactQueryResults;
 }
 
-void Babel::Server::SqlDb::addContact(const std::string &username, const std::string &contact_username)
+void Babel::Server::SqlDb::addContact(const std::string &username, const std::string &contactUsername)
 {
     int rc = 0;
     char *errorMessage = nullptr;
-    std::string query = "INSERT INTO users_contacts (username, contact_username) SELECT * FROM (SELECT \"" + username + "\", \"" + contact_username
-        + "\") WHERE not exists (SELECT username,contact_username FROM users_contacts WHERE users_contacts.username=\"" + username
-        + "\" AND users_contacts.contact_username=\"" + contact_username + "\");";
+    std::string query = "INSERT INTO users_contacts(username,contact_username) SELECT \"" + username + "\", \"" + contactUsername
+        + "\" WHERE NOT EXISTS(SELECT 1 FROM users_contacts WHERE username=\"" + username + "\" AND contact_username=\"" + contactUsername + "\");";
 
     rc = sqlite3_exec(db, query.c_str(), NULL, 0, &errorMessage);
     if (rc != SQLITE_OK) {
@@ -99,27 +100,33 @@ void Babel::Server::SqlDb::addContact(const std::string &username, const std::st
     }
 }
 
-int Babel::Server::SqlDb::callback(void *, int argc, char **argv, char **)
+int Babel::Server::SqlDb::callback(void *shouldClear, int argc, char **argv, char **)
 {
-    sqlDbInstance.setSqlResults(argc, argv, false);
+    sqlDbInstance.setSqlResults(argc, argv, false, reinterpret_cast<bool *>(shouldClear));
     return 0;
 }
 
-int Babel::Server::SqlDb::contactCallback(void *, int argc, char **argv, char **)
+int Babel::Server::SqlDb::contactCallback(void *shouldClear, int argc, char **argv, char **oui)
 {
-    sqlDbInstance.setSqlResults(argc, argv, true);
+    sqlDbInstance.setSqlResults(argc, argv, true, reinterpret_cast<bool *>(shouldClear));
     return 0;
 }
 
-void Babel::Server::SqlDb::setSqlResults(int argc, char **argv, bool isUsername)
+void Babel::Server::SqlDb::setSqlResults(int argc, char **argv, bool isUsername, bool *shouldClear)
 {
     if (isUsername) {
-        this->contactQueryResults.clear();
+        if (*shouldClear) {
+            this->contactQueryResults.clear();
+            *shouldClear = false;
+        }
         for (int i = 0; i < argc; i++) {
             this->contactQueryResults.push_back({ argv[i] });
         }
     } else {
-        this->queryResults.clear();
+        if (*shouldClear) {
+            this->queryResults.clear();
+            *shouldClear = false;
+        }
         for (int i = 0; i < argc; i++) {
             this->queryResults.push_back(argv[i]);
         }

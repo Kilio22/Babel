@@ -43,11 +43,6 @@ void Babel::Server::AsioTcpClient::handleRead(const boost::system::error_code &e
         this->disconnect();
         return;
     }
-    for (size_t i = 0; i < 4096; i++) {
-        if (this->data[i] != 0) {
-            std::cout << (char)this->data[i] << std::endl;
-        }
-    }
     std::shared_ptr<IUser> user = UserManager::getInstance().getUserByTcpClient(this);
     if (user == nullptr) {
         return;

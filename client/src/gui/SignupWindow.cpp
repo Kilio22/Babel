@@ -6,25 +6,23 @@
 */
 
 #include "SignupWindow.hpp"
-
-#include <QtGui/QScreen>
-#include <QtGui/QGuiApplication>
-#include <QtGui/QPixmap>
 #include "CommandManager.hpp"
-
-#include "exceptions.h"
 #include "ServiceLocator.hpp"
 #include "WindowManager.hpp"
+#include "exceptions.h"
+#include <QtGui/QGuiApplication>
+#include <QtGui/QPixmap>
+#include <QtGui/QScreen>
 
-Babel::Client::Gui::SignupWindow::SignupWindow(QWidget *parent) 
-: QMainWindow(parent)
-, submitBtn("S'inscrire", this)
-, logo(this)
-, username(this)
-, password(this)
-, loginBtn("Se connecter", this)
-, bottomText(this)
-, topText(this)
+Babel::Client::Gui::SignupWindow::SignupWindow(QWidget *parent)
+    : QMainWindow(parent)
+    , submitBtn("S'inscrire", this)
+    , logo(this)
+    , username(this)
+    , password(this)
+    , loginBtn("Se connecter", this)
+    , bottomText(this)
+    , topText(this)
 {
     QScreen *screen = QGuiApplication::primaryScreen();
     QRect screenGeometry = screen->geometry();
@@ -41,35 +39,35 @@ Babel::Client::Gui::SignupWindow::SignupWindow(QWidget *parent)
     logo.move(this->width() / 2 - logo.width() / 2, 50);
 
     submitBtn.setFixedSize(350, 64);
-    submitBtn.setStyleSheet( "background-color: #3b3b3b;"
+    submitBtn.setStyleSheet("background-color: #3b3b3b;"
                             "color: white;"
                             "border-radius: 25;"
                             "selection-background-color: #636363;"
                             "font-size: 20px;");
-    submitBtn.move(this->width() / 2 - submitBtn.width()  / 2, 550);
+    submitBtn.move(this->width() / 2 - submitBtn.width() / 2, 550);
 
     loginBtn.setFixedSize(350, 64);
-    loginBtn.setStyleSheet( "background-color: white;"
-                            "color: gray;"
-                            "border-radius: 25;"
-                            "selection-background-color: white;"
-                            "font-size: 20px;");
-    loginBtn.move(this->width() / 2 - loginBtn.width()  / 2, 650);
+    loginBtn.setStyleSheet("background-color: white;"
+                           "color: gray;"
+                           "border-radius: 25;"
+                           "selection-background-color: white;"
+                           "font-size: 20px;");
+    loginBtn.move(this->width() / 2 - loginBtn.width() / 2, 650);
 
     username.setFixedSize(350, 64);
     username.move(this->width() / 2 - username.width() / 2, 350);
-    username.setStyleSheet( "border-radius: 24;"
-                            "font-size: 20px;"
-                            "padding: 12px;"
-                            "border: 2px solid black;");
+    username.setStyleSheet("border-radius: 24;"
+                           "font-size: 20px;"
+                           "padding: 12px;"
+                           "border: 2px solid black;");
     username.setPlaceholderText("Pseudo");
 
     password.setFixedSize(350, 64);
     password.move(this->width() / 2 - password.width() / 2, 450);
-    password.setStyleSheet( "border-radius: 24;"
-                            "font-size: 20px;"
-                            "padding: 12px;"
-                            "border: 2px solid black;");
+    password.setStyleSheet("border-radius: 24;"
+                           "font-size: 20px;"
+                           "padding: 12px;"
+                           "border: 2px solid black;");
     password.setPlaceholderText("Mot de passe");
     password.setEchoMode(QLineEdit::Password);
 
@@ -84,21 +82,22 @@ Babel::Client::Gui::SignupWindow::SignupWindow(QWidget *parent)
     bottomText.move(this->width() / 2 - bottomText.width() / 2, 725);
     bottomText.setAlignment(Qt::AlignCenter);
     bottomText.setText("Mot de passe oublié ? Bah c'est dommage mdr");
-    bottomText.setStyleSheet(   "color: gray;"
-                                "font-size: 18px;");
+    bottomText.setStyleSheet("color: gray;"
+                             "font-size: 18px;");
 
     topText.setFixedSize(640, 64);
     topText.move(this->width() / 2 - topText.width() / 2, 280);
     topText.setAlignment(Qt::AlignCenter);
-    topText.setStyleSheet(      "color: red;"
-                                "font-size: 12px;");
+    topText.setStyleSheet("color: red;"
+                          "font-size: 12px;");
     topText.setText("");
 
-    QObject::connect(&this->submitBtn, SIGNAL (pressed()), this, SLOT (submitSignup()));
-    QObject::connect(&this->loginBtn, SIGNAL (pressed()), this, SLOT (switchToLogin()));
+    QObject::connect(&this->submitBtn, SIGNAL(pressed()), this, SLOT(submitSignup()));
+    QObject::connect(&this->loginBtn, SIGNAL(pressed()), this, SLOT(switchToLogin()));
 }
 
-void Babel::Client::Gui::SignupWindow::evaluateForms() {
+void Babel::Client::Gui::SignupWindow::evaluateForms()
+{
     if (username.text().toStdString().size() == 0)
         throw Babel::Client::Exceptions::MissingUsernameException(ERROR_STR, "Missing Username");
     if (password.text().toStdString().size() == 0)
@@ -117,9 +116,11 @@ void Babel::Client::Gui::SignupWindow::evaluateForms() {
         throw Babel::Client::Exceptions::InvalidPasswordException(ERROR_STR, "Invalid Password Format.");
 }
 
-void Babel::Client::Gui::SignupWindow::submitSignup() {
+void Babel::Client::Gui::SignupWindow::submitSignup()
+{
     try {
         evaluateForms();
+        // ServiceLocator::getInstance().get<CommandManager>().addContact(username.text().toStdString());
         ServiceLocator::getInstance().get<CommandManager>().signup(username.text().toStdString(), password.text().toStdString());
     } catch (const Babel::Client::Exceptions::InvalidUsernameException &e) {
         (void)e;
@@ -153,12 +154,14 @@ void Babel::Client::Gui::SignupWindow::submitSignup() {
     // Changer de fenetre. (la fenetre d'après existe pas encore ça vient)
 }
 
-void Babel::Client::Gui::SignupWindow::switchToLogin() {
+void Babel::Client::Gui::SignupWindow::switchToLogin()
+{
     reset();
     Babel::Client::ServiceLocator::getInstance().get<Babel::Client::WindowManager>().setState(Babel::Client::WindowManager::State::Login);
 }
 
-void Babel::Client::Gui::SignupWindow::reset() {
+void Babel::Client::Gui::SignupWindow::reset()
+{
     QScreen *screen = QGuiApplication::primaryScreen();
     QRect screenGeometry = screen->geometry();
 

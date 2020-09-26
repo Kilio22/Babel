@@ -8,19 +8,20 @@
 #ifndef ADDCONTACTCOMMAND_HPP_
 #define ADDCONTACTCOMMAND_HPP_
 
-#include "ITcpClient.hpp"
-#include "commands/CommandParser.hpp"
-#include "commands/ICommand.hpp"
+#include "CommandParser.hpp"
+#include "ICommand.hpp"
 #include <cstring>
+#include <QtCore/QObject>
 
-namespace Babel::Server::Commands
+namespace Babel::Client::Commands
 {
-    class AddContactCommand : public ICommand {
+    class AddContactCommand : public QObject, public ICommand {
+        Q_OBJECT
     public:
         AddContactCommand() = default;
         ~AddContactCommand() = default;
 
-        void handle(const unsigned char *, size_t, const std::shared_ptr<IUser> &) const final;
+        void handle(const unsigned char *, std::size_t) final;
 
     private:
 #pragma pack(push, 1)
@@ -28,7 +29,6 @@ namespace Babel::Server::Commands
         {
             OK,
             NOT_LOGGED_IN,
-            BAD_CONTACT,
             OTHER
         };
 
@@ -56,7 +56,10 @@ namespace Babel::Server::Commands
         };
 #pragma pack(pop)
 
-        std::vector<Contact> getContacts(const std::string &username) const;
+    signals:
+        void addContact(std::vector<Contact> contacts);
+        void addContactNotLoggedIn();
+        void otherError();
     };
 }
 #endif /* !ADDCONTACTCOMMAND_HPP_ */
