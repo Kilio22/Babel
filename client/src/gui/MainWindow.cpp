@@ -12,7 +12,7 @@
 #include <QtGui/QPixmap>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLayoutItem>
-
+#include <iostream>
 
 Babel::Client::Gui::MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent)

@@ -13,7 +13,6 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QLabel>
-#include <iostream>
 
 namespace Babel::Client::Gui {
     /**
@@ -51,6 +50,9 @@ namespace Babel::Client::Gui {
              */
             SignupWindow(QWidget *parent = nullptr);
             ~SignupWindow() = default;
+
+            void setError(const std::string &errorStr);
+            void signupWorked(const std::string &username);
 
         private slots:
             /**

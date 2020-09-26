@@ -13,7 +13,8 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QLabel>
-#include <iostream>
+#include <QtWidgets/QWidget>
+#include <QtGui/QMovie>
 
 namespace Babel::Client::Gui {
     /**
@@ -24,6 +25,7 @@ namespace Babel::Client::Gui {
     {
         Q_OBJECT
         private:
+            QWidget mainWidget;
             QLabel logo;
             QPushButton loginBtn;
             QLineEdit username;
@@ -31,6 +33,8 @@ namespace Babel::Client::Gui {
             QPushButton signupBtn;
             QLabel bottomText;
             QLabel topText;
+            QLabel loaderGif;
+            QMovie movie;
 
             /**
              * @brief Evalute if the inputs in the form are valid.
@@ -51,6 +55,9 @@ namespace Babel::Client::Gui {
              */
             LoginWindow(QWidget *parent = nullptr);
             ~LoginWindow() = default;
+
+            void setError(const std::string &errorStr);
+            void loginWorked(const std::string &username);
 
         private slots:
             /**

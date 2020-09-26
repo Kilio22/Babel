@@ -13,6 +13,7 @@
 #include <QtGui/QGuiApplication>
 #include <QtGui/QPixmap>
 #include <QtGui/QScreen>
+#include <iostream>
 
 Babel::Client::Gui::SignupWindow::SignupWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -138,20 +139,9 @@ void Babel::Client::Gui::SignupWindow::submitSignup()
         (void)e;
         topText.setText("Veuillez entrer votre pseudo & votre mot de passe pour vous inscrire.");
         return;
-    } catch (const Babel::Client::Exceptions::InvalidCredentialsException &e) {
-        // TODO
-        // POUR ANTOINE (ou moi plus tard jsp).
-        // Tu throw ça quand le username / mdp est pas bon. Genre l'username existe deja etc ...
-        (void)e;
-        topText.setText("Pseudo ou mot de passe invalide.");
-        return;
-    } catch (const Babel::Client::Exceptions::SignupFailedException &e) {
-        (void)e;
-        topText.setText("La connexion au serveur à échoué.");
-        return;
     }
     reset();
-    // Changer de fenetre. (la fenetre d'après existe pas encore ça vient)
+    //activer le truc qui tourne ici
 }
 
 void Babel::Client::Gui::SignupWindow::switchToLogin()
@@ -170,6 +160,19 @@ void Babel::Client::Gui::SignupWindow::reset()
     topText.setText("");
     this->setFixedSize(640, 800);
     this->move(screenGeometry.width() / 2 - this->width() / 2, screenGeometry.height() / 2 - this->height() / 2);
+}
+
+void Babel::Client::Gui::SignupWindow::setError(const std::string & errorStr)
+{
+    reset();
+    topText.setText(errorStr.c_str());
+}
+
+void Babel::Client::Gui::SignupWindow::signupWorked(const std::string & username)
+{
+    reset();
+    ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Main);
+    ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setUsername(username);
 }
 
 #include "moc_SignupWindow.cpp"

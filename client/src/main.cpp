@@ -12,6 +12,7 @@
 #include "exceptions.h"
 #include <QtWidgets/QApplication>
 #include <iostream>
+#include <cstddef>
 
 int main(int ac, char **av)
 {
@@ -20,7 +21,9 @@ int main(int ac, char **av)
         Babel::Client::ServiceLocator::getInstance().get<Babel::Client::BabelClient>().create(ac, av);
         Babel::Client::Audio::CallManager callManager;
 
-        callManager.beginCall({ "127.0.0.1" });
+        // std::cout << "Size of long : " << sizeof() << std::endl;
+
+        callManager.beginCall({ "90.27.153.149" });
         app.exec();
         callManager.endCall();
     } catch (const Babel::Client::Exceptions::ClientException &e) {

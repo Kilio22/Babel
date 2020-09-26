@@ -16,6 +16,7 @@
 #include <QtWidgets/QScrollArea>
 #include "gui/PersonMainWidget.hpp"
 #include <QtWidgets/QVBoxLayout>
+#include <vector>
 #include <memory>
 
 namespace Babel::Client::Gui {

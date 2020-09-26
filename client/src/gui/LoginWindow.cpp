@@ -7,6 +7,7 @@
 
 #include "LoginWindow.hpp"
 
+#include <iostream>
 #include <QtGui/QScreen>
 #include <QtGui/QGuiApplication>
 #include <QtGui/QPixmap>
@@ -18,13 +19,16 @@
 
 Babel::Client::Gui::LoginWindow::LoginWindow(QWidget *parent) 
 : QMainWindow(parent)
-, loginBtn("Se connecter", this)
-, logo(this)
-, username(this)
-, password(this)
-, signupBtn("Créer un compte", this)
-, bottomText(this)
-, topText(this)
+, mainWidget(this)
+, loginBtn("Se connecter", &mainWidget)
+, logo(&mainWidget)
+, username(&mainWidget)
+, password(&mainWidget)
+, signupBtn("Créer un compte", &mainWidget)
+, bottomText(&mainWidget)
+, topText(&mainWidget)
+, loaderGif(this)
+, movie("./assets/loader.gif")
 {
     QScreen *screen = QGuiApplication::primaryScreen();
     QRect screenGeometry = screen->geometry();
@@ -35,10 +39,19 @@ Babel::Client::Gui::LoginWindow::LoginWindow(QWidget *parent)
     this->setFixedSize(640, 800);
     this->move(screenGeometry.width() / 2 - this->width() / 2, screenGeometry.height() / 2 - this->height() / 2);
 
+    mainWidget.setStyleSheet("background-color: white;");
+    mainWidget.setFixedSize(640, 800);
+
     logo.setPixmap(pm);
     logo.setScaledContents(true);
     logo.resize(484, 200);
     logo.move(this->width() / 2 - logo.width() / 2, 50);
+
+    loaderGif.setFixedSize(200, 200);
+    loaderGif.move(this->width() / 2 - loaderGif.width()  / 2, this->height() / 2 - loaderGif.height()  / 2);
+    loaderGif.setMovie(&movie);
+
+    movie.start();
 
     loginBtn.setFixedSize(350, 64);
     loginBtn.setStyleSheet( "background-color: #3b3b3b;"
@@ -73,6 +86,7 @@ Babel::Client::Gui::LoginWindow::LoginWindow(QWidget *parent)
     password.setPlaceholderText("Mot de passe");
     password.setEchoMode(QLineEdit::Password);
 
+    mainWidget.show();
     loginBtn.show();
     logo.show();
     username.show();
@@ -137,24 +151,9 @@ void Babel::Client::Gui::LoginWindow::submitLogin() {
         (void)e;
         topText.setText("Veuillez entrer votre pseudo & votre mot de passe pour vous connecter.");
         return;
-    } catch (const Babel::Client::Exceptions::InvalidCredentialsException &e) {
-        // TODO
-        // POUR ANTOINE (ou moi plus tard jsp).
-        // Tu throw ça quand le username / mdp est pas bon. Genre le mdp est pas bon, l'username existe pas etc...
-        (void)e;
-        topText.setText("Pseudo ou mot de passe invalide.");
-        return;
-    } catch (const Babel::Client::Exceptions::LoginFailedException &e) {
-        // TODO
-        // POUR ANTOINE (ou moi plus tard jsp).
-        // Tu throw ça quand la connection au serv marche pas.
-        (void)e;
-        topText.setText("La connexion au serveur à échoué.");
-        return;
     }
     reset();
-    // Stocker qu'on est connecté qqpart ou chai pas.
-    // Changer de fenetre. (la fenetre d'après existe pas encore ça vient)
+    //activer le truc qui tourne ici
 }
 
 void Babel::Client::Gui::LoginWindow::switchToSignup() {
@@ -171,6 +170,19 @@ void Babel::Client::Gui::LoginWindow::reset() {
     topText.setText("");
     this->setFixedSize(640, 800);
     this->move(screenGeometry.width() / 2 - this->width() / 2, screenGeometry.height() / 2 - this->height() / 2);
+}
+
+void Babel::Client::Gui::LoginWindow::setError(const std::string & errorStr)
+{
+    reset();
+    topText.setText(errorStr.c_str());
+}
+
+void Babel::Client::Gui::LoginWindow::loginWorked(const std::string & username)
+{
+    reset();
+    ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Main);
+    ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setUsername(username);
 }
 
 #include "moc_LoginWindow.cpp"
