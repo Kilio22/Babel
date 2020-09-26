@@ -14,8 +14,8 @@
 #include <iostream>
 
 Babel::Server::AsioTcpServer::AsioTcpServer(unsigned short port)
-    : io_context()
-    , acceptor(io_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
+    : m_ioContext()
+    , m_acceptor(m_ioContext, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
 {
     this->startAccept();
 }
@@ -24,14 +24,14 @@ Babel::Server::AsioTcpServer::~AsioTcpServer() { }
 
 void Babel::Server::AsioTcpServer::listen()
 {
-    this->io_context.run();
+    this->m_ioContext.run();
 }
 
 void Babel::Server::AsioTcpServer::startAccept()
 {
-    boost::shared_ptr<AsioTcpClient> newConnection = boost::make_shared<AsioTcpClient>(this->io_context);
+    boost::shared_ptr<AsioTcpClient> newConnection = boost::make_shared<AsioTcpClient>(this->m_ioContext);
 
-    this->acceptor.async_accept(
+    this->m_acceptor.async_accept(
         newConnection->getSocket(), boost::bind(&AsioTcpServer::acceptHandler, this, newConnection, boost::asio::placeholders::error));
 }
 
@@ -43,7 +43,7 @@ void Babel::Server::AsioTcpServer::acceptHandler(boost::shared_ptr<AsioTcpClient
     } else {
         std::cout << "New client!" << std::endl;
         asioTcpClient->read();
-        UserManager::getInstance().addUser(std::make_shared<User>(asioTcpClient));
+        UserManager::getInstance().addUser(std::make_unique<User>(asioTcpClient));
     }
     this->startAccept();
 }

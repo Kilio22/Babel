@@ -8,7 +8,7 @@
 #include "commands/StopCallCommand.hpp"
 #include "UserManager.hpp"
 
-void Babel::Server::Commands::StopCallCommand::handle(const unsigned char *, size_t, const std::shared_ptr<Babel::Server::IUser> &user) const
+void Babel::Server::Commands::StopCallCommand::handle(const unsigned char *, std::size_t, Babel::Server::IUser *user) const
 {
     StopCallResponse stopCallResponse = { { COMMAND_TYPE::STOP_CALL }, STOP_CALL_RESPONSE_CODE::OK };
     if (!user->isLoggedIn()) {
@@ -22,7 +22,7 @@ void Babel::Server::Commands::StopCallCommand::handle(const unsigned char *, siz
 
     const std::vector<std::string> &calledUsernames = user->getCalledUsers();
     for (const auto &calledUsername : calledUsernames) {
-        std::shared_ptr<IUser> calledUser = UserManager::getInstance().getUserByUsername(calledUsername);
+        IUser *calledUser = UserManager::getInstance().getUserByUsername(calledUsername);
 
         if (calledUser == nullptr) {
             continue;
@@ -31,5 +31,7 @@ void Babel::Server::Commands::StopCallCommand::handle(const unsigned char *, siz
         calledUser->setCalledUsers({});
         calledUser->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&stopCallResponse), sizeof(StopCallResponse));
     }
+    user->setInCall(false);
+    user->setCalledUsers({});
     return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&stopCallResponse), sizeof(StopCallResponse));
 }

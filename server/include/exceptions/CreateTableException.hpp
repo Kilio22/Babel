@@ -14,7 +14,7 @@ namespace Babel::Server::Exceptions
 {
     class CreateTableException : public BabelServerException {
     public:
-        CreateTableException(const std::string &message, const std::string &component);
+        CreateTableException(const std::string &message, const std::string &where);
         ~CreateTableException() = default;
     };
 } // namespace Babel::Server

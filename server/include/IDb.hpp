@@ -15,16 +15,14 @@
 namespace Babel::Server
 {
 #pragma pack(push, 1)
-
     struct Username
     {
-        Username(const char *username)
+        Username(const std::string &username)
         {
-            std::strncpy(this->username, username, 33);
+            std::strncpy(this->username, username.c_str(), 33);
         }
         char username[33];
     };
-
 #pragma pack(pop)
 
     class IDb {

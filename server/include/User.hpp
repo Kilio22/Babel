@@ -29,11 +29,11 @@ namespace Babel::Server
         void setCalledUsers(const std::vector<std::string> &) final;
 
     private:
-        std::string username;
-        boost::shared_ptr<ITcpClient> tcpClient;
-        bool loggedIn;
-        bool inCall;
-        std::vector<std::string> calledUsers;
+        std::string m_username;
+        boost::shared_ptr<ITcpClient> m_tcpClient;
+        bool m_loggedIn;
+        bool m_inCall;
+        std::vector<std::string> m_calledUsers;
     };
 } // namespace Babel::Server
 

@@ -45,7 +45,7 @@ namespace Babel::Server
         static Commands::ICommand *createCommandFromCommandType(const enum Babel::Server::Commands::COMMAND_TYPE &commandType);
 
     private:
-        static const std::unordered_map<const enum Babel::Server::Commands::COMMAND_TYPE, std::function<Commands::ICommand *()>> commandMap;
+        static const std::unordered_map<const enum Babel::Server::Commands::COMMAND_TYPE, std::function<Commands::ICommand *()>> m_commandMap;
     };
 } // namespace Babel::Server
 

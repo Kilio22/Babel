@@ -20,23 +20,23 @@ namespace Babel::Server
     class AsioTcpClient : public boost::enable_shared_from_this<AsioTcpClient>, public ITcpClient {
     public:
         AsioTcpClient(boost::asio::io_context &io_context);
-        virtual ~AsioTcpClient();
+        ~AsioTcpClient();
 
         boost::asio::ip::tcp::socket &getSocket();
 
         std::string getIp() const final;
         void read() final;
-        void write(const unsigned char *data, size_t size) final;
+        void write(const unsigned char *data, std::size_t size) final;
         void disconnect() final;
-        std::pair<size_t, const unsigned char *> getData() const final;
+        std::pair<std::size_t, const unsigned char *> getData() const final;
 
     private:
         void handleRead(const boost::system::error_code &error, std::size_t bytes_transferred);
         void handleWrite(const boost::system::error_code &error, std::size_t bytes_transferred);
 
-        boost::asio::ip::tcp::socket socket;
-        unsigned char data[readSize];
-        size_t bytesTransfered;
+        boost::asio::ip::tcp::socket m_socket;
+        unsigned char m_data[readSize];
+        std::size_t m_bytesTransfered;
     };
 } // namespace Babel::Server
 

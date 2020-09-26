@@ -14,7 +14,7 @@ namespace Babel::Server::Exceptions
 {
     class OpenDatabaseException : public BabelServerException {
     public:
-        OpenDatabaseException(const std::string &message, const std::string &component);
+        OpenDatabaseException(const std::string &message, const std::string &where);
         ~OpenDatabaseException() = default;
     };
 } // namespace Babel::Server

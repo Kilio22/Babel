@@ -8,17 +8,17 @@
 #include "exceptions/BabelServerException.hpp"
 
 Babel::Server::Exceptions::BabelServerException::BabelServerException(const std::string &message, const std::string &component)
-    : message(message)
-    , component(component)
+    : m_message(message)
+    , m_where(component)
 {
 }
 
 const char *Babel::Server::Exceptions::BabelServerException::what() const noexcept
 {
-    return this->message.c_str();
+    return this->m_message.c_str();
 }
 
 const char *Babel::Server::Exceptions::BabelServerException::where() const noexcept
 {
-    return this->component.c_str();
+    return this->m_where.c_str();
 }

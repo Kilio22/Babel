@@ -11,9 +11,9 @@
 #include <utility>
 
 Babel::Server::User::User(const boost::shared_ptr<ITcpClient> &tcpClient)
-    : tcpClient(tcpClient)
-    , loggedIn(false)
-    , inCall(false)
+    : m_tcpClient(tcpClient)
+    , m_loggedIn(false)
+    , m_inCall(false)
 {
 }
 
@@ -21,51 +21,52 @@ Babel::Server::User::~User() { }
 
 boost::shared_ptr<Babel::Server::ITcpClient> Babel::Server::User::getTcpClient() const
 {
-    return this->tcpClient;
+    return this->m_tcpClient;
 }
 
 const std::string &Babel::Server::User::getUsername() const
 {
-    return this->username;
+    return this->m_username;
 }
 
 void Babel::Server::User::setUsername(const std::string &newUsername)
 {
-    this->username.assign(newUsername);
+    this->m_username.assign(newUsername);
 }
 
 bool Babel::Server::User::isLoggedIn() const
 {
-    return this->loggedIn;
+    return this->m_loggedIn;
 }
 
 void Babel::Server::User::setLoggedIn(bool loggedIn)
 {
-    this->loggedIn = loggedIn;
+    this->m_loggedIn = loggedIn;
 }
 
 void Babel::Server::User::tcpClientHasData() const
 {
-    std::pair<size_t, const unsigned char *> data = this->tcpClient->getData();
+    std::pair<std::size_t, const unsigned char *> data = this->m_tcpClient->getData();
 
-    CommandParser::getInstance().parseCommand(data.second, data.first, UserManager::getInstance().getUserByTcpClient(this->tcpClient.get()));
+    CommandParser::getInstance().parseCommand(data.second, data.first, UserManager::getInstance().getUserByTcpClient(this->m_tcpClient.get()));
 }
 
 bool Babel::Server::User::isInCall() const
 {
-    return this->inCall;
+    return this->m_inCall;
 }
 
 void Babel::Server::User::setInCall(bool inCall)
 {
-    this->inCall = inCall;
+    this->m_inCall = inCall;
 }
+
 const std::vector<std::string> &Babel::Server::User::getCalledUsers() const
 {
-    return this->calledUsers;
+    return this->m_calledUsers;
 }
 
 void Babel::Server::User::setCalledUsers(const std::vector<std::string> &calledUsers)
 {
-    this->calledUsers = calledUsers;
+    this->m_calledUsers = calledUsers;
 }

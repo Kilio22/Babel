@@ -7,7 +7,7 @@
 
 #include "exceptions/OpenDatabaseException.hpp"
 
-Babel::Server::Exceptions::OpenDatabaseException::OpenDatabaseException(const std::string &message, const std::string &component)
-    : BabelServerException(message, component)
+Babel::Server::Exceptions::OpenDatabaseException::OpenDatabaseException(const std::string &message, const std::string &where)
+    : BabelServerException(message, where)
 {
 }

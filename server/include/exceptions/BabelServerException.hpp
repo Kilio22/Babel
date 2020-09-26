@@ -15,7 +15,7 @@ namespace Babel::Server::Exceptions
 {
     class BabelServerException : public std::exception {
     public:
-        BabelServerException(const std::string &message, const std::string &component);
+        BabelServerException(const std::string &message, const std::string &where);
         virtual ~BabelServerException() = default;
 
         const char *what() const noexcept final;
@@ -23,8 +23,8 @@ namespace Babel::Server::Exceptions
         const char *where() const noexcept;
 
     private:
-        std::string message;
-        std::string component;
+        std::string m_message;
+        std::string m_where;
     };
 }
 

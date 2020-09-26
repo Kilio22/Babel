@@ -20,10 +20,9 @@ namespace Babel::Server::Commands
         AddContactCommand() = default;
         ~AddContactCommand() = default;
 
-        void handle(const unsigned char *, size_t, const std::shared_ptr<IUser> &) const final;
+        void handle(const unsigned char *, std::size_t, IUser *) const final;
 
     private:
-#pragma pack(push, 1)
         enum class ADD_CONTACT_RESPONSE_CODE
         {
             OK,
@@ -32,6 +31,7 @@ namespace Babel::Server::Commands
             OTHER
         };
 
+#pragma pack(push, 1)
         struct Contact
         {
             Contact(const char *username, bool loggedIn)

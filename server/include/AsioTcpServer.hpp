@@ -25,8 +25,8 @@ namespace Babel::Server
         void startAccept();
         void acceptHandler(boost::shared_ptr<AsioTcpClient> asioTcpClient, const boost::system::error_code &error);
 
-        boost::asio::io_context io_context;
-        boost::asio::ip::tcp::acceptor acceptor;
+        boost::asio::io_context m_ioContext;
+        boost::asio::ip::tcp::acceptor m_acceptor;
     };
 } // namespace Babel::Server
 

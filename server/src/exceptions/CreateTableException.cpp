@@ -7,7 +7,7 @@
 
 #include "exceptions/CreateTableException.hpp"
 
-Babel::Server::Exceptions::CreateTableException::CreateTableException(const std::string &message, const std::string &component)
-    : BabelServerException(message, component)
+Babel::Server::Exceptions::CreateTableException::CreateTableException(const std::string &message, const std::string &where)
+    : BabelServerException(message, where)
 {
 }

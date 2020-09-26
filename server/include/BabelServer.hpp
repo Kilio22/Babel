@@ -21,7 +21,7 @@ namespace Babel::Server
         void run() final;
 
     private:
-        unsigned short port;
+        unsigned short m_port;
     };
 }
 

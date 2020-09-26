@@ -7,7 +7,7 @@
 
 #include "exceptions/ConstraintDatabaseException.hpp"
 
-Babel::Server::Exceptions::ConstraintDatabaseException::ConstraintDatabaseException(const std::string &message, const std::string &component)
-    : BabelServerException(message, component)
+Babel::Server::Exceptions::ConstraintDatabaseException::ConstraintDatabaseException(const std::string &message, const std::string &where)
+    : BabelServerException(message, where)
 {
 }

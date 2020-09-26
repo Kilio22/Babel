@@ -18,21 +18,21 @@ namespace Babel::Server::Commands
         StopCallCommand() = default;
         ~StopCallCommand() = default;
 
-        void handle(const unsigned char *, size_t, const std::shared_ptr<IUser> &) const final;
+        void handle(const unsigned char *, std::size_t, IUser *) const final;
 
     private:
-#pragma pack(push, 1)
-        struct StopCallRequest
-        {
-            Header header;
-        };
-
         enum class STOP_CALL_RESPONSE_CODE
         {
             OK,
             NOT_LOGGED_IN,
             NOT_IN_CALL,
             OTHER
+        };
+
+#pragma pack(push, 1)
+        struct StopCallRequest
+        {
+            Header header;
         };
 
         struct StopCallResponse

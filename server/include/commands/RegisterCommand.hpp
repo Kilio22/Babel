@@ -18,7 +18,7 @@ namespace Babel::Server::Commands
         RegisterCommand() = default;
         ~RegisterCommand() = default;
 
-        void handle(const unsigned char *, size_t, const std::shared_ptr<IUser> &) const final;
+        void handle(const unsigned char *, std::size_t, IUser *) const final;
 
     private:
         enum class REGISTER_RESPONSE_CODE
@@ -37,6 +37,7 @@ namespace Babel::Server::Commands
             char username[33];
             char password[43];
         };
+
         struct RegisterResponse
         {
             Header header;

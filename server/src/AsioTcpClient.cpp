@@ -12,7 +12,7 @@
 #include <iostream>
 
 Babel::Server::AsioTcpClient::AsioTcpClient(boost::asio::io_context &io_context)
-    : socket(io_context)
+    : m_socket(io_context)
 {
 }
 
@@ -23,17 +23,17 @@ Babel::Server::AsioTcpClient::~AsioTcpClient()
 
 boost::asio::ip::tcp::socket &Babel::Server::AsioTcpClient::getSocket()
 {
-    return this->socket;
+    return this->m_socket;
 }
 
 std::string Babel::Server::AsioTcpClient::getIp() const
 {
-    return this->socket.remote_endpoint().address().to_string();
+    return this->m_socket.remote_endpoint().address().to_string();
 }
 
 void Babel::Server::AsioTcpClient::read()
 {
-    this->socket.async_read_some(boost::asio::buffer(this->data, readSize),
+    this->m_socket.async_read_some(boost::asio::buffer(this->m_data, readSize),
         boost::bind(&AsioTcpClient::handleRead, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 }
 
@@ -43,20 +43,22 @@ void Babel::Server::AsioTcpClient::handleRead(const boost::system::error_code &e
         this->disconnect();
         return;
     }
-    std::shared_ptr<IUser> user = UserManager::getInstance().getUserByTcpClient(this);
+
+    IUser *user = UserManager::getInstance().getUserByTcpClient(this);
     if (user == nullptr) {
         return;
     }
-    this->bytesTransfered = bytesTransferred;
+
+    this->m_bytesTransfered = bytesTransferred;
     user->tcpClientHasData();
     this->read();
 }
 
 void Babel::Server::AsioTcpClient::disconnect()
 {
-    if (this->socket.is_open()) {
+    if (this->m_socket.is_open()) {
         std::cout << "disconnected!" << std::endl;
-        this->socket.close();
+        this->m_socket.close();
     }
     UserManager::getInstance().removeUserByTcpClient(this);
 }
@@ -69,13 +71,13 @@ void Babel::Server::AsioTcpClient::handleWrite(const boost::system::error_code &
     }
 }
 
-void Babel::Server::AsioTcpClient::write(const unsigned char *data, size_t size)
+void Babel::Server::AsioTcpClient::write(const unsigned char *data, std::size_t size)
 {
-    this->socket.async_write_some(boost::asio::buffer(data, size),
+    this->m_socket.async_write_some(boost::asio::buffer(data, size),
         boost::bind(&AsioTcpClient::handleWrite, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 }
 
-std::pair<size_t, const unsigned char *> Babel::Server::AsioTcpClient::getData() const
+std::pair<std::size_t, const unsigned char *> Babel::Server::AsioTcpClient::getData() const
 {
-    return { this->bytesTransfered, this->data };
+    return { this->m_bytesTransfered, this->m_data };
 }

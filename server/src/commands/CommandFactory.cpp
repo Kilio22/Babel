@@ -10,17 +10,21 @@
 #include "commands/GetContactsCommand.hpp"
 #include "commands/LoginCommand.hpp"
 #include "commands/RegisterCommand.hpp"
+#include "commands/StartCallCommand.hpp"
+#include "commands/StopCallCommand.hpp"
 
 using namespace Babel::Server::Commands;
 
-const std::unordered_map<const enum COMMAND_TYPE, std::function<ICommand *()>> Babel::Server::CommandFactory::commandMap
+const std::unordered_map<const enum COMMAND_TYPE, std::function<ICommand *()>> Babel::Server::CommandFactory::m_commandMap
     = { { COMMAND_TYPE::REGISTER, []() { return &CommandFactory::createCommand<RegisterCommand>(); } },
           { COMMAND_TYPE::LOGIN, []() { return &CommandFactory::createCommand<LoginCommand>(); } },
           { COMMAND_TYPE::ADD_CONTACT, []() { return &CommandFactory::createCommand<AddContactCommand>(); } },
-          { COMMAND_TYPE::GET_CONTACTS, []() { return &CommandFactory::createCommand<GetContactsCommand>(); } } };
+          { COMMAND_TYPE::GET_CONTACTS, []() { return &CommandFactory::createCommand<GetContactsCommand>(); } },
+          { COMMAND_TYPE::START_CALL, []() { return &CommandFactory::createCommand<StartCallCommand>(); } },
+          { COMMAND_TYPE::STOP_CALL, []() { return &CommandFactory::createCommand<StopCallCommand>(); } } };
 
 Babel::Server::Commands::ICommand *Babel::Server::CommandFactory::createCommandFromCommandType(
     const enum Babel::Server::Commands::COMMAND_TYPE &commandType)
 {
-    return commandMap.at(commandType)();
+    return m_commandMap.at(commandType)();
 }

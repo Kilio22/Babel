@@ -35,9 +35,9 @@ namespace Babel::Server
         SqlDb &operator=(const SqlDb &) = delete;
 
         static SqlDb sqlDbInstance;
-        sqlite3 *db;
-        std::vector<std::string> queryResults;
-        std::vector<Username> contactQueryResults;
+        sqlite3 *m_db;
+        std::vector<std::string> m_queryResults;
+        std::vector<Username> m_contactQueryResults;
     };
 } // namespace Babel::Server
 

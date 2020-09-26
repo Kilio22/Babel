@@ -19,10 +19,9 @@ namespace Babel::Server::Commands
         GetContactsCommand() = default;
         ~GetContactsCommand() = default;
 
-        void handle(const unsigned char *, size_t, const std::shared_ptr<IUser> &) const;
+        void handle(const unsigned char *, std::size_t, IUser *) const;
 
     private:
-#pragma pack(push, 1)
         enum class GET_CONTACTS_RESPONSE_CODE
         {
             OK,
@@ -30,6 +29,7 @@ namespace Babel::Server::Commands
             OTHER
         };
 
+#pragma pack(push, 1)
         struct Contact
         {
             Contact(const char *username, bool loggedIn)

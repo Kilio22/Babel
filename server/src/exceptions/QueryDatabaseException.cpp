@@ -7,7 +7,7 @@
 
 #include "exceptions/QueryDatabaseException.hpp"
 
-Babel::Server::Exceptions::QueryDatabaseException::QueryDatabaseException(const std::string &message, const std::string &component)
-    : BabelServerException(message, component)
+Babel::Server::Exceptions::QueryDatabaseException::QueryDatabaseException(const std::string &message, const std::string &where)
+    : BabelServerException(message, where)
 {
 }

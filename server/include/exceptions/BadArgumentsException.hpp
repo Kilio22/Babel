@@ -14,7 +14,7 @@ namespace Babel::Server::Exceptions
 {
     class BadArgumentsException : public BabelServerException {
     public:
-        BadArgumentsException(const std::string &message, const std::string &component);
+        BadArgumentsException(const std::string &message, const std::string &where);
         ~BadArgumentsException() = default;
     };
 } // namespace Babel::Server::Exceptions

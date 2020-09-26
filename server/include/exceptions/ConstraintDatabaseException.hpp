@@ -14,7 +14,7 @@ namespace Babel::Server::Exceptions
 {
     class ConstraintDatabaseException : public BabelServerException {
     public:
-        ConstraintDatabaseException(const std::string &message, const std::string &component);
+        ConstraintDatabaseException(const std::string &message, const std::string &where);
         ~ConstraintDatabaseException() = default;
 
     protected:
