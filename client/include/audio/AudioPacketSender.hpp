@@ -11,6 +11,7 @@
 #include "Audio.hpp"
 #include "IUdpClient.hpp"
 #include <QtCore/QObject>
+#include <cstdint>
 #include <memory>
 
 namespace Babel::Client::Audio
@@ -24,7 +25,7 @@ namespace Babel::Client::Audio
 
 #pragma pack(push, 1)
         struct SoundPacket {
-            long size;
+            int64_t size;
             char data[512 - sizeof(size)];
         };
 #pragma pack(pop)

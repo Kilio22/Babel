@@ -41,7 +41,7 @@ void Babel::Client::Audio::AudioPacketSender::sendAudio(const CompressedBuffer &
     dataPacket.data.assign(ptr, ptr + sizeof(SoundPacket));
     for (auto &host : this->hosts) {
         dataPacket.host = host;
-        std::cout << "Sending packet of size " << dataPacket.data.size() << " to " << dataPacket.host << std::endl;
+        std::cout << "Sending packet of size " << dataPacket.data.size() << " (" << soundPacket.size << ") to " << dataPacket.host << std::endl;
         this->udpClient->send(dataPacket);
     }
 }
@@ -52,9 +52,9 @@ void Babel::Client::Audio::AudioPacketSender::onDataAvailable()
     IUdpClient::DataPacket dataPacket = this->udpClient->getData();
     SoundPacket *packetDataPtr = reinterpret_cast<SoundPacket *>(dataPacket.data.data());
 
+    std::cout << "Recieved packet of size " << dataPacket.data.size() << " (" << packetDataPtr->size << ") to " << dataPacket.host << std::endl;
     compressedBuffer.size = packetDataPtr->size;
     compressedBuffer.samples.assign(packetDataPtr->data, packetDataPtr->data + packetDataPtr->size);
-    std::cout << "Recieved packet of size " << dataPacket.data.size() << " from " << dataPacket.host << std::endl;
     emit this->audioPacketRecieved(compressedBuffer, dataPacket.host);
 }
 

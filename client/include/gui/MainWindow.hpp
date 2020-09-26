@@ -16,14 +16,12 @@
 #include <QtWidgets/QScrollArea>
 #include "gui/PersonMainWidget.hpp"
 #include <QtWidgets/QVBoxLayout>
-
-
-#include <iostream>
+#include <memory>
 
 namespace Babel::Client::Gui {
     /**
      * @brief This class represents the login window. It inherits from QMainWindow.
-     * 
+     *
      */
     class MainWindow : public QMainWindow
     {
@@ -43,14 +41,14 @@ namespace Babel::Client::Gui {
 
             /**
              * @brief Reset the state of the window.
-             * 
+             *
              */
             void reset();
 
         public:
             /**
              * @brief Construct a new Login Window object
-             * 
+             *
              * @param parent Parent of the widget.
              */
             MainWindow(QWidget *parent = nullptr);

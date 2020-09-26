@@ -63,7 +63,7 @@ Babel::Client::Audio::SoundBuffer Babel::Client::Audio::AudioInputDevice::getSou
 }
 
 int Babel::Client::Audio::AudioInputDevice::callback(
-    const void *inputBuffer, void *, unsigned long frameCount, const PaStreamCallbackTimeInfo *, PaStreamCallbackFlags, void *data)
+    const void *inputBuffer, void *, uint64_t frameCount, const PaStreamCallbackTimeInfo *, PaStreamCallbackFlags, void *data)
 {
     AudioInputDevice *_this = static_cast<AudioInputDevice *>(data);
     const float *input = static_cast<const float *>(inputBuffer);
