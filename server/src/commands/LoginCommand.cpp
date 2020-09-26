@@ -6,8 +6,8 @@
 */
 
 #include "commands/LoginCommand.hpp"
-#include "SqlDb.hpp"
 #include "UserManager.hpp"
+#include "database/SqlDb.hpp"
 #include <iostream>
 
 void Babel::Server::Commands::LoginCommand::handle(const unsigned char *data, const std::size_t, IUser *user) const

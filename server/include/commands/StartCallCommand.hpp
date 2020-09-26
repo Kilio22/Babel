@@ -10,8 +10,8 @@
 
 #include "CommandParser.hpp"
 #include "ICommand.hpp"
-#include "IDb.hpp"
 #include "Username.hpp"
+#include "database/IDb.hpp"
 #include <cstring>
 
 namespace Babel::Server::Commands

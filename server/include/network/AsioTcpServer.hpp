@@ -8,8 +8,8 @@
 #ifndef SERVERTCPSOCKET_HPP_
 #define SERVERTCPSOCKET_HPP_
 
-#include "AsioTcpClient.hpp"
-#include "ITcpServer.hpp"
+#include "network/AsioTcpClient.hpp"
+#include "network/ITcpServer.hpp"
 #include <boost/asio.hpp>
 
 namespace Babel::Server

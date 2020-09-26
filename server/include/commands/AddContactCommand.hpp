@@ -8,10 +8,10 @@
 #ifndef ADDCONTACTCOMMAND_HPP_
 #define ADDCONTACTCOMMAND_HPP_
 
-#include "ITcpClient.hpp"
 #include "Username.hpp"
 #include "commands/CommandParser.hpp"
 #include "commands/ICommand.hpp"
+#include "network/ITcpClient.hpp"
 #include <cstring>
 
 namespace Babel::Server::Commands

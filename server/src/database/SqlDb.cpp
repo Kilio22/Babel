@@ -5,7 +5,7 @@
 ** SqlDb
 */
 
-#include "SqlDb.hpp"
+#include "database/SqlDb.hpp"
 #include "exceptions/ConstraintDatabaseException.hpp"
 #include "exceptions/CreateTableException.hpp"
 #include "exceptions/OpenDatabaseException.hpp"

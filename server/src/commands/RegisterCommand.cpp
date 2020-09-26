@@ -6,7 +6,7 @@
 */
 
 #include "commands/RegisterCommand.hpp"
-#include "SqlDb.hpp"
+#include "database/SqlDb.hpp"
 #include "exceptions/ConstraintDatabaseException.hpp"
 #include <boost/shared_ptr.hpp>
 #include <iostream>

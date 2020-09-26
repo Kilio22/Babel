@@ -8,7 +8,7 @@
 #ifndef CLIENTTCPSOCKET_HPP_
 #define CLIENTTCPSOCKET_HPP_
 
-#include "ITcpClient.hpp"
+#include "network/ITcpClient.hpp"
 #include <boost/asio.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <deque>

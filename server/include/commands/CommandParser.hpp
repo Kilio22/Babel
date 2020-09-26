@@ -9,7 +9,7 @@
 #define COMMANDPARSER_HPP_
 
 #include "CommandFactory.hpp"
-#include "ITcpClient.hpp"
+#include "network/ITcpClient.hpp"
 #include <memory>
 
 namespace Babel::Server

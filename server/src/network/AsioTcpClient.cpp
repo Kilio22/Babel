@@ -5,7 +5,7 @@
 ** AsioTcpClient
 */
 
-#include "AsioTcpClient.hpp"
+#include "network/AsioTcpClient.hpp"
 #include "UserManager.hpp"
 #include "commands/CommandParser.hpp"
 #include <boost/bind.hpp>

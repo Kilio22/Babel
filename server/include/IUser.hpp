@@ -8,7 +8,7 @@
 #ifndef IUSER_HPP_
 #define IUSER_HPP_
 
-#include "ITcpClient.hpp"
+#include "network/ITcpClient.hpp"
 #include <boost/shared_ptr.hpp>
 #include <string>
 

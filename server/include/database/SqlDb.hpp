@@ -8,7 +8,7 @@
 #ifndef SQLDB_HPP_
 #define SQLDB_HPP_
 
-#include "IDb.hpp"
+#include "database/IDb.hpp"
 #include <sqlite3.h>
 
 namespace Babel::Server

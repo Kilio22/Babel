@@ -6,8 +6,8 @@
 */
 
 #include "commands/AddContactCommand.hpp"
-#include "SqlDb.hpp"
 #include "UserManager.hpp"
+#include "database/SqlDb.hpp"
 #include <boost/asio/streambuf.hpp>
 #include <iostream>
 
