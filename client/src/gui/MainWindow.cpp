@@ -14,6 +14,9 @@
 #include <QtWidgets/QLayoutItem>
 #include <iostream>
 
+#include "ServiceLocator.hpp"
+#include "WindowManager.hpp"
+
 Babel::Client::Gui::MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent)
 , area(this)
@@ -25,7 +28,9 @@ Babel::Client::Gui::MainWindow::MainWindow(QWidget *parent)
 , contactBtn("Ajouter" ,this)
 , callBtn("Appeler", this)
 , errorStr(this)
-, username("Jean michel")
+, username("Default Username")
+, disconnectBtn("Déconnexion", this)
+, aboutBtn("À propos", this)
 {
     QScreen *screen = QGuiApplication::primaryScreen();
     QRect screenGeometry = screen->geometry();
@@ -47,7 +52,7 @@ Babel::Client::Gui::MainWindow::MainWindow(QWidget *parent)
     avatar.setMask(*region);
     avatar.move(20, 20);
 
-    area.setFixedSize(600, 400);
+    area.setFixedSize(600, 350);
     area.setStyleSheet("background-color: #d4d3d2;");
     area.move(20, 280);
     area.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
@@ -56,30 +61,30 @@ Babel::Client::Gui::MainWindow::MainWindow(QWidget *parent)
     widget.setLayout(&vLayout);
 
     contactLine.setFixedSize(380, 80);
-    contactLine.move(20, 700);
-    contactLine.setStyleSheet( "border-radius: 24;"
-                            "font-size: 20px;"
-                            "padding: 12px;"
-                            "border: 2px solid black;");
+    contactLine.move(20, 650);
+    contactLine.setStyleSheet(  "border-radius: 24;"
+                                "font-size: 20px;"
+                                "padding: 12px;"
+                                "border: 2px solid black;");
     contactLine.setPlaceholderText("Ajouter un contact");
 
     contactBtn.setFixedSize(200, 80);
-    contactBtn.setStyleSheet( "background-color: #3b3b3b;"
-                            "color: white;"
-                            "border-radius: 25;"
-                            "selection-background-color: #636363;"
-                            "font-size: 20px;");
-    contactBtn.move(420, 700);
+    contactBtn.setStyleSheet(   "background-color: #3b3b3b;"
+                                "color: white;"
+                                "border-radius: 25;"
+                                "selection-background-color: #636363;"
+                                "font-size: 20px;");
+    contactBtn.move(420, 650);
 
     myName.setFixedSize(380, 100);
     myName.move(240, 20);
     myName.setAlignment(Qt::AlignCenter);
     myName.setText(username.c_str());
-    myName.setStyleSheet(   "color: black;"
+    myName.setStyleSheet(       "color: black;"
                                 "font-size: 32px;");
 
     callBtn.setFixedSize(380, 100);
-    callBtn.setStyleSheet( "background-color: #3b3b3b;"
+    callBtn.setStyleSheet(  "background-color: #3b3b3b;"
                             "color: white;"
                             "border-radius: 25;"
                             "selection-background-color: #636363;"
@@ -89,9 +94,25 @@ Babel::Client::Gui::MainWindow::MainWindow(QWidget *parent)
     errorStr.setFixedSize(640, 64);
     errorStr.move(this->width() / 2 - errorStr.width() / 2, 216);
     errorStr.setAlignment(Qt::AlignCenter);
-    errorStr.setStyleSheet(      "color: red;"
+    errorStr.setStyleSheet(     "color: red;"
                                 "font-size: 12px;");
     errorStr.setText("");
+
+    disconnectBtn.setFixedSize(290, 20);
+    disconnectBtn.setStyleSheet( "background-color: white;"
+                            "color: gray;"
+                            "border-radius: 25;"
+                            "selection-background-color: white;"
+                            "font-size: 16px;");
+    disconnectBtn.move(20, 760);
+
+    aboutBtn.setFixedSize(290, 20);
+    aboutBtn.setStyleSheet( "background-color: white;"
+                            "color: gray;"
+                            "border-radius: 25;"
+                            "selection-background-color: white;"
+                            "font-size: 16px;");
+    aboutBtn.move(310, 760);
 
     myName.show();
     area.show();
@@ -99,9 +120,13 @@ Babel::Client::Gui::MainWindow::MainWindow(QWidget *parent)
     contactLine.show();
     contactBtn.show();
     errorStr.show();
+    disconnectBtn.show();
+    aboutBtn.show();
 
     QObject::connect(&this->contactBtn, SIGNAL (pressed()), this, SLOT (addContact()));
     QObject::connect(&this->callBtn, SIGNAL (pressed()), this, SLOT (callClicked()));
+    QObject::connect(&this->disconnectBtn, SIGNAL(pressed()), this, SLOT(disconnect()));
+    QObject::connect(&this->aboutBtn, SIGNAL(pressed()), this, SLOT(openAbout()));
 }
 
 void Babel::Client::Gui::MainWindow::addContact()
@@ -114,10 +139,13 @@ void Babel::Client::Gui::MainWindow::addContact()
 
 void Babel::Client::Gui::MainWindow::callClicked()
 {
-    // TODO ICI GOSSELIN
+    // TODO ICI NATHAN
     //getUsersCalled pour recup les utilisateurs cochés.
     reset();
-    // changer la window après avoir reçu la réponse mais pas là.
+    // Si le call se lance, faites ça :
+    ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Call);
+    ServiceLocator::getInstance().get<WindowManager>().getCallWindow()->setUsername(username);
+    ServiceLocator::getInstance().get<WindowManager>().getCallWindow()->setCallList({"un utilisateur", "un autre utilisateur"}); // Faut filer un vecteur des gens qui sont dans le call. Si qqn quitte tu peux redonner le vector pour update la liste de la gui aussi.
 }
 
 void Babel::Client::Gui::MainWindow::setContacts(const std::vector<std::string> &nameList)
@@ -172,6 +200,18 @@ const std::vector<std::string> Babel::Client::Gui::MainWindow::getUsersCalled() 
             retVal.push_back(contacts[i]->getName());
     }
     return retVal;
+}
+
+void Babel::Client::Gui::MainWindow::openAbout() const
+{
+    std::cout << "OPEN ABOUT HERE" << std::endl;
+}
+
+void Babel::Client::Gui::MainWindow::disconnect() const
+{
+    // TODO GOSSELIN
+    // Tu peux déconnecter le mec ici.
+    ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Login);
 }
 
 #include "moc_MainWindow.cpp"

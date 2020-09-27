@@ -23,9 +23,9 @@ int main(int ac, char **av)
 
         // std::cout << "Size of long : " << sizeof() << std::endl;
 
-        callManager.beginCall({ "90.27.153.149" });
+        // callManager.beginCall({"90.27.153.149", "85.170.140.174"});
         app.exec();
-        callManager.endCall();
+        // callManager.endCall();
     } catch (const Babel::Client::Exceptions::ClientException &e) {
         std::cerr << e.getComponent() << ": " << e.what() << std::endl;
         return 84;

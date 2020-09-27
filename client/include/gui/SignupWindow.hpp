@@ -16,10 +16,6 @@
 #include <QtGui/QMovie>
 
 namespace Babel::Client::Gui {
-    /**
-     * @brief This class represents the login window. It inherits from QMainWindow.
-     * 
-     */
     class SignupWindow : public QMainWindow
     {
         Q_OBJECT

@@ -15,6 +15,7 @@
 #include "gui/LoginWindow.hpp"
 #include "gui/SignupWindow.hpp"
 #include "gui/MainWindow.hpp"
+#include "gui/CallWindow.hpp"
 
 namespace Babel::Client {
     /**
@@ -49,6 +50,7 @@ namespace Babel::Client {
             Babel::Client::Gui::LoginWindow *getLoginWindow() const;
             Babel::Client::Gui::SignupWindow *getSignupWindow() const;
             Babel::Client::Gui::MainWindow *getMainWindow() const;
+            Babel::Client::Gui::CallWindow *getCallWindow() const;
 
         private:
             WindowManager::State state;

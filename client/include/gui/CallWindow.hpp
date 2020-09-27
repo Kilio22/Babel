@@ -2,11 +2,11 @@
 ** EPITECH PROJECT, 2020
 ** B-CPP-500-REN-5-1-babel-kylian.balan
 ** File description:
-** MainWindow
+** CallWindow
 */
 
-#ifndef MAINWINDOW_HPP_
-#define MAINWINDOW_HPP_
+#ifndef CALLWINDOW_HPP_
+#define CALLWINDOW_HPP_
 
 #include <QtCore/QObject>
 #include <QtWidgets/QMainWindow>
@@ -20,7 +20,7 @@
 #include <memory>
 
 namespace Babel::Client::Gui {
-    class MainWindow : public QMainWindow
+    class CallWindow : public QMainWindow
     {
         Q_OBJECT
         private:
@@ -28,15 +28,11 @@ namespace Babel::Client::Gui {
             QWidget widget;
             QLabel avatar;
             QLabel myName;
-            QLineEdit contactLine;
-            QPushButton contactBtn;
             QVBoxLayout vLayout;
             QPushButton callBtn;
             QLabel errorStr;
             std::string username;
-            QPushButton disconnectBtn;
-            QPushButton aboutBtn;
-            std::vector<std::unique_ptr<PersonMainWidget>> contacts;
+            std::vector<std::unique_ptr<PersonMainWidget>> callList;
 
             /**
              * @brief Reset the state of the window.
@@ -45,20 +41,21 @@ namespace Babel::Client::Gui {
             void reset();
 
         public:
-            MainWindow(QWidget *parent = nullptr);
-            ~MainWindow() = default;
+            /**
+             * @brief Construct a new Login Window object
+             *
+             * @param parent Parent of the widget.
+             */
+            CallWindow(QWidget *parent = nullptr);
+            ~CallWindow() = default;
 
             void setUsername(const std::string &name);
             void setError(const std::string &error);
-            const std::vector<std::string> getUsersCalled() const;
+            void setCallList(const std::vector<std::string> &nameList);
 
         private slots:
-            void setContacts(const std::vector<std::string> &nameList);
-            void addContact();
-            void callClicked();
-            void disconnect() const;
-            void openAbout() const;
+            void EndCallClicked();
     };
-};
+}
 
-#endif /* !MAINWINDOW_HPP_ */
+#endif /* !CALLWINDOW_HPP_ */
