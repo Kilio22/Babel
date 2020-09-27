@@ -13,15 +13,15 @@
 
 void Babel::Server::Commands::AddContactCommand::handle(const unsigned char *data, const std::size_t, IUser *user) const
 {
-    AddContactsResponse addContactResponse = { { COMMAND_TYPE::ADD_CONTACT }, ADD_CONTACT_RESPONSE_CODE::OK };
+    AddContactsResponse addContactResponse = { { COMMAND_TYPE::ADD_CONTACT }, RESPONSE_CODE::OK };
     if (!user->isLoggedIn()) {
-        addContactResponse.responseCode = ADD_CONTACT_RESPONSE_CODE::NOT_LOGGED_IN;
+        addContactResponse.responseCode = RESPONSE_CODE::NOT_LOGGED_IN;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&addContactResponse), sizeof(AddContactsResponse));
     }
 
     const AddContactRequest *addContactRequest = reinterpret_cast<const AddContactRequest *>(data);
     if (user->getUsername().compare(addContactRequest->username) == 0) {
-        addContactResponse.responseCode = ADD_CONTACT_RESPONSE_CODE::BAD_CONTACT;
+        addContactResponse.responseCode = RESPONSE_CODE::BAD_CONTACT;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&addContactResponse), sizeof(AddContactsResponse));
     }
 
@@ -36,7 +36,7 @@ void Babel::Server::Commands::AddContactCommand::handle(const unsigned char *dat
         user->getTcpClient()->write(
             boost::asio::buffer_cast<const unsigned char *>(b.data()), (sizeof(Contact) * contacts.size() + sizeof(AddContactsResponse)));
     } catch (const std::exception &e) {
-        addContactResponse.responseCode = ADD_CONTACT_RESPONSE_CODE::OTHER;
+        addContactResponse.responseCode = RESPONSE_CODE::OTHER;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&addContactResponse), sizeof(AddContactsResponse));
     }
 }

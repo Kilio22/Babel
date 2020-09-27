@@ -13,9 +13,9 @@
 
 void Babel::Server::Commands::GetContactsCommand::handle(const unsigned char *, const std::size_t, IUser *user) const
 {
-    GetContactsResponse getContactsResponse = { Header(COMMAND_TYPE::GET_CONTACTS), GET_CONTACTS_RESPONSE_CODE::OK };
+    GetContactsResponse getContactsResponse = { Header(COMMAND_TYPE::GET_CONTACTS), RESPONSE_CODE::OK };
     if (!user->isLoggedIn()) {
-        getContactsResponse.responseCode = GET_CONTACTS_RESPONSE_CODE::NOT_LOGGED_IN;
+        getContactsResponse.responseCode = RESPONSE_CODE::NOT_LOGGED_IN;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&getContactsResponse), sizeof(GetContactsResponse));
     }
 
@@ -29,7 +29,7 @@ void Babel::Server::Commands::GetContactsCommand::handle(const unsigned char *, 
         user->getTcpClient()->write(
             boost::asio::buffer_cast<const unsigned char *>(b.data()), (sizeof(Contact) * contacts.size() + sizeof(GetContactsResponse)));
     } catch (const std::exception &e) {
-        getContactsResponse.responseCode = GET_CONTACTS_RESPONSE_CODE::OTHER;
+        getContactsResponse.responseCode = RESPONSE_CODE::OTHER;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&getContactsResponse), sizeof(GetContactsResponse));
     }
 }

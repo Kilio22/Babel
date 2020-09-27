@@ -24,15 +24,6 @@ namespace Babel::Server::Commands
         void handle(const unsigned char *, const std::size_t, IUser *) const final;
 
     private:
-        enum class REGISTER_RESPONSE_CODE
-        {
-            OK,
-            WRONG_USERNAME_LENGTH,
-            WRONG_PASSWORD_LENGTH,
-            USERNAME_TAKEN,
-            OTHER
-        };
-
 #pragma pack(push, 1)
         struct RegisterRequest
         {
@@ -44,7 +35,7 @@ namespace Babel::Server::Commands
         struct RegisterResponse
         {
             Header header;
-            enum REGISTER_RESPONSE_CODE responseCode;
+            enum RESPONSE_CODE responseCode;
         };
 #pragma pack(pop)
     };

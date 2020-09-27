@@ -12,34 +12,34 @@
 
 void Babel::Server::Commands::LoginCommand::handle(const unsigned char *data, const std::size_t, IUser *user) const
 {
-    LoginCommand::LoginResponse loginResponse = { Header(Commands::COMMAND_TYPE::LOGIN), LOGIN_RESPONSE_CODE::OK };
+    LoginCommand::LoginResponse loginResponse = { Header(Commands::COMMAND_TYPE::LOGIN), RESPONSE_CODE::OK };
     if (user->isLoggedIn()) {
-        loginResponse.responseCode = LOGIN_RESPONSE_CODE::ALREADY_LOGGED;
+        loginResponse.responseCode = RESPONSE_CODE::ALREADY_LOGGED_IN;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&loginResponse), sizeof(LoginCommand::LoginResponse));
     }
 
     const LoginCommand::LoginRequest *loginRequest = reinterpret_cast<const LoginCommand::LoginRequest *>(data);
     if (loginRequest->password == nullptr || loginRequest->username == nullptr) {
-        loginResponse.responseCode = LOGIN_RESPONSE_CODE::OTHER;
+        loginResponse.responseCode = RESPONSE_CODE::OTHER;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&loginResponse), sizeof(LoginCommand::LoginResponse));
     }
 
     try {
         std::vector<std::string> userLogs = SqlDb::getInstance().getUserLogs(std::string(loginRequest->username));
         if (userLogs.empty()) {
-            loginResponse.responseCode = LOGIN_RESPONSE_CODE::BAD_COMBINAISON;
+            loginResponse.responseCode = RESPONSE_CODE::BAD_COMBINAISON;
             return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&loginResponse), sizeof(LoginCommand::LoginResponse));
         }
 
         if (std::string(loginRequest->password) != std::string(userLogs[1])) {
-            loginResponse.responseCode = LOGIN_RESPONSE_CODE::BAD_COMBINAISON;
+            loginResponse.responseCode = RESPONSE_CODE::BAD_COMBINAISON;
             return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&loginResponse), sizeof(LoginCommand::LoginResponse));
         }
         user->setLoggedIn(true);
         user->setUsername(loginRequest->username);
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&loginResponse), sizeof(LoginCommand::LoginResponse));
     } catch (const std::exception &) {
-        loginResponse.responseCode = LOGIN_RESPONSE_CODE::OTHER;
+        loginResponse.responseCode = RESPONSE_CODE::OTHER;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&loginResponse), sizeof(LoginCommand::LoginResponse));
     }
 }

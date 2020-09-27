@@ -12,13 +12,13 @@
 
 void Babel::Server::Commands::StartCallCommand::handle(const unsigned char *data, const std::size_t bytesTransfered, IUser *user) const
 {
-    StartCallResponse startCallResponse = { Header(COMMAND_TYPE::START_CALL), START_CALL_RESPONSE_CODE::OK };
+    StartCallResponse startCallResponse = { Header(COMMAND_TYPE::START_CALL), RESPONSE_CODE::OK };
     if (!user->isLoggedIn()) {
-        startCallResponse.responseCode = START_CALL_RESPONSE_CODE::NOT_LOGGED_IN;
+        startCallResponse.responseCode = RESPONSE_CODE::NOT_LOGGED_IN;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&startCallResponse), sizeof(StartCallResponse));
     }
     if (bytesTransfered - sizeof(StartCallRequest) < sizeof(Username)) {
-        startCallResponse.responseCode = START_CALL_RESPONSE_CODE::OTHER;
+        startCallResponse.responseCode = RESPONSE_CODE::OTHER;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&startCallResponse), sizeof(StartCallResponse));
     }
 
@@ -38,7 +38,7 @@ void Babel::Server::Commands::StartCallCommand::sendInfosToUsers(const std::vect
         IUser *user = UserManager::getInstance().getUserByUsername(username.username);
 
         if (user == nullptr) {
-            startCallResponse.responseCode = START_CALL_RESPONSE_CODE::USER_DISCONNECTED;
+            startCallResponse.responseCode = RESPONSE_CODE::USER_DISCONNECTED;
             return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&startCallResponse), sizeof(StartCallResponse));
         }
         users.push_back(user);

@@ -23,13 +23,6 @@ namespace Babel::Server::Commands
         void handle(const unsigned char *, const std::size_t, IUser *) const;
 
     private:
-        enum class GET_CONTACTS_RESPONSE_CODE
-        {
-            OK,
-            NOT_LOGGED_IN,
-            OTHER
-        };
-
 #pragma pack(push, 1)
         struct Contact
         {
@@ -45,7 +38,7 @@ namespace Babel::Server::Commands
         struct GetContactsResponse
         {
             Header header;
-            enum GET_CONTACTS_RESPONSE_CODE responseCode;
+            enum RESPONSE_CODE responseCode;
         };
 #pragma pack(pop)
 

@@ -10,13 +10,13 @@
 
 void Babel::Server::Commands::StopCallCommand::handle(const unsigned char *, const std::size_t, Babel::Server::IUser *user) const
 {
-    StopCallResponse stopCallResponse = { { COMMAND_TYPE::STOP_CALL }, STOP_CALL_RESPONSE_CODE::OK };
+    StopCallResponse stopCallResponse = { { COMMAND_TYPE::STOP_CALL }, RESPONSE_CODE::OK };
     if (!user->isLoggedIn()) {
-        stopCallResponse.responseCode = STOP_CALL_RESPONSE_CODE::NOT_LOGGED_IN;
+        stopCallResponse.responseCode = RESPONSE_CODE::NOT_LOGGED_IN;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&stopCallResponse), sizeof(StopCallResponse));
     }
     if (user->isInCall() == false) {
-        stopCallResponse.responseCode = STOP_CALL_RESPONSE_CODE::NOT_IN_CALL;
+        stopCallResponse.responseCode = RESPONSE_CODE::NOT_IN_CALL;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&stopCallResponse), sizeof(StopCallResponse));
     }
 

@@ -26,14 +26,6 @@ namespace Babel::Server::Commands
         void handle(const unsigned char *, const std::size_t, IUser *) const final;
 
     private:
-        enum class START_CALL_RESPONSE_CODE
-        {
-            OK,
-            NOT_LOGGED_IN,
-            USER_DISCONNECTED,
-            OTHER
-        };
-
 #pragma pack(push, 1)
         struct UserCallInfos
         {
@@ -54,7 +46,7 @@ namespace Babel::Server::Commands
         struct StartCallResponse
         {
             Header header;
-            enum START_CALL_RESPONSE_CODE responseCode;
+            enum RESPONSE_CODE responseCode;
         };
 #pragma pack(pop)
 
