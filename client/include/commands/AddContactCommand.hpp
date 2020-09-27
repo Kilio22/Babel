@@ -25,13 +25,6 @@ namespace Babel::Client::Commands
 
     private:
 #pragma pack(push, 1)
-        enum class ADD_CONTACT_RESPONSE_CODE
-        {
-            OK,
-            NOT_LOGGED_IN,
-            OTHER
-        };
-
         struct Contact
         {
             Contact(const char *username, bool loggedIn)
@@ -52,7 +45,7 @@ namespace Babel::Client::Commands
         struct AddContactsResponse
         {
             Header header;
-            enum ADD_CONTACT_RESPONSE_CODE responseCode;
+            enum RESPONSE_CODE responseCode;
         };
 #pragma pack(pop)
 

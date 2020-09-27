@@ -13,21 +13,21 @@ void Babel::Client::Commands::AddContactCommand::handle(const unsigned char *dat
     const AddContactsResponse *addContactResponse = reinterpret_cast<const AddContactsResponse *>(data);
 
     std::cout << "add contact nb bytes " << bytes << std::endl;
-    if (addContactResponse->responseCode == ADD_CONTACT_RESPONSE_CODE::OK) {
+    if (addContactResponse->responseCode == RESPONSE_CODE::OK) {
         std::cout << "ADD CONTACT - SUCCESS !" << std::endl; // debug
         std::vector<Contact> contacts;
         contacts.assign(reinterpret_cast<const Contact *>(&data[sizeof(AddContactsResponse)]), reinterpret_cast<const Contact *>(data + bytes));
-        for(int i=0; i < contacts.size(); i++)
+        for (int i = 0; i < contacts.size(); i++)
             std::cout << contacts.at(i).username << std::endl;
         emit this->addContact(contacts);
         return;
     }
-    if (addContactResponse->responseCode == ADD_CONTACT_RESPONSE_CODE::NOT_LOGGED_IN) {
+    if (addContactResponse->responseCode == RESPONSE_CODE::NOT_LOGGED_IN) {
         std::cout << "ADD CONTACT - USER NOT LOGGED IN !" << std::endl; // debug
         emit this->addContactNotLoggedIn();
         return;
     }
-    if (addContactResponse->responseCode == ADD_CONTACT_RESPONSE_CODE::OTHER) {
+    if (addContactResponse->responseCode == RESPONSE_CODE::OTHER) {
         std::cout << "ADD CONTACT - ERROR !" << std::endl; // debug
         emit this->otherError();
         return;

@@ -12,7 +12,7 @@ void Babel::Client::Commands::GetContactsCommand::handle(const unsigned char *da
 {
     const GetContactsResponse *getContactsResponse = reinterpret_cast<const GetContactsResponse *>(data);
 
-    if (getContactsResponse->responseCode == GET_CONTACTS_RESPONSE_CODE::OK) {
+    if (getContactsResponse->responseCode == RESPONSE_CODE::OK) {
         std::cout << "GET CONTACTS - SUCCESS !" << std::endl; // debug
         std::vector<Contact> contacts;
         contacts.assign(reinterpret_cast<const Contact *>(&data[sizeof(GetContactsResponse)]), reinterpret_cast<const Contact *>(data + bytes));
@@ -21,12 +21,12 @@ void Babel::Client::Commands::GetContactsCommand::handle(const unsigned char *da
         emit this->getContacts(contacts);
         return;
     }
-    if (getContactsResponse->responseCode == GET_CONTACTS_RESPONSE_CODE::NOT_LOGGED_IN) {
+    if (getContactsResponse->responseCode == RESPONSE_CODE::NOT_LOGGED_IN) {
         std::cout << "GET CONTACTS - USER NOT LOGGED IN !" << std::endl; // debug
         emit this->getContactsNotLoggedIn();
         return;
     }
-    if (getContactsResponse->responseCode == GET_CONTACTS_RESPONSE_CODE::OTHER) {
+    if (getContactsResponse->responseCode == RESPONSE_CODE::OTHER) {
         std::cout << "GET CONTACTS - ERROR !" << std::endl; // debug
         emit this->otherError();
         return;

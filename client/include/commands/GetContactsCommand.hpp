@@ -10,8 +10,8 @@
 
 #include "CommandParser.hpp"
 #include "ICommand.hpp"
-#include <cstring>
 #include <QtCore/QObject>
+#include <cstring>
 
 namespace Babel::Client::Commands
 {
@@ -25,13 +25,6 @@ namespace Babel::Client::Commands
 
     private:
 #pragma pack(push, 1)
-        enum class GET_CONTACTS_RESPONSE_CODE
-        {
-            OK,
-            NOT_LOGGED_IN,
-            OTHER
-        };
-
         struct Contact
         {
             Contact(const char *username, bool loggedIn)
@@ -46,7 +39,7 @@ namespace Babel::Client::Commands
         struct GetContactsResponse
         {
             Header header;
-            enum GET_CONTACTS_RESPONSE_CODE responseCode;
+            enum RESPONSE_CODE responseCode;
         };
 #pragma pack(pop)
 

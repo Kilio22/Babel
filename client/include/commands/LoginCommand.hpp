@@ -24,13 +24,6 @@ namespace Babel::Client::Commands
 
     private:
 #pragma pack(push, 1)
-        enum class LOGIN_RESPONSE_CODE
-        {
-            OK,
-            BAD_COMBINAISON,
-            ALREADY_LOGGED,
-            OTHER
-        };
         struct LoginRequest
         {
             Header header;
@@ -40,7 +33,7 @@ namespace Babel::Client::Commands
         struct LoginResponse
         {
             Header header;
-            enum LOGIN_RESPONSE_CODE responseCode;
+            enum RESPONSE_CODE responseCode;
         };
 #pragma pack(pop)
 

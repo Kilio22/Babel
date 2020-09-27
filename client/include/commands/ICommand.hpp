@@ -12,6 +12,20 @@
 
 namespace Babel::Client::Commands
 {
+    enum RESPONSE_CODE
+    {
+        OK,
+        NOT_LOGGED_IN,
+        ALREADY_LOGGED_IN,
+        BAD_CONTACT,
+        BAD_COMBINAISON,
+        WRONG_USERNAME_LENGTH,
+        WRONG_PASSWORD_LENGTH,
+        USERNAME_TAKEN,
+        USER_DISCONNECTED,
+        NOT_IN_CALL,
+        OTHER
+    };
     class ICommand {
     public:
         virtual ~ICommand() = default;

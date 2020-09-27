@@ -36,36 +36,6 @@ namespace Babel::Client
     {
 #pragma pack(push, 1) // to remove padding to avoid problem with different compilers and with network transfer.
 
-        enum class LOGIN_RESPONSE_CODE
-        {
-            OK,
-            BAD_COMBINAISON,
-            OTHER
-        };
-
-        enum class REGISTER_RESPONSE_CODE
-        {
-            OK,
-            WRONG_USERNAME_LENGTH,
-            WRONG_PASSWORD_LENGTH,
-            USERNAME_TAKEN,
-            OTHER
-        };
-
-        enum class ADD_CONTACT_RESPONSE_CODE
-        {
-            OK,
-            NOT_LOGGED_IN,
-            OTHER
-        };
-
-        enum class GET_CONTACTS_RESPONSE_CODE
-        {
-            OK,
-            NOT_LOGGED_IN,
-            OTHER
-        };
-
         struct LoginRequest
         {
             Header header;
@@ -76,7 +46,7 @@ namespace Babel::Client
         struct LoginResponse
         {
             Header header;
-            enum LOGIN_RESPONSE_CODE responseCode;
+            enum RESPONSE_CODE responseCode;
         };
 
         struct RegisterRequest
@@ -89,7 +59,7 @@ namespace Babel::Client
         struct RegisterResponse
         {
             Header header;
-            enum REGISTER_RESPONSE_CODE responseCode;
+            enum RESPONSE_CODE responseCode;
         };
 
         struct Contact
@@ -112,13 +82,13 @@ namespace Babel::Client
         struct AddContactsResponse
         {
             Header header;
-            enum ADD_CONTACT_RESPONSE_CODE responseCode;
+            enum RESPONSE_CODE responseCode;
         };
 
         struct GetContactsResponse
         {
             Header header;
-            enum GET_CONTACTS_RESPONSE_CODE responseCode;
+            enum RESPONSE_CODE responseCode;
         };
 
 #pragma pack(pop)

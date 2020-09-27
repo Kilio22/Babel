@@ -24,14 +24,6 @@ namespace Babel::Client::Commands
 
     private:
 #pragma pack(push, 1)
-        enum class REGISTER_RESPONSE_CODE
-        {
-            OK,
-            WRONG_USERNAME_LENGTH,
-            WRONG_PASSWORD_LENGTH,
-            USERNAME_TAKEN,
-            OTHER
-        };
         struct RegisterRequest
         {
             Header header;
@@ -41,7 +33,7 @@ namespace Babel::Client::Commands
         struct RegisterResponse
         {
             Header header;
-            enum REGISTER_RESPONSE_CODE responseCode;
+            enum RESPONSE_CODE responseCode;
         };
 #pragma pack(pop)
 
