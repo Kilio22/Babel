@@ -15,6 +15,7 @@
 #include <iostream>
 
 #include "ServiceLocator.hpp"
+#include "CommandManager.hpp"
 #include "WindowManager.hpp"
 
 Babel::Client::Gui::MainWindow::MainWindow(QWidget *parent)
@@ -131,9 +132,7 @@ Babel::Client::Gui::MainWindow::MainWindow(QWidget *parent)
 
 void Babel::Client::Gui::MainWindow::addContact()
 {
-    // Ajoutez le contact ici.
-    //contactLine.text().toStdString(); pour avoir le nom tapé.
-    // TODO ICI GOSSELIN
+    ServiceLocator::getInstance().get<CommandManager>().addContact(contactLine.text().toStdString());
     reset();
 }
 
