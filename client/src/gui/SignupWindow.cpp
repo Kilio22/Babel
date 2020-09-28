@@ -137,7 +137,6 @@ void Babel::Client::Gui::SignupWindow::submitSignup()
 {
     try {
         evaluateForms();
-        // ServiceLocator::getInstance().get<CommandManager>().addContact(username.text().toStdString());
         ServiceLocator::getInstance().get<CommandManager>().signup(username.text().toStdString(), password.text().toStdString());
     } catch (const Babel::Client::Exceptions::InvalidUsernameException &e) {
         (void)e;

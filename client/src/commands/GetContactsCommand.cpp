@@ -6,6 +6,8 @@
 */
 
 #include "GetContactsCommand.hpp"
+#include "ServiceLocator.hpp"
+#include "WindowManager.hpp"
 #include <iostream>
 
 void Babel::Client::Commands::GetContactsCommand::handle(const unsigned char *data, std::size_t bytes)
@@ -18,19 +20,14 @@ void Babel::Client::Commands::GetContactsCommand::handle(const unsigned char *da
         contacts.assign(reinterpret_cast<const Contact *>(&data[sizeof(GetContactsResponse)]), reinterpret_cast<const Contact *>(data + bytes));
         for (int i = 0; i < contacts.size(); i++)
             std::cout << contacts.at(i).username << std::endl;
-        emit this->getContacts(contacts);
         return;
     }
     if (getContactsResponse->responseCode == RESPONSE_CODE::NOT_LOGGED_IN) {
         std::cout << "GET CONTACTS - USER NOT LOGGED IN !" << std::endl; // debug
-        emit this->getContactsNotLoggedIn();
         return;
     }
     if (getContactsResponse->responseCode == RESPONSE_CODE::OTHER) {
         std::cout << "GET CONTACTS - ERROR !" << std::endl; // debug
-        emit this->otherError();
         return;
     }
 }
-
-#include "moc_GetContactsCommand.cpp"

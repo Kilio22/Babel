@@ -6,6 +6,8 @@
 */
 
 #include "LoginCommand.hpp"
+#include "ServiceLocator.hpp"
+#include "WindowManager.hpp"
 #include <iostream>
 
 void Babel::Client::Commands::LoginCommand::handle(const unsigned char *data, std::size_t bytes)
@@ -14,24 +16,22 @@ void Babel::Client::Commands::LoginCommand::handle(const unsigned char *data, st
 
     if (loginResponse->responseCode == RESPONSE_CODE::OK) {
         std::cout << "LOGIN - LOGIN SUCCESS !" << std::endl; // debug
-        emit this->loginSuccess();
+        ServiceLocator::getInstance().get<WindowManager>().getLoginWindow()->loginWorked("JeanNeymar");
         return;
     }
     if (loginResponse->responseCode == RESPONSE_CODE::BAD_COMBINAISON) {
         std::cout << "LOGIN - BAD COMBINAISON !" << std::endl; // debug
-        emit this->badLoginCombinaison();
+        ServiceLocator::getInstance().get<WindowManager>().getLoginWindow()->setError("Invalid username / password");
         return;
     }
     if (loginResponse->responseCode == RESPONSE_CODE::ALREADY_LOGGED_IN) {
         std::cout << "LOGIN - USER ALREADY LOGGED IN !" << std::endl; // debug
-        emit this->alreadyLoggedIn();
+        ServiceLocator::getInstance().get<WindowManager>().getLoginWindow()->setError("User already logged in");
         return;
     }
     if (loginResponse->responseCode == RESPONSE_CODE::OTHER) {
         std::cout << "LOGIN - ERROR !" << std::endl; // debug
-        emit this->otherError();
+        ServiceLocator::getInstance().get<WindowManager>().getLoginWindow()->setError("Error");
         return;
     }
 }
-
-#include "moc_LoginCommand.cpp"
