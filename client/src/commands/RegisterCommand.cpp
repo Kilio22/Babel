@@ -10,7 +10,7 @@
 #include "WindowManager.hpp"
 #include <iostream>
 
-void Babel::Client::Commands::RegisterCommand::handle(const unsigned char *data, std::size_t bytes)
+void Babel::Client::Commands::RegisterCommand::handle(const unsigned char *data, std::size_t bytes) const
 {
     const RegisterResponse *registerResponse = reinterpret_cast<const struct RegisterResponse *>(data);
 

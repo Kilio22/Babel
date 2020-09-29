@@ -57,7 +57,7 @@ void Babel::Client::CommandManager::login(const std::string &username, const std
         return;
     } else {
         throw Exceptions::LoginFailedException(
-            "Can't connect to server.", "Babel::Client::CommandManager::signup");
+            "Can't connect to server.", "Babel::Client::CommandManager::login");
     }
 }
 
@@ -70,7 +70,7 @@ void Babel::Client::CommandManager::addContact(const std::string &username)
         return;
     } else {
         throw Exceptions::LoginFailedException(
-            "Can't connect to server.", "Babel::Client::CommandManager::signup");
+            "Can't connect to server.", "Babel::Client::CommandManager::addContact");
     }
 }
 
@@ -82,6 +82,30 @@ void Babel::Client::CommandManager::getContacts()
         return;
     } else {
         throw Exceptions::LoginFailedException(
-            "Can't connect to server.", "Babel::Client::CommandManager::signup");
+            "Can't connect to server.", "Babel::Client::CommandManager::getContacts");
+    }
+}
+
+void Babel::Client::CommandManager::startCall(std::vector<std::string> users)
+{
+    if (connect()) {
+        const Commands::Header startCallRequest(Commands::COMMAND_TYPE::START_CALL);
+        tcpClient->send(reinterpret_cast<const unsigned char *>(&startCallRequest), sizeof(Commands::Header));
+        return;
+    } else {
+        throw Exceptions::LoginFailedException(
+            "Can't connect to server.", "Babel::Client::CommandManager::startCall");
+    }
+}
+
+void Babel::Client::CommandManager::stopCall()
+{
+    if (connect()) {
+        const Commands::Header stopCallRequest(Commands::COMMAND_TYPE::STOP_CALL);
+        tcpClient->send(reinterpret_cast<const unsigned char *>(&stopCallRequest), sizeof(Commands::Header));
+        return;
+    } else {
+        throw Exceptions::LoginFailedException(
+            "Can't connect to server.", "Babel::Client::CommandManager::stopCall");
     }
 }

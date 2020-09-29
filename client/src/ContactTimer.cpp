@@ -7,6 +7,7 @@
 
 #include "ContactTimer.hpp"
 #include "ServiceLocator.hpp"
+#include "CommandManager.hpp"
 #include "WindowManager.hpp"
 
 #include <iostream>
@@ -23,11 +24,7 @@ Babel::Client::ContactTimer::ContactTimer(QWidget *parent)
 void Babel::Client::ContactTimer::getContacts()
 {
     if (ServiceLocator::getInstance().get<WindowManager>().getState() == WindowManager::State::Main) {
-        // TODO GOSSELIN
-        // tu peux demander les contacts ici. Et quand tu les reçois tu peux les filer à MainWindow.
-
-
-
+        ServiceLocator::getInstance().get<CommandManager>().getContacts();
         std::cout << "Contact timer triggered" << std::endl;
     }
 }

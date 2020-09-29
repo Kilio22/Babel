@@ -18,7 +18,7 @@ namespace Babel::Client::Commands
         LoginCommand() = default;
         ~LoginCommand() = default;
 
-        void handle(const unsigned char *, std::size_t) final;
+        void handle(const unsigned char *, std::size_t) const final;
     };
 } // namespace Babel::Client::Commands
 

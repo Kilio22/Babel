@@ -2,11 +2,11 @@
 ** EPITECH PROJECT, 2020
 ** B-CPP-500-REN-5-1-babel-kylian.balan
 ** File description:
-** AddContactCommand
+** StartCallCommand
 */
 
-#ifndef ADDCONTACTCOMMAND_HPP_
-#define ADDCONTACTCOMMAND_HPP_
+#ifndef STARTCALLCOMMAND_HPP_
+#define STARTCALLCOMMAND_HPP_
 
 #include "CommandParser.hpp"
 #include "CommandManager.hpp"
@@ -15,12 +15,13 @@
 
 namespace Babel::Client::Commands
 {
-    class AddContactCommand : public ICommand {
+    class StartCallCommand : public ICommand {
     public:
-        AddContactCommand() = default;
-        ~AddContactCommand() = default;
+        StartCallCommand() = default;
+        ~StartCallCommand() = default;
 
         void handle(const unsigned char *, std::size_t) const final;
     };
-}
-#endif /* !ADDCONTACTCOMMAND_HPP_ */
+} // namespace Babel::Client::Commands
+
+#endif /* !STARTCALLCOMMAND_HPP_ */

@@ -10,6 +10,8 @@
 #include "LoginCommand.hpp"
 #include "GetContactsCommand.hpp"
 #include "AddContactCommand.hpp"
+#include "StartCallCommand.hpp"
+#include "StopCallCommand.hpp"
 #include "ServiceLocator.hpp"
 
 using namespace Babel::Client::Commands;
@@ -30,6 +32,14 @@ const std::unordered_map<enum COMMAND_TYPE, const std::function<ICommand *()>> B
         {
             COMMAND_TYPE::ADD_CONTACT,
             []() { return &ServiceLocator::getInstance().get<AddContactCommand>(); }
+        },
+        {
+            COMMAND_TYPE::START_CALL,
+            []() { return &ServiceLocator::getInstance().get<StartCallCommand>(); }
+        },
+        {
+            COMMAND_TYPE::STOP_CALL,
+            []() { return &ServiceLocator::getInstance().get<StopCallCommand>(); }
         }
     };
 

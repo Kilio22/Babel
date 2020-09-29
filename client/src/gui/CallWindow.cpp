@@ -16,6 +16,7 @@
 
 #include "ServiceLocator.hpp"
 #include "WindowManager.hpp"
+#include "CommandManager.hpp"
 
 Babel::Client::Gui::CallWindow::CallWindow(QWidget *parent)
 : QMainWindow(parent)
@@ -88,8 +89,9 @@ Babel::Client::Gui::CallWindow::CallWindow(QWidget *parent)
 
 void Babel::Client::Gui::CallWindow::EndCallClicked()
 {
-    // TODO ICI NATHAN
+    ServiceLocator::getInstance().get<CommandManager>().stopCall();
     reset();
+    // TODO : deplacer ce setState dans une fonction appelée quand le serveur confirme la fin du call
     ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Main);
 }
 

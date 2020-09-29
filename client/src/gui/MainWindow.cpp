@@ -138,9 +138,9 @@ void Babel::Client::Gui::MainWindow::addContact()
 
 void Babel::Client::Gui::MainWindow::callClicked()
 {
-    // TODO ICI NATHAN
-    //getUsersCalled pour recup les utilisateurs cochés.
+    ServiceLocator::getInstance().get<CommandManager>().startCall(getUsersCalled());
     reset();
+    // TODO : deplacer les fonctions ci dessous dans une fonction que je call si le serveur dis ok pour le call
     // Si le call se lance, faites ça :
     ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Call);
     ServiceLocator::getInstance().get<WindowManager>().getCallWindow()->setUsername(username);

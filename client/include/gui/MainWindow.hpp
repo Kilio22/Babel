@@ -51,9 +51,9 @@ namespace Babel::Client::Gui {
             void setUsername(const std::string &name);
             void setError(const std::string &error);
             const std::vector<std::string> getUsersCalled() const;
+            void setContacts(const std::vector<std::string> &nameList);
 
         private slots:
-            void setContacts(const std::vector<std::string> &nameList);
             void addContact();
             void callClicked();
             void disconnect() const;
