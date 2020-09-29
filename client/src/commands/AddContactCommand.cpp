@@ -28,7 +28,7 @@ void Babel::Client::Commands::AddContactCommand::handle(const unsigned char *dat
         return;
     }
     if (addContactResponse->responseCode == RESPONSE_CODE::BAD_CONTACT) {
-        std::cout << "ADD CONTACT - CAN'T ADD YOURSELF !" << std::endl; // debug
+        std::cout << "ADD CONTACT - INVALID CONTACT !" << std::endl; // debug
         ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setError("Invalid contact");
         return;
     }
