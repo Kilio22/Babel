@@ -17,6 +17,7 @@ namespace Babel::Server
     public:
         virtual ~IDb() = default;
 
+        virtual bool hasUser(const std::string &username) const = 0;
         virtual void addUser(const std::string &username, const std::string &password) const = 0;
         virtual const std::vector<std::string> &getUserLogs(const std::string &username) const = 0;
         virtual const std::vector<Username> &getUserContacts(const std::string &username) const = 0;

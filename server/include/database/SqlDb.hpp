@@ -21,6 +21,7 @@ namespace Babel::Server
 
         void setSqlResults(int argc, char **argv, bool isUsername, bool *shouldClear);
 
+        bool hasUser(const std::string &username) const final;
         void addUser(const std::string &username, const std::string &password) const final;
         const std::vector<std::string> &getUserLogs(const std::string &username) const final;
         const std::vector<Username> &getUserContacts(const std::string &username) const final;

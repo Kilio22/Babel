@@ -26,6 +26,10 @@ void Babel::Server::Commands::AddContactCommand::handle(const unsigned char *dat
     }
 
     try {
+        if (SqlDb::getInstance().hasUser(addContactRequest->username) == false) {
+            addContactResponse.responseCode = RESPONSE_CODE::BAD_CONTACT;
+            return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&addContactResponse), sizeof(AddContactsResponse));
+        }
         SqlDb::getInstance().addContact(user->getUsername(), addContactRequest->username);
         std::vector<Contact> contacts = this->getContacts(user->getUsername());
         boost::asio::streambuf b;

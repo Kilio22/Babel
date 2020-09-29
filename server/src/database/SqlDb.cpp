@@ -45,6 +45,20 @@ Babel::Server::SqlDb::~SqlDb()
     sqlite3_close(this->m_db);
 }
 
+bool Babel::Server::SqlDb::hasUser(const std::string &username) const
+{
+    int rc = 0;
+    char *errorMessage = nullptr;
+    std::string query = "SELECT username FROM users WHERE username=\"" + username + "\";";
+    bool shouldClear = true;
+
+    rc = sqlite3_exec(m_db, query.c_str(), SqlDb::callback, &shouldClear, &errorMessage);
+    if (rc != SQLITE_OK) {
+        throw Exceptions::QueryDatabaseException("Can't get user logs: " + std::string(errorMessage), "Babel::Server::SqlDb::getUserLogs");
+    }
+    return this->m_queryResults.size() == 0;
+}
+
 void Babel::Server::SqlDb::addUser(const std::string &username, const std::string &password) const
 {
     int rc = 0;
