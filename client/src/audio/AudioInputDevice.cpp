@@ -7,11 +7,12 @@
 
 #include "AudioInputDevice.hpp"
 #include "AudioException.hpp"
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 
 Babel::Client::Audio::AudioInputDevice::AudioInputDevice(ISoundInputAvailableEventListener *listener)
     : listener(listener)
+    , stream(nullptr)   
 {
     auto err = Pa_Initialize();
 

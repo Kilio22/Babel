@@ -10,6 +10,7 @@
 #include <iostream>
 
 Babel::Client::Audio::AudioOutputDevice::AudioOutputDevice()
+    : stream(nullptr)
 {
     auto err = Pa_Initialize();
 
