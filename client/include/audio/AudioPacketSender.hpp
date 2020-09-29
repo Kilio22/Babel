@@ -21,12 +21,14 @@ namespace Babel::Client::Audio
         Q_OBJECT
 
     public:
-        const unsigned short DefaultAudioPort = 42424;
+        static const unsigned short DefaultAudioPort = 42424;
+        static const int CorewarMagic = 0xea83f3;
 
 #pragma pack(push, 1)
         struct SoundPacket {
+            int magic = CorewarMagic;
             int64_t size;
-            char data[512 - sizeof(size)];
+            char data[512 - sizeof(magic) - sizeof(size)];
         };
 #pragma pack(pop)
 

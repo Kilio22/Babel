@@ -32,16 +32,15 @@ void Babel::Client::Audio::AudioPacketSender::sendAudio(const CompressedBuffer &
     SoundPacket soundPacket = {};
     char *ptr;
 
-    dataPacket.port = DefaultAudioPort;
-
     soundPacket.size = compressedBuffer.size;
     std::memcpy(soundPacket.data, compressedBuffer.samples.data(), compressedBuffer.size);
     ptr = reinterpret_cast<char *>(&soundPacket);
 
+    dataPacket.port = DefaultAudioPort;
     dataPacket.data.assign(ptr, ptr + sizeof(SoundPacket));
     for (auto &host : this->hosts) {
         dataPacket.host = host;
-        std::cout << "Sending packet of size " << dataPacket.data.size() << " (" << soundPacket.size << ") to " << dataPacket.host << std::endl;
+        // std::cout << "Sending packet of size " << dataPacket.data.size() << " (" << soundPacket.size << ") to " << dataPacket.host << std::endl;
         this->udpClient->send(dataPacket);
     }
 }
@@ -52,7 +51,11 @@ void Babel::Client::Audio::AudioPacketSender::onDataAvailable()
     IUdpClient::DataPacket dataPacket = this->udpClient->getData();
     SoundPacket *packetDataPtr = reinterpret_cast<SoundPacket *>(dataPacket.data.data());
 
-    std::cout << "Recieved packet of size " << dataPacket.data.size() << " (" << packetDataPtr->size << ") to " << dataPacket.host << std::endl;
+    // std::cout << "Recieved packet of size " << dataPacket.data.size() << " (" << packetDataPtr->size << ") to " << dataPacket.host << std::endl;
+    if (packetDataPtr->magic != CorewarMagic) {
+        std::cout << "Unidentified packet detected!" << std::endl;
+        return;
+    }
     compressedBuffer.size = packetDataPtr->size;
     compressedBuffer.samples.assign(packetDataPtr->data, packetDataPtr->data + packetDataPtr->size);
     emit this->audioPacketRecieved(compressedBuffer, dataPacket.host);
