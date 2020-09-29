@@ -10,6 +10,7 @@
 Babel::Client::WindowManager::WindowManager()
 : state(Babel::Client::WindowManager::State::Signup)
 , windows(int(State::LastEnum))
+, contactTimer()
 {
     // On est obligé de les initialiser avec reset.
     // Avec le Make Unique on appelle le constructeur de QMainWindow directement sinon.

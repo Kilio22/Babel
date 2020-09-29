@@ -16,6 +16,7 @@
 #include "gui/SignupWindow.hpp"
 #include "gui/MainWindow.hpp"
 #include "gui/CallWindow.hpp"
+#include "ContactTimer.hpp"
 
 namespace Babel::Client {
     /**
@@ -56,6 +57,7 @@ namespace Babel::Client {
             WindowManager::State state;
             //std::unique_ptr<QMainWindow> loginWindow;
             std::vector<std::unique_ptr<QMainWindow>> windows;
+            ContactTimer contactTimer;
     };
 };
 
