@@ -13,6 +13,7 @@ using namespace Babel::Client::Network;
 
 Babel::Client::Audio::AudioPacketSender::AudioPacketSender()
     : udpClient(std::make_unique<QtUdpClient>())
+    , lastTimestamp(0)
 {
     auto newClient = new QtUdpClient();
 
@@ -32,6 +33,7 @@ void Babel::Client::Audio::AudioPacketSender::sendAudio(const CompressedBuffer &
     SoundPacket soundPacket = {};
     char *ptr;
 
+    soundPacket.timestamp = std::time(nullptr);
     soundPacket.size = compressedBuffer.size;
     std::memcpy(soundPacket.data, compressedBuffer.samples.data(), compressedBuffer.size);
     ptr = reinterpret_cast<char *>(&soundPacket);
@@ -53,9 +55,14 @@ void Babel::Client::Audio::AudioPacketSender::onDataAvailable()
 
     // std::cout << "Recieved packet of size " << dataPacket.data.size() << " (" << packetDataPtr->size << ") to " << dataPacket.host << std::endl;
     if (packetDataPtr->magic != CorewarMagic) {
-        std::cout << "Unidentified packet detected!" << std::endl;
+        std::cout << "Unidentified packet detected, ignoring..." << std::endl;
         return;
     }
+    if (packetDataPtr->timestamp < this->lastTimestamp) {
+        std::cout << "Older sound packet recieved, ignoring..." << std::endl;
+        return;
+    }
+    this->lastTimestamp = packetDataPtr->timestamp;
     compressedBuffer.size = packetDataPtr->size;
     compressedBuffer.samples.assign(packetDataPtr->data, packetDataPtr->data + packetDataPtr->size);
     emit this->audioPacketRecieved(compressedBuffer, dataPacket.host);

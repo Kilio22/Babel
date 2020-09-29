@@ -12,6 +12,7 @@
 #include "IUdpClient.hpp"
 #include <QtCore/QObject>
 #include <cstdint>
+#include <ctime>
 #include <memory>
 
 namespace Babel::Client::Audio
@@ -27,8 +28,9 @@ namespace Babel::Client::Audio
 #pragma pack(push, 1)
         struct SoundPacket {
             int magic = CorewarMagic;
+            int64_t timestamp;
             int64_t size;
-            char data[512 - sizeof(magic) - sizeof(size)];
+            char data[512 - sizeof(magic) - sizeof(timestamp) - sizeof(size)];
         };
 #pragma pack(pop)
 
@@ -48,6 +50,7 @@ namespace Babel::Client::Audio
     private:
         std::unique_ptr<Network::IUdpClient> udpClient;
         std::vector<std::string> hosts;
+        int64_t lastTimestamp;
     };
 }
 
