@@ -6,19 +6,13 @@
 */
 
 #include "database/SqlDb.hpp"
+#include "database/DatabaseProvider.hpp"
 #include "exceptions/ConstraintDatabaseException.hpp"
 #include "exceptions/CreateTableException.hpp"
 #include "exceptions/OpenDatabaseException.hpp"
 #include "exceptions/QueryDatabaseException.hpp"
 #include <cstring>
 #include <iostream>
-
-Babel::Server::SqlDb Babel::Server::SqlDb::sqlDbInstance;
-
-Babel::Server::SqlDb &Babel::Server::SqlDb::getInstance()
-{
-    return Babel::Server::SqlDb::sqlDbInstance;
-}
 
 Babel::Server::SqlDb::SqlDb()
     : m_db(nullptr)
@@ -53,7 +47,7 @@ bool Babel::Server::SqlDb::hasUser(const std::string &username)
 
     this->m_contactQueryResults.clear();
     this->m_queryResults.clear();
-    rc = sqlite3_exec(m_db, query.c_str(), SqlDb::callback, nullptr, &errorMessage);
+    rc = sqlite3_exec(m_db, query.c_str(), SqlDb::callback, this, &errorMessage);
     if (rc != SQLITE_OK) {
         throw Exceptions::QueryDatabaseException("Can't get user logs: " + std::string(errorMessage), "Babel::Server::SqlDb::getUserLogs");
     }
@@ -82,7 +76,7 @@ const std::vector<std::string> &Babel::Server::SqlDb::getUserLogs(const std::str
 
     this->m_contactQueryResults.clear();
     this->m_queryResults.clear();
-    rc = sqlite3_exec(m_db, query.c_str(), SqlDb::callback, nullptr, &errorMessage);
+    rc = sqlite3_exec(m_db, query.c_str(), SqlDb::callback, this, &errorMessage);
     if (rc != SQLITE_OK) {
         throw Exceptions::QueryDatabaseException("Can't get user logs: " + std::string(errorMessage), "Babel::Server::SqlDb::getUserLogs");
     }
@@ -97,7 +91,7 @@ const std::vector<Babel::Server::Username> &Babel::Server::SqlDb::getUserContact
 
     this->m_contactQueryResults.clear();
     this->m_queryResults.clear();
-    rc = sqlite3_exec(m_db, query.c_str(), SqlDb::contactCallback, nullptr, &errorMessage);
+    rc = sqlite3_exec(m_db, query.c_str(), SqlDb::contactCallback, this, &errorMessage);
     if (rc != SQLITE_OK) {
         throw Exceptions::QueryDatabaseException("Can't get user contacts: " + std::string(errorMessage), "Babel::Server::SqlDb::getUserContacts");
     }
@@ -117,16 +111,19 @@ void Babel::Server::SqlDb::addContact(const std::string &username, const std::st
     }
 }
 
-int Babel::Server::SqlDb::callback(void *, int argc, char **argv, char **)
+int Babel::Server::SqlDb::callback(void *sqlDb, int argc, char **argv, char **)
 {
-    std::cout << argc << std::endl;
-    sqlDbInstance.setSqlResults(argc, argv, false);
+    SqlDb *db = reinterpret_cast<SqlDb *>(sqlDb);
+
+    db->setSqlResults(argc, argv, false);
     return 0;
 }
 
-int Babel::Server::SqlDb::contactCallback(void *, int argc, char **argv, char **oui)
+int Babel::Server::SqlDb::contactCallback(void *sqlDb, int argc, char **argv, char **oui)
 {
-    sqlDbInstance.setSqlResults(argc, argv, true);
+    SqlDb *db = reinterpret_cast<SqlDb *>(sqlDb);
+
+    db->setSqlResults(argc, argv, true);
     return 0;
 }
 

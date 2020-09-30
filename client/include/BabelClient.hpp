@@ -9,25 +9,19 @@
 #define BABELCLIENT_HPP_
 
 #include "IClient.hpp"
-#include "ITcpClient.hpp"
-#include <QtCore/QObject>
 #include <string>
 
 namespace Babel::Client
 {
-    class BabelClient : public QObject, public IClient {
-        Q_OBJECT
+    class BabelClient : public IClient {
         public:
-            BabelClient(QObject *parent = 0);
+            BabelClient() = default;
             ~BabelClient() = default;
 
             void create(int ac, char *av[]);
-        private slots:
-            void onDataAvailable();
         private:
             unsigned short port;
             std::string ip;
-            Network::ITcpClient *tcpClient;
     };
 }
 

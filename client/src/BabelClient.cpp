@@ -7,18 +7,11 @@
 
 #include "BabelClient.hpp"
 #include "exceptions.h"
-#include <boost/lexical_cast.hpp>
-#include "QtTcpClient.hpp"
 #include "WindowManager.hpp"
 #include "ServiceLocator.hpp"
 #include "CommandManager.hpp"
-#include "CommandParser.hpp"
 #include <iostream>
-
-Babel::Client::BabelClient::BabelClient(QObject *parent)
-    : QObject(parent)
-{
-}
+#include <boost/lexical_cast.hpp>
 
 void Babel::Client::BabelClient::create(int ac, char *av[])
 {
@@ -39,21 +32,6 @@ void Babel::Client::BabelClient::create(int ac, char *av[])
             "Bad argument, got: \"" + std::string(av[2]) + "\" but a valid port number is needed: " + std::string(e.what()) + ".",
             "Babel::Client::BabelClient::BabelClient");
     }
-    tcpClient = new Babel::Client::Network::QtTcpClient();
-    QObject::connect(dynamic_cast<QObject *>(tcpClient), SIGNAL (dataAvailable()), this, SLOT (onDataAvailable()));
-    ServiceLocator::getInstance().get<Babel::Client::CommandManager>().create(this->ip, this->port, this->tcpClient);
+    ServiceLocator::getInstance().get<Babel::Client::CommandManager>().create(this->ip, this->port);
     ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Signup);
 }
-
-void Babel::Client::BabelClient::onDataAvailable()
-{
-    std::pair<std::size_t, const unsigned char *> data = tcpClient->getData();
-    for (std::size_t i = 0; i < 4096; i++) {
-        if (data.second[i] != 0) {
-            std::cout << data.second[i] << std::endl;
-        }
-    }
-    CommandParser::getInstance().parseCommand(data.second, data.first);
-}
-
-#include "moc_BabelClient.cpp"

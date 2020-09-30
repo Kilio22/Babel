@@ -6,6 +6,7 @@
 */
 
 #include "commands/RegisterCommand.hpp"
+#include "database/DatabaseProvider.hpp"
 #include "database/SqlDb.hpp"
 #include "exceptions/ConstraintDatabaseException.hpp"
 #include <boost/shared_ptr.hpp>
@@ -28,7 +29,7 @@ void Babel::Server::Commands::RegisterCommand::handle(const unsigned char *data,
     }
 
     try {
-        SqlDb::getInstance().addUser(username, password);
+        DatabaseProvider::getDb<SqlDb>()->addUser(username, password);
     } catch (const Exceptions::ConstraintDatabaseException &) {
         classicResponse.responseCode = RESPONSE_CODE::USERNAME_TAKEN;
     } catch (const std::exception &) {

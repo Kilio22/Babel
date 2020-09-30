@@ -6,19 +6,22 @@
 */
 
 #include "CommandManager.hpp"
+#include "CommandParser.hpp"
+#include "QtTcpClient.hpp"
 #include "exceptions.h"
 #include <iostream>
-#include <boost/asio/streambuf.hpp>
+#include <sstream>
 
 Babel::Client::CommandManager::CommandManager()
 {
 }
 
-void Babel::Client::CommandManager::create(const std::string &ip, unsigned short port, Network::ITcpClient *tcpClient)
+void Babel::Client::CommandManager::create(const std::string &ip, unsigned short port)
 {
     this->ip = ip;
     this->port = port;
-    this->tcpClient = tcpClient;
+    this->tcpClient = std::make_unique<Babel::Client::Network::QtTcpClient>();
+    QObject::connect(dynamic_cast<QObject *>(this->tcpClient.get()), SIGNAL (dataAvailable()), this, SLOT (onDataAvailable()));
 }
 
 bool Babel::Client::CommandManager::connect()
@@ -90,7 +93,7 @@ void Babel::Client::CommandManager::getContacts()
 void Babel::Client::CommandManager::startCall(std::vector<std::string> users)
 {
     if (connect()) {
-        boost::asio::streambuf b;
+        std::stringbuf b;
         std::ostream os(&b);
         std::vector<Commands::Username> usernames;
         for (int i = 0; i < users.size(); i++)
@@ -98,7 +101,7 @@ void Babel::Client::CommandManager::startCall(std::vector<std::string> users)
         const Commands::Header startCallRequest(Commands::COMMAND_TYPE::START_CALL);
         os.write(reinterpret_cast<const char *>(&startCallRequest), sizeof(Commands::Header));
         os.write(reinterpret_cast<const char *>(usernames.data()), sizeof(Commands::Username) * usernames.size());
-        tcpClient->send(boost::asio::buffer_cast<const unsigned char *>(b.data()), sizeof(Commands::Username) * usernames.size() + sizeof(Commands::Header));
+        tcpClient->send(reinterpret_cast<const unsigned char *>(b.str().c_str()), sizeof(Commands::Username) * usernames.size() + sizeof(Commands::Header));
         return;
     } else {
         throw Exceptions::LoginFailedException(
@@ -129,3 +132,16 @@ void Babel::Client::CommandManager::disconnect()
             "Can't connect to server.", "Babel::Client::CommandManager::stopCall");
     }
 }
+
+void Babel::Client::CommandManager::onDataAvailable()
+{
+    std::pair<std::size_t, const unsigned char *> data = tcpClient->getData();
+    for (std::size_t i = 0; i < 4096; i++) {
+        if (data.second[i] != 0) {
+            std::cout << data.second[i] << std::endl;
+        }
+    }
+    CommandParser::getInstance().parseCommand(data.second, data.first);
+}
+
+#include "moc_CommandManager.cpp"
