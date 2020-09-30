@@ -12,16 +12,18 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QLabel>
 
-class AboutWindow : public QMainWindow {
-    public:
-        AboutWindow(QWidget *parent = nullptr);
-        ~AboutWindow() = default;
+namespace Babel::Client::Gui {
+    class AboutWindow : public QMainWindow {
+        public:
+            AboutWindow(QWidget *parent = nullptr);
+            ~AboutWindow() = default;
 
-    protected:
-    private:
-        QLabel textLabel;
-        QLabel logoLabel;
+        protected:
+        private:
+            QLabel textLabel;
+            QLabel logoLabel;
 
+    };
 };
 
 #endif /* !ABOUTWINDOW_HPP_ */

@@ -127,7 +127,7 @@ Babel::Client::Gui::MainWindow::MainWindow(QWidget *parent)
     QObject::connect(&this->contactBtn, SIGNAL (pressed()), this, SLOT (addContact()));
     QObject::connect(&this->callBtn, SIGNAL (pressed()), this, SLOT (callClicked()));
     QObject::connect(&this->disconnectBtn, SIGNAL(pressed()), this, SLOT(disconnect()));
-    QObject::connect(&this->aboutBtn, SIGNAL(pressed()), this, SLOT(openAbout()));
+    QObject::connect(&this->aboutBtn, SIGNAL(clicked()), this, SLOT(openAbout()));
 }
 
 void Babel::Client::Gui::MainWindow::addContact()
@@ -149,11 +149,20 @@ void Babel::Client::Gui::MainWindow::callClicked()
 
 void Babel::Client::Gui::MainWindow::setContacts(const std::vector<Babel::Client::Commands::Contact> &contactsList)
 {
+    saveContacts.clear();
+    for (int i = 0; i < contacts.size(); i++) {
+        saveContacts.insert({contacts[i]->getName(), contacts[i]->checkSelected()});
+    }
     contacts.clear();
     for (int i = 0; i < contactsList.size(); i++) {
+        bool tmpCheck = false;
+        std::unordered_map<std::string, bool>::const_iterator got = saveContacts.find(contactsList[i].username);
+        if (got != saveContacts.end() && got->second == true && contactsList[i].loggedIn)
+            tmpCheck = true;
         QHBoxLayout *layout = new QHBoxLayout();
-        std::unique_ptr<PersonMainWidget> tmp = std::make_unique<PersonMainWidget>(&widget, std::string(contactsList[i].username), true, ((i + 1) * 20) + i * 80);
+        std::unique_ptr<PersonMainWidget> tmp = std::make_unique<PersonMainWidget>(&widget, std::string(contactsList[i].username), true, ((i + 1) * 20) + i * 80, contactsList[i].loggedIn);
         tmp->show();
+        tmp->setCheck(tmpCheck);
         layout->addWidget(tmp.get());
         vLayout.addLayout(layout);
         contacts.push_back(std::move(tmp));
@@ -203,7 +212,7 @@ const std::vector<std::string> Babel::Client::Gui::MainWindow::getUsersCalled() 
 
 void Babel::Client::Gui::MainWindow::openAbout() const
 {
-    std::cout << "OPEN ABOUT HERE" << std::endl;
+    ServiceLocator::getInstance().get<WindowManager>().openAbout();
 }
 
 void Babel::Client::Gui::MainWindow::disconnect() const

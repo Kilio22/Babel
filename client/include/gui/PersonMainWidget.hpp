@@ -17,10 +17,11 @@ namespace Babel::Client::Gui {
     class PersonMainWidget : public QWidget {
         Q_OBJECT
         public:
-            PersonMainWidget(QWidget *parent = nullptr, std::string nameStr = std::string("Name"), bool canCheck = true, int ypos = 20);
+            PersonMainWidget(QWidget *parent = nullptr, std::string nameStr = std::string("Name"), bool canCheck = true, int ypos = 20, bool connected = true);
             ~PersonMainWidget() = default;
 
             bool checkSelected() const;
+            void setCheck(bool newValue);
             const std::string &getName() const;
 
         private:

@@ -19,6 +19,7 @@
 #include "CommandManager.hpp"
 #include <vector>
 #include <memory>
+#include <unordered_map>
 
 namespace Babel::Client::Gui {
     class MainWindow : public QMainWindow
@@ -38,6 +39,7 @@ namespace Babel::Client::Gui {
             QPushButton disconnectBtn;
             QPushButton aboutBtn;
             std::vector<std::unique_ptr<PersonMainWidget>> contacts;
+            std::unordered_map<std::string, bool> saveContacts;
 
             /**
              * @brief Reset the state of the window.

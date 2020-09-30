@@ -8,7 +8,7 @@
 #include "PersonMainWidget.hpp"
 #include <QtGui/QPixmap>
 
-Babel::Client::Gui::PersonMainWidget::PersonMainWidget(QWidget *parent, std::string nameStr, bool canCheck, int ypos)
+Babel::Client::Gui::PersonMainWidget::PersonMainWidget(QWidget *parent, std::string nameStr, bool canCheck, int ypos, bool connected)
 : QWidget(parent)
 , bgLabel(this)
 , avatar(this)
@@ -34,16 +34,29 @@ Babel::Client::Gui::PersonMainWidget::PersonMainWidget(QWidget *parent, std::str
                         "border-radius: 25;");
     this->move(20, ypos);
 
-    bgLabel.setFixedSize(540, 80);
-    bgLabel.setStyleSheet("background-color: white;"
-                        "border-radius: 25;");
-
+    if (connected) {
+        bgLabel.setFixedSize(540, 80);
+        bgLabel.setStyleSheet(  "background-color: white;"
+                                "border-radius: 25;");
+    } else {
+        bgLabel.setFixedSize(540, 80);
+        bgLabel.setStyleSheet(  "background-color: gray;"
+                                "border-radius: 25;");
+    }
     username.setFixedSize(260, 64);
     username.move(100, 10);
     //username.setAlignment(Qt::AlignLeft);
-    username.setText(nameStr.c_str());
-    username.setStyleSheet(   "color: black;"
-                                "font-size: 18px;");
+    if (connected) {
+        username.setText(nameStr.c_str());
+        username.setStyleSheet( "color: black;"
+                                "font-size: 18px;"
+                                "background-color: white;");
+    } else {
+        username.setText(nameStr.c_str());
+        username.setStyleSheet( "color: white;"
+                                "font-size: 18px;"
+                                "background-color: gray;");
+    }
 
     checkbox.setFixedSize(60, 60);
     checkbox.move(470, 10);
@@ -51,10 +64,12 @@ Babel::Client::Gui::PersonMainWidget::PersonMainWidget(QWidget *parent, std::str
     bgLabel.show();
     avatar.show();
     username.show();
-    if (canCheck)
+    if (canCheck && connected)
         checkbox.show();
-    else
+    else {
         checkbox.hide();
+        checkbox.setChecked(false);
+    }
 }
 
 bool Babel::Client::Gui::PersonMainWidget::checkSelected() const
@@ -67,6 +82,11 @@ bool Babel::Client::Gui::PersonMainWidget::checkSelected() const
 const std::string &Babel::Client::Gui::PersonMainWidget::getName() const
 {
     return nameStr;
+}
+
+void Babel::Client::Gui::PersonMainWidget::setCheck(bool newValue)
+{
+    checkbox.setChecked(newValue);
 }
 
 #include "moc_PersonMainWidget.cpp"

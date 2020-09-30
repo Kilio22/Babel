@@ -17,7 +17,7 @@ Babel::Client::ContactTimer::ContactTimer(QWidget *parent)
 , timer(this)
 {
     QObject::connect(&timer, SIGNAL(timeout()), this, SLOT(getContacts()));
-    timer.start(60000);
+    timer.start(1000);
     this->hide();
 }
 

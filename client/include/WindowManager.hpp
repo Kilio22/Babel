@@ -16,6 +16,7 @@
 #include "gui/SignupWindow.hpp"
 #include "gui/MainWindow.hpp"
 #include "gui/CallWindow.hpp"
+#include "gui/AboutWindow.hpp"
 #include "ContactTimer.hpp"
 
 namespace Babel::Client {
@@ -52,6 +53,7 @@ namespace Babel::Client {
             Babel::Client::Gui::SignupWindow *getSignupWindow() const;
             Babel::Client::Gui::MainWindow *getMainWindow() const;
             Babel::Client::Gui::CallWindow *getCallWindow() const;
+            void openAbout();
 
         private:
             // TODO ajouter la about window ici plutôt
@@ -59,6 +61,7 @@ namespace Babel::Client {
             //std::unique_ptr<QMainWindow> loginWindow;
             std::vector<std::unique_ptr<QMainWindow>> windows;
             ContactTimer contactTimer;
+            std::unique_ptr<Babel::Client::Gui::AboutWindow> aboutPopUp;
     };
 };
 

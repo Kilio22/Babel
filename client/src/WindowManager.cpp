@@ -6,6 +6,7 @@
 */
 
 #include "WindowManager.hpp"
+#include <iostream>
 
 Babel::Client::WindowManager::WindowManager()
 : state(Babel::Client::WindowManager::State::Signup)
@@ -19,6 +20,8 @@ Babel::Client::WindowManager::WindowManager()
     windows[int(State::Main)] = std::make_unique<Gui::MainWindow>();
     windows[int(State::Call)] = std::make_unique<Gui::CallWindow>();
     windows[int(state)]->show();
+    aboutPopUp.reset(nullptr);
+
 }
 
 Babel::Client::WindowManager::~WindowManager()
@@ -78,4 +81,9 @@ Babel::Client::Gui::CallWindow *Babel::Client::WindowManager::getCallWindow() co
         return (c);
     }
     return (nullptr);
+}
+
+void Babel::Client::WindowManager::openAbout()
+{
+    aboutPopUp = std::make_unique<Gui::AboutWindow>();
 }
