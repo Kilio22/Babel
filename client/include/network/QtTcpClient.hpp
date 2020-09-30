@@ -12,6 +12,7 @@
 #include <QtNetwork/QTcpSocket>
 #include <QtCore/QObject>
 #include <array>
+#include <memory>
 
 namespace Babel::Client::Network
 {
@@ -40,7 +41,7 @@ namespace Babel::Client::Network
             void handleReadyRead();
 
         private:
-            QTcpSocket *socket;
+            std::unique_ptr<QTcpSocket> socket;
             std::array<char, readSize> data;
             std::size_t bytes_transfered;
     };

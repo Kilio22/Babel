@@ -35,7 +35,7 @@ void Babel::Client::Commands::StartCallCommand::handle(const unsigned char *data
         return;
     }
     if (startCallResponse->responseCode == RESPONSE_CODE::OTHER) {
-        std::cout << "GET CONTACTS - ERROR !" << std::endl; // debug
+        std::cout << "START CALL - ERROR !" << std::endl; // debug
         ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setError("Error");
         return;
     }

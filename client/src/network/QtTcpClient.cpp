@@ -11,10 +11,10 @@
 
 Babel::Client::Network::QtTcpClient::QtTcpClient()
 {
-    socket = new QTcpSocket();
-    connect(socket, SIGNAL(connected()), this, SLOT(connected()));
-    connect(socket, SIGNAL(disconnected()), this, SLOT(disconnected()));
-    connect(socket, SIGNAL(readyRead()), this, SLOT(handleReadyRead()));
+    socket = std::make_unique<QTcpSocket>();
+    connect(this->socket.get(), SIGNAL(connected()), this, SLOT(connected()));
+    connect(this->socket.get(), SIGNAL(disconnected()), this, SLOT(disconnected()));
+    connect(this->socket.get(), SIGNAL(readyRead()), this, SLOT(handleReadyRead()));
 }
 
 Babel::Client::Network::QtTcpClient::~QtTcpClient()

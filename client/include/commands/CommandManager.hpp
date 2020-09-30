@@ -10,16 +10,18 @@
 
 #include "CommandParser.hpp"
 #include "ITcpClient.hpp"
+#include <QtCore/QObject>
 #include <cstring>
 
 namespace Babel::Client
 {
-    class CommandManager {
+    class CommandManager : public QObject {
+        Q_OBJECT
     public:
         CommandManager();
         ~CommandManager() = default;
 
-        void create(const std::string &ip, unsigned short port, Network::ITcpClient *tcpClient);
+        void create(const std::string &ip, unsigned short port);
         bool connect();
         void signup(const std::string &username, const std::string &password);
         void login(const std::string &username, const std::string &password);
@@ -32,7 +34,9 @@ namespace Babel::Client
     private:
         unsigned short port;
         std::string ip;
-        Network::ITcpClient *tcpClient;
+        std::unique_ptr<Network::ITcpClient> tcpClient;
+    private slots:
+        void onDataAvailable();
     };
 
     namespace Commands
