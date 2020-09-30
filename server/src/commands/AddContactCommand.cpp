@@ -7,9 +7,10 @@
 
 #include "commands/AddContactCommand.hpp"
 #include "UserManager.hpp"
+#include "database/DatabaseProvider.hpp"
 #include "database/SqlDb.hpp"
-#include <boost/asio/streambuf.hpp>
 #include <iostream>
+#include <sstream>
 
 void Babel::Server::Commands::AddContactCommand::handle(const unsigned char *data, const std::size_t, IUser *user) const
 {
@@ -38,17 +39,17 @@ void Babel::Server::Commands::AddContactCommand::handle(const unsigned char *dat
 void Babel::Server::Commands::AddContactCommand::addContact(
     const AddContactRequest *addContactRequest, ClassicResponse &classicResponse, IUser *user) const
 {
-    if (SqlDb::getInstance().hasUser(addContactRequest->username) == false) {
+    if (DatabaseProvider::getDb<SqlDb>()->hasUser(addContactRequest->username) == false) {
         classicResponse.responseCode = RESPONSE_CODE::BAD_CONTACT;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
     }
-    SqlDb::getInstance().addContact(user->getUsername(), addContactRequest->username);
+    DatabaseProvider::getDb<SqlDb>()->addContact(user->getUsername(), addContactRequest->username);
 }
 
 std::vector<Babel::Server::Commands::AddContactCommand::Contact> Babel::Server::Commands::AddContactCommand::getContacts(
     const std::string &username) const
 {
-    const std::vector<Username> &contactsUsername = SqlDb::getInstance().getUserContacts(username);
+    const std::vector<Username> &contactsUsername = DatabaseProvider::getDb<SqlDb>()->getUserContacts(username);
     std::vector<Contact> contacts;
     for (const auto &contactUsername : contactsUsername) {
         IUser *user = UserManager::getInstance().getUserByUsername(contactUsername.username);
@@ -64,11 +65,11 @@ std::vector<Babel::Server::Commands::AddContactCommand::Contact> Babel::Server::
 
 void Babel::Server::Commands::AddContactCommand::sendContacts(std::vector<Contact> contacts, ClassicResponse &classicResponse, IUser *user) const
 {
-    boost::asio::streambuf b;
+    std::stringbuf b;
     std::ostream os(&b);
 
     os.write(reinterpret_cast<const char *>(&classicResponse), sizeof(ClassicResponse));
     os.write(reinterpret_cast<const char *>(contacts.data()), sizeof(Contact) * contacts.size());
     user->getTcpClient()->write(
-        boost::asio::buffer_cast<const unsigned char *>(b.data()), (sizeof(Contact) * contacts.size() + sizeof(ClassicResponse)));
+        reinterpret_cast<const unsigned char *>(b.str().c_str()), (sizeof(Contact) * contacts.size() + sizeof(ClassicResponse)));
 }

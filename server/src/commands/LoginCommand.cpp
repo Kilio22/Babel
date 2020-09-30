@@ -7,6 +7,7 @@
 
 #include "commands/LoginCommand.hpp"
 #include "UserManager.hpp"
+#include "database/DatabaseProvider.hpp"
 #include "database/SqlDb.hpp"
 #include <iostream>
 
@@ -25,7 +26,7 @@ void Babel::Server::Commands::LoginCommand::handle(const unsigned char *data, co
     }
 
     try {
-        std::vector<std::string> userLogs = SqlDb::getInstance().getUserLogs(std::string(loginRequest->username));
+        std::vector<std::string> userLogs = DatabaseProvider::getDb<SqlDb>()->getUserLogs(std::string(loginRequest->username));
         if (userLogs.empty()) {
             classicResponse.responseCode = RESPONSE_CODE::BAD_COMBINAISON;
             return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));

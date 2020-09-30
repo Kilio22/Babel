@@ -17,8 +17,8 @@ namespace Babel::Server
 {
     class CommandFactory {
     public:
-        CommandFactory();
-        ~CommandFactory();
+        CommandFactory() = default;
+        ~CommandFactory() = default;
 
         template <class T>
         static T &createCommand()

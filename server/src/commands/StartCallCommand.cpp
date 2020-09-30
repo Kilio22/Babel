@@ -7,8 +7,8 @@
 
 #include "commands/StartCallCommand.hpp"
 #include "UserManager.hpp"
-#include <boost/asio/streambuf.hpp>
 #include <iostream>
+#include <sstream>
 
 void Babel::Server::Commands::StartCallCommand::handle(const unsigned char *data, const std::size_t bytesTransfered, IUser *user) const
 {
@@ -52,7 +52,7 @@ void Babel::Server::Commands::StartCallCommand::sendLoop(
     for (const auto &user : users) {
         std::vector<UserCallInfos> infosToSend;
         std::vector<std::string> calledUsers;
-        boost::asio::streambuf b;
+        std::stringbuf b;
         std::ostream os(&b);
 
         std::copy_if(usersCallInfos.begin(), usersCallInfos.end(), std::back_insert_iterator(infosToSend),
@@ -65,7 +65,7 @@ void Babel::Server::Commands::StartCallCommand::sendLoop(
         os.write(reinterpret_cast<const char *>(&classicResponse), sizeof(ClassicResponse));
         os.write(reinterpret_cast<const char *>(infosToSend.data()), infosToSend.size() * sizeof(UserCallInfos));
         user->getTcpClient()->write(
-            boost::asio::buffer_cast<const unsigned char *>(b.data()), sizeof(UserCallInfos) * infosToSend.size() + sizeof(ClassicResponse));
+            reinterpret_cast<const unsigned char *>(b.str().c_str()), sizeof(UserCallInfos) * infosToSend.size() + sizeof(ClassicResponse));
         user->setInCall(true);
         user->setCalledUsers(calledUsers);
     }

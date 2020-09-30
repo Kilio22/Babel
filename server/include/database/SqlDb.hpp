@@ -15,9 +15,8 @@ namespace Babel::Server
 {
     class SqlDb : public IDb {
     public:
+        SqlDb();
         ~SqlDb();
-
-        static SqlDb &getInstance();
 
         void setSqlResults(int argc, char **argv, bool isUsername);
 
@@ -31,11 +30,6 @@ namespace Babel::Server
         static int contactCallback(void *, int argc, char **argv, char **);
 
     private:
-        SqlDb();
-        SqlDb(const SqlDb &) = delete;
-        SqlDb &operator=(const SqlDb &) = delete;
-
-        static SqlDb sqlDbInstance;
         sqlite3 *m_db;
         std::vector<std::string> m_queryResults;
         std::vector<Username> m_contactQueryResults;
