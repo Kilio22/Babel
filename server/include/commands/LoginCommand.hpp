@@ -9,9 +9,7 @@
 #define LOGINCOMMAND_HPP_
 
 #include "Username.hpp"
-#include "commands/CommandParser.hpp"
 #include "commands/ICommand.hpp"
-#include "commands/RegisterCommand.hpp"
 
 namespace Babel::Server::Commands
 {
@@ -29,12 +27,6 @@ namespace Babel::Server::Commands
             Header header;
             char username[USERNAME_LENGTH];
             char password[PASSWORD_LENGTH];
-        };
-
-        struct LoginResponse
-        {
-            Header header;
-            enum RESPONSE_CODE responseCode;
         };
 #pragma pack(pop)
     };

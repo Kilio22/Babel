@@ -12,6 +12,20 @@
 
 namespace Babel::Server::Commands
 {
+    const std::size_t PASSWORD_LENGTH = 43;
+
+    enum COMMAND_TYPE
+    {
+        REGISTER,
+        LOGIN,
+        GET_CONTACTS,
+        ADD_CONTACT,
+        START_CALL,
+        STOP_CALL,
+        DISCONNECT,
+        ERR
+    };
+
     enum RESPONSE_CODE
     {
         OK,
@@ -26,6 +40,26 @@ namespace Babel::Server::Commands
         NOT_IN_CALL,
         OTHER
     };
+
+#pragma pack(push, 1)
+
+    struct Header
+    {
+        Header(enum COMMAND_TYPE commandType)
+            : corewarMagic(0xea83f3)
+            , commandType(commandType)
+        {
+        }
+        int corewarMagic;
+        enum COMMAND_TYPE commandType;
+    };
+    struct ClassicResponse
+    {
+        Header header;
+        enum RESPONSE_CODE responseCode;
+    };
+#pragma pack(pop)
+
     class ICommand {
     public:
         virtual ~ICommand() = default;

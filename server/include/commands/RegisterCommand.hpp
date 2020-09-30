@@ -9,13 +9,10 @@
 #define REGISTERCOMMAND_HPP_
 
 #include "Username.hpp"
-#include "commands/CommandParser.hpp"
-#include "commands/RegisterCommand.hpp"
+#include "commands/ICommand.hpp"
 
 namespace Babel::Server::Commands
 {
-    const std::size_t PASSWORD_LENGTH = 43;
-
     class RegisterCommand : public ICommand {
     public:
         RegisterCommand() = default;
@@ -30,12 +27,6 @@ namespace Babel::Server::Commands
             Header header;
             char username[USERNAME_LENGTH];
             char password[PASSWORD_LENGTH];
-        };
-
-        struct RegisterResponse
-        {
-            Header header;
-            enum RESPONSE_CODE responseCode;
         };
 #pragma pack(pop)
     };

@@ -15,20 +15,6 @@
 
 namespace Babel::Server
 {
-    namespace Commands
-    {
-        enum COMMAND_TYPE
-        {
-            REGISTER,
-            LOGIN,
-            GET_CONTACTS,
-            ADD_CONTACT,
-            START_CALL,
-            STOP_CALL,
-            ERR
-        };
-    } // namespace Commands
-
     class CommandFactory {
     public:
         CommandFactory();

@@ -6,6 +6,8 @@
 */
 
 #include "commands/CommandParser.hpp"
+#include "commands/CommandFactory.hpp"
+#include "commands/ICommand.hpp"
 #include <iostream>
 
 Babel::Server::CommandParser Babel::Server::CommandParser::commandParserInstance;
@@ -23,7 +25,7 @@ void Babel::Server::CommandParser::parseCommand(const unsigned char *data, std::
     }
 
     const Commands::Header *header = reinterpret_cast<const Commands::Header *>(data);
-    if (header->corewarMagic != Commands::corewarMagic) {
+    if (header->corewarMagic != COREWAR_MAGIC) {
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&responseHeader), sizeof(Commands::Header));
     }
     try {

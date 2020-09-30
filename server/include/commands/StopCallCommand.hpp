@@ -8,7 +8,6 @@
 #ifndef STOPCALLCOMMAND_HPP_
 #define STOPCALLCOMMAND_HPP_
 
-#include "commands/CommandParser.hpp"
 #include "commands/ICommand.hpp"
 
 namespace Babel::Server::Commands
@@ -26,13 +25,8 @@ namespace Babel::Server::Commands
         {
             Header header;
         };
-
-        struct StopCallResponse
-        {
-            Header header;
-            enum RESPONSE_CODE responseCode;
-        };
 #pragma pack(pop)
+        void stopCalls(const std::vector<std::string> &, ClassicResponse &) const;
     };
 } // namespace Babel::Server::Commands
 

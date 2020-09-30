@@ -8,8 +8,8 @@
 #ifndef ADDCONTACTCOMMAND_HPP_
 #define ADDCONTACTCOMMAND_HPP_
 
-#include "CommandParser.hpp"
 #include "CommandManager.hpp"
+#include "CommandParser.hpp"
 #include "ICommand.hpp"
 #include <cstring>
 

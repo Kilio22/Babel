@@ -10,7 +10,6 @@
 
 #include "ICommand.hpp"
 #include "Username.hpp"
-#include "commands/CommandParser.hpp"
 #include <cstring>
 
 namespace Babel::Server::Commands
@@ -34,15 +33,10 @@ namespace Babel::Server::Commands
             char username[USERNAME_LENGTH];
             bool loggedIn;
         };
-
-        struct GetContactsResponse
-        {
-            Header header;
-            enum RESPONSE_CODE responseCode;
-        };
 #pragma pack(pop)
 
         std::vector<Contact> getContacts(const std::string &) const;
+        void sendContacts(std::vector<Contact>, ClassicResponse &, IUser *) const;
     };
 } // namespace Babel::Server::Commands
 

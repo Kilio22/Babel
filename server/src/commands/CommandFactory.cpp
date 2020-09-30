@@ -7,6 +7,7 @@
 
 #include "commands/CommandFactory.hpp"
 #include "commands/AddContactCommand.hpp"
+#include "commands/DisconnectCommand.hpp"
 #include "commands/GetContactsCommand.hpp"
 #include "commands/LoginCommand.hpp"
 #include "commands/RegisterCommand.hpp"
@@ -21,7 +22,8 @@ const std::unordered_map<enum COMMAND_TYPE, const std::function<ICommand *()>> B
           { COMMAND_TYPE::ADD_CONTACT, []() { return &CommandFactory::createCommand<AddContactCommand>(); } },
           { COMMAND_TYPE::GET_CONTACTS, []() { return &CommandFactory::createCommand<GetContactsCommand>(); } },
           { COMMAND_TYPE::START_CALL, []() { return &CommandFactory::createCommand<StartCallCommand>(); } },
-          { COMMAND_TYPE::STOP_CALL, []() { return &CommandFactory::createCommand<StopCallCommand>(); } } };
+          { COMMAND_TYPE::STOP_CALL, []() { return &CommandFactory::createCommand<StopCallCommand>(); } },
+          { COMMAND_TYPE::DISCONNECT, []() { return &CommandFactory::createCommand<DisconnectCommand>(); } } };
 
 Babel::Server::Commands::ICommand *Babel::Server::CommandFactory::createCommandFromCommandType(const enum COMMAND_TYPE commandType)
 {

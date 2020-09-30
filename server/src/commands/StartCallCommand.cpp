@@ -12,24 +12,23 @@
 
 void Babel::Server::Commands::StartCallCommand::handle(const unsigned char *data, const std::size_t bytesTransfered, IUser *user) const
 {
-    StartCallResponse startCallResponse = { Header(COMMAND_TYPE::START_CALL), RESPONSE_CODE::OK };
+    ClassicResponse classicResponse = { Header(COMMAND_TYPE::START_CALL), RESPONSE_CODE::OK };
     if (!user->isLoggedIn()) {
-        startCallResponse.responseCode = RESPONSE_CODE::NOT_LOGGED_IN;
-        return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&startCallResponse), sizeof(StartCallResponse));
+        classicResponse.responseCode = RESPONSE_CODE::NOT_LOGGED_IN;
+        return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
     }
     if (bytesTransfered - sizeof(StartCallRequest) < sizeof(Username)) {
-        startCallResponse.responseCode = RESPONSE_CODE::OTHER;
-        return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&startCallResponse), sizeof(StartCallResponse));
+        classicResponse.responseCode = RESPONSE_CODE::OTHER;
+        return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
     }
 
     std::vector<Username> usernames;
     usernames.assign(reinterpret_cast<const Username *>(&data[sizeof(StartCallRequest)]), reinterpret_cast<const Username *>(data + bytesTransfered));
     usernames.push_back({ user->getUsername() });
-
-    this->sendInfosToUsers(usernames, startCallResponse);
+    this->sendInfosToUsers(usernames, classicResponse);
 }
 
-void Babel::Server::Commands::StartCallCommand::sendInfosToUsers(const std::vector<Username> &usernames, StartCallResponse &startCallResponse) const
+void Babel::Server::Commands::StartCallCommand::sendInfosToUsers(const std::vector<Username> &usernames, ClassicResponse &classicResponse) const
 {
     std::vector<IUser *> users;
     std::vector<UserCallInfos> usersCallInfos;
@@ -38,17 +37,17 @@ void Babel::Server::Commands::StartCallCommand::sendInfosToUsers(const std::vect
         IUser *user = UserManager::getInstance().getUserByUsername(username.username);
 
         if (user == nullptr) {
-            startCallResponse.responseCode = RESPONSE_CODE::USER_DISCONNECTED;
-            return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&startCallResponse), sizeof(StartCallResponse));
+            classicResponse.responseCode = RESPONSE_CODE::USER_DISCONNECTED;
+            return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
         }
         users.push_back(user);
         usersCallInfos.push_back({ user->getUsername().c_str(), user->getTcpClient()->getIp().c_str() });
     }
-    this->sendLoop(users, usersCallInfos, startCallResponse);
+    this->sendLoop(users, usersCallInfos, classicResponse);
 }
 
 void Babel::Server::Commands::StartCallCommand::sendLoop(
-    const std::vector<IUser *> &users, const std::vector<UserCallInfos> &usersCallInfos, StartCallResponse &startCallResponse) const
+    const std::vector<IUser *> &users, const std::vector<UserCallInfos> &usersCallInfos, ClassicResponse &classicResponse) const
 {
     for (const auto &user : users) {
         std::vector<UserCallInfos> infosToSend;
@@ -63,10 +62,10 @@ void Babel::Server::Commands::StartCallCommand::sendLoop(
                 calledUsers.push_back(userCallInfos.username);
             }
         }
-        os.write(reinterpret_cast<const char *>(&startCallResponse), sizeof(StartCallResponse));
+        os.write(reinterpret_cast<const char *>(&classicResponse), sizeof(ClassicResponse));
         os.write(reinterpret_cast<const char *>(infosToSend.data()), infosToSend.size() * sizeof(UserCallInfos));
         user->getTcpClient()->write(
-            boost::asio::buffer_cast<const unsigned char *>(b.data()), sizeof(UserCallInfos) * infosToSend.size() + sizeof(StartCallResponse));
+            boost::asio::buffer_cast<const unsigned char *>(b.data()), sizeof(UserCallInfos) * infosToSend.size() + sizeof(ClassicResponse));
         user->setInCall(true);
         user->setCalledUsers(calledUsers);
     }

@@ -9,7 +9,6 @@
 #define ADDCONTACTCOMMAND_HPP_
 
 #include "Username.hpp"
-#include "commands/CommandParser.hpp"
 #include "commands/ICommand.hpp"
 #include "network/ITcpClient.hpp"
 #include <cstring>
@@ -41,15 +40,11 @@ namespace Babel::Server::Commands
             Header header;
             char username[USERNAME_LENGTH];
         };
-
-        struct AddContactsResponse
-        {
-            Header header;
-            enum RESPONSE_CODE responseCode;
-        };
 #pragma pack(pop)
 
-        std::vector<Contact> getContacts(const std::string &username) const;
+        void addContact(const AddContactRequest *, ClassicResponse &, IUser *) const;
+        std::vector<Contact> getContacts(const std::string &) const;
+        void sendContacts(std::vector<Contact>, ClassicResponse &, IUser *) const;
     };
 }
 #endif /* !ADDCONTACTCOMMAND_HPP_ */

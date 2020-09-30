@@ -13,24 +13,18 @@
 
 void Babel::Server::Commands::GetContactsCommand::handle(const unsigned char *, const std::size_t, IUser *user) const
 {
-    GetContactsResponse getContactsResponse = { Header(COMMAND_TYPE::GET_CONTACTS), RESPONSE_CODE::OK };
+    ClassicResponse classicResponse = { Header(COMMAND_TYPE::GET_CONTACTS), RESPONSE_CODE::OK };
     if (!user->isLoggedIn()) {
-        getContactsResponse.responseCode = RESPONSE_CODE::NOT_LOGGED_IN;
-        return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&getContactsResponse), sizeof(GetContactsResponse));
+        classicResponse.responseCode = RESPONSE_CODE::NOT_LOGGED_IN;
+        return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
     }
 
     try {
         std::vector<Contact> contacts = this->getContacts(user->getUsername());
-        boost::asio::streambuf b;
-        std::ostream os(&b);
-
-        os.write(reinterpret_cast<const char *>(&getContactsResponse), sizeof(GetContactsResponse));
-        os.write(reinterpret_cast<const char *>(contacts.data()), sizeof(Contact) * contacts.size());
-        user->getTcpClient()->write(
-            boost::asio::buffer_cast<const unsigned char *>(b.data()), (sizeof(Contact) * contacts.size() + sizeof(GetContactsResponse)));
+        this->sendContacts(contacts, classicResponse, user);
     } catch (const std::exception &e) {
-        getContactsResponse.responseCode = RESPONSE_CODE::OTHER;
-        return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&getContactsResponse), sizeof(GetContactsResponse));
+        classicResponse.responseCode = RESPONSE_CODE::OTHER;
+        return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
     }
 }
 
@@ -50,4 +44,15 @@ std::vector<Babel::Server::Commands::GetContactsCommand::Contact> Babel::Server:
         }
     }
     return contacts;
+}
+
+void Babel::Server::Commands::GetContactsCommand::sendContacts(std::vector<Contact> contacts, ClassicResponse &classicResponse, IUser *user) const
+{
+    boost::asio::streambuf b;
+    std::ostream os(&b);
+
+    os.write(reinterpret_cast<const char *>(&classicResponse), sizeof(ClassicResponse));
+    os.write(reinterpret_cast<const char *>(contacts.data()), sizeof(Contact) * contacts.size());
+    user->getTcpClient()->write(
+        boost::asio::buffer_cast<const unsigned char *>(b.data()), (sizeof(Contact) * contacts.size() + sizeof(ClassicResponse)));
 }

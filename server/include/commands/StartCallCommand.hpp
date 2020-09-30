@@ -8,10 +8,8 @@
 #ifndef STARTCALLCOMMAND_HPP_
 #define STARTCALLCOMMAND_HPP_
 
-#include "CommandParser.hpp"
 #include "ICommand.hpp"
 #include "Username.hpp"
-#include "database/IDb.hpp"
 #include <cstring>
 
 namespace Babel::Server::Commands
@@ -42,16 +40,10 @@ namespace Babel::Server::Commands
         {
             Header header;
         };
-
-        struct StartCallResponse
-        {
-            Header header;
-            enum RESPONSE_CODE responseCode;
-        };
 #pragma pack(pop)
 
-        void sendInfosToUsers(const std::vector<Username> &, StartCallResponse &) const;
-        void sendLoop(const std::vector<IUser *> &, const std::vector<UserCallInfos> &, StartCallResponse &) const;
+        void sendInfosToUsers(const std::vector<Username> &, ClassicResponse &) const;
+        void sendLoop(const std::vector<IUser *> &, const std::vector<UserCallInfos> &, ClassicResponse &) const;
     };
 } // namespace Babel::Server::Commands
 
