@@ -12,14 +12,14 @@
 
 void Babel::Client::Commands::AddContactCommand::handle(const unsigned char *data, std::size_t bytes) const
 {
-    const AddContactsResponse *addContactResponse = reinterpret_cast<const AddContactsResponse *>(data);
+    const ClassicResponse *addContactResponse = reinterpret_cast<const ClassicResponse *>(data);
 
     std::cout << "add contact nb bytes " << bytes << std::endl;
     if (addContactResponse->responseCode == RESPONSE_CODE::OK) {
         std::cout << "ADD CONTACT - SUCCESS !" << std::endl; // debug
         std::vector<Contact> contacts;
         std::vector<std::string> contactsNames;
-        contacts.assign(reinterpret_cast<const Contact *>(&data[sizeof(AddContactsResponse)]), reinterpret_cast<const Contact *>(data + bytes));
+        contacts.assign(reinterpret_cast<const Contact *>(&data[sizeof(ClassicResponse)]), reinterpret_cast<const Contact *>(data + bytes));
         for (int i = 0; i < contacts.size(); i++) {
             std::cout << contacts.at(i).username << std::endl;
             contactsNames.push_back(contacts.at(i).username);

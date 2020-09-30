@@ -12,7 +12,7 @@
 
 void Babel::Client::Commands::LoginCommand::handle(const unsigned char *data, std::size_t bytes) const
 {
-    const LoginResponse *loginResponse = reinterpret_cast<const struct LoginResponse *>(data);
+    const ClassicResponse *loginResponse = reinterpret_cast<const struct ClassicResponse *>(data);
 
     if (loginResponse->responseCode == RESPONSE_CODE::OK) {
         std::cout << "LOGIN - LOGIN SUCCESS !" << std::endl; // debug

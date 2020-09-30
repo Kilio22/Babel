@@ -12,12 +12,12 @@
 
 void Babel::Client::Commands::StartCallCommand::handle(const unsigned char *data, std::size_t bytes) const
 {
-    const StartCallResponse *startCallResponse = reinterpret_cast<const StartCallResponse *>(data);
+    const ClassicResponse *startCallResponse = reinterpret_cast<const ClassicResponse *>(data);
 
     if (startCallResponse->responseCode == RESPONSE_CODE::OK) {
         std::cout << "START CALL - SUCCESS !" << std::endl; // debug
         std::vector<UserCallInfos> users;
-        users.assign(reinterpret_cast<const UserCallInfos *>(&data[sizeof(StartCallResponse)]), reinterpret_cast<const UserCallInfos *>(data + bytes));
+        users.assign(reinterpret_cast<const UserCallInfos *>(&data[sizeof(ClassicResponse)]), reinterpret_cast<const UserCallInfos *>(data + bytes));
         for (int i = 0; i < users.size(); i++) {
             std::cout << users.at(i).username << std::endl;
         }

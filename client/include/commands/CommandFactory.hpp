@@ -25,6 +25,7 @@ namespace Babel::Client
             ADD_CONTACT,
             START_CALL,
             STOP_CALL,
+            DISCONNECT,
             ERR
         };
     } // namespace Commands
