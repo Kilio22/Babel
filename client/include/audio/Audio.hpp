@@ -12,6 +12,7 @@
 #include <array>
 #include <cstring>
 #include <vector>
+#include <cstdint>
 
 namespace Babel::Client::Audio
 {
@@ -41,7 +42,7 @@ namespace Babel::Client::Audio
         }
 
         std::vector<unsigned char> samples;
-        std::size_t size;
+        int32_t size;
     };
 }
 
