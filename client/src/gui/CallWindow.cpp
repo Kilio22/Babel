@@ -91,7 +91,10 @@ void Babel::Client::Gui::CallWindow::EndCallClicked()
 {
     ServiceLocator::getInstance().get<CommandManager>().stopCall();
     reset();
-    // TODO : deplacer ce setState dans une fonction appelée quand le serveur confirme la fin du call
+}
+
+void Babel::Client::Gui::CallWindow::EndCallWorked()
+{
     ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Main);
 }
 

@@ -34,7 +34,8 @@ namespace Babel::Client::Gui {
             QLabel bottomText;
             QLabel topText;
             QLabel loaderGif;
-            QMovie movie;
+            QMovie movie; 
+            std::string lastUsername;
 
             /**
              * @brief Evalute if the inputs in the form are valid.
@@ -57,7 +58,7 @@ namespace Babel::Client::Gui {
             ~LoginWindow() = default;
 
             void setError(const std::string &errorStr);
-            void loginWorked(const std::string &username);
+            void loginWorked();
 
         private slots:
             /**

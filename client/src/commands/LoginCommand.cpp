@@ -16,7 +16,7 @@ void Babel::Client::Commands::LoginCommand::handle(const unsigned char *data, st
 
     if (loginResponse->responseCode == RESPONSE_CODE::OK) {
         std::cout << "LOGIN - LOGIN SUCCESS !" << std::endl; // debug
-        ServiceLocator::getInstance().get<WindowManager>().getLoginWindow()->loginWorked("JeanNeymar");
+        ServiceLocator::getInstance().get<WindowManager>().getLoginWindow()->loginWorked();
         return;
     }
     if (loginResponse->responseCode == RESPONSE_CODE::BAD_COMBINAISON) {

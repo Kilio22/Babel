@@ -16,7 +16,7 @@ void Babel::Client::Commands::RegisterCommand::handle(const unsigned char *data,
 
     if (registerResponse->responseCode == RESPONSE_CODE::OK) {
         std::cout << "REGISTER - REGISTER SUCCESS !" << std::endl; // debug
-        ServiceLocator::getInstance().get<WindowManager>().getSignupWindow()->signupWorked("JeanNeymar");
+        ServiceLocator::getInstance().get<WindowManager>().getSignupWindow()->signupWorked();
         return;
     }
     if (registerResponse->responseCode == RESPONSE_CODE::WRONG_USERNAME_LENGTH) {

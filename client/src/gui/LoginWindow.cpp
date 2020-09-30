@@ -28,6 +28,7 @@ Babel::Client::Gui::LoginWindow::LoginWindow(QWidget *parent)
 , topText(&mainWidget)
 , loaderGif(this)
 , movie("./assets/loader.gif")
+, lastUsername("Default Username")
 {
     QScreen *screen = QGuiApplication::primaryScreen();
     QRect screenGeometry = screen->geometry();
@@ -136,6 +137,7 @@ void Babel::Client::Gui::LoginWindow::evaluateForms() {
 void Babel::Client::Gui::LoginWindow::submitLogin() {
     try {
         evaluateForms();
+        lastUsername = username.text().toStdString();
         ServiceLocator::getInstance().get<CommandManager>().login(username.text().toStdString(), password.text().toStdString());
     } catch (const Babel::Client::Exceptions::InvalidUsernameException &e) {
         (void)e;
@@ -184,7 +186,7 @@ void Babel::Client::Gui::LoginWindow::setError(const std::string & errorStr)
     topText.setText(errorStr.c_str());
 }
 
-void Babel::Client::Gui::LoginWindow::loginWorked(const std::string & username)
+void Babel::Client::Gui::LoginWindow::loginWorked()
 {
     this->username.clear();
     password.clear();
@@ -192,7 +194,7 @@ void Babel::Client::Gui::LoginWindow::loginWorked(const std::string & username)
     mainWidget.show();
     loaderGif.hide();
     ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Main);
-    ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setUsername(username);
+    ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setUsername(lastUsername);
 }
 
 #include "moc_LoginWindow.cpp"

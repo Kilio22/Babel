@@ -52,6 +52,7 @@ namespace Babel::Client::Gui {
             void setUsername(const std::string &name);
             void setError(const std::string &error);
             void setCallList(const std::vector<std::string> &nameList);
+            void EndCallWorked();
 
         private slots:
             void EndCallClicked();

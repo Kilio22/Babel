@@ -16,6 +16,7 @@
 #include <QtWidgets/QScrollArea>
 #include "gui/PersonMainWidget.hpp"
 #include <QtWidgets/QVBoxLayout>
+#include "CommandManager.hpp"
 #include <vector>
 #include <memory>
 
@@ -51,7 +52,9 @@ namespace Babel::Client::Gui {
             void setUsername(const std::string &name);
             void setError(const std::string &error);
             const std::vector<std::string> getUsersCalled() const;
-            void setContacts(const std::vector<std::string> &nameList);
+            void setContacts(const std::vector<Babel::Client::Commands::Contact> &contacts);
+            void callWorked(const std::vector<Babel::Client::Commands::UserCallInfos> &userInfo);
+            void disconnectWorked() const;
 
         private slots:
             void addContact();

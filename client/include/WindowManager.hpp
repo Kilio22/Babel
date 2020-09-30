@@ -54,6 +54,7 @@ namespace Babel::Client {
             Babel::Client::Gui::CallWindow *getCallWindow() const;
 
         private:
+            // TODO ajouter la about window ici plutôt
             WindowManager::State state;
             //std::unique_ptr<QMainWindow> loginWindow;
             std::vector<std::unique_ptr<QMainWindow>> windows;

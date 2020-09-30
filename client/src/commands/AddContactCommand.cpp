@@ -24,7 +24,7 @@ void Babel::Client::Commands::AddContactCommand::handle(const unsigned char *dat
             std::cout << contacts.at(i).username << std::endl;
             contactsNames.push_back(contacts.at(i).username);
         }
-        ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setContacts(contactsNames);
+        ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setContacts(contacts);
         return;
     }
     if (addContactResponse->responseCode == RESPONSE_CODE::BAD_CONTACT) {

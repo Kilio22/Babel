@@ -23,7 +23,7 @@ void Babel::Client::Commands::GetContactsCommand::handle(const unsigned char *da
             std::cout << contacts.at(i).username << std::endl;
             contactsNames.push_back(contacts.at(i).username);
         }
-        ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setContacts(contactsNames);
+        ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setContacts(contacts);
         return;
     }
     if (getContactsResponse->responseCode == RESPONSE_CODE::NOT_LOGGED_IN) {

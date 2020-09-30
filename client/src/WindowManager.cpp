@@ -14,13 +14,10 @@ Babel::Client::WindowManager::WindowManager()
 {
     // On est obligé de les initialiser avec reset.
     // Avec le Make Unique on appelle le constructeur de QMainWindow directement sinon.
-    for (int i = int(State::Signup); i < int(State::LastEnum); i++) {
-        windows[i].reset(new Gui::LoginWindow());
-    }
-    windows[int(State::Login)].reset(new Gui::LoginWindow());
-    windows[int(State::Signup)].reset(new Gui::SignupWindow());
-    windows[int(State::Main)].reset(new Gui::MainWindow());
-    windows[int(State::Call)].reset(new Gui::CallWindow());
+    windows[int(State::Login)] = std::make_unique<Gui::LoginWindow>();
+    windows[int(State::Signup)] = std::make_unique<Gui::SignupWindow>();
+    windows[int(State::Main)] = std::make_unique<Gui::MainWindow>();
+    windows[int(State::Call)] = std::make_unique<Gui::CallWindow>();
     windows[int(state)]->show();
 }
 
