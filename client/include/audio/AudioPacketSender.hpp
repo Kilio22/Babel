@@ -29,7 +29,7 @@ namespace Babel::Client::Audio
         struct SoundPacket {
             int magic = CorewarMagic;
             int64_t timestamp;
-            int64_t size;
+            int32_t size;
             char data[512 - sizeof(magic) - sizeof(timestamp) - sizeof(size)];
         };
 #pragma pack(pop)
