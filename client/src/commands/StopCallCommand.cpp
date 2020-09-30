@@ -12,7 +12,7 @@
 
 void Babel::Client::Commands::StopCallCommand::handle(const unsigned char *data, std::size_t bytes) const
 {
-    const StopCallResponse *stopCallResponse = reinterpret_cast<const struct StopCallResponse *>(data);
+    const ClassicResponse *stopCallResponse = reinterpret_cast<const struct ClassicResponse *>(data);
 
     if (stopCallResponse->responseCode == RESPONSE_CODE::OK) {
         std::cout << "STOP CALL - SUCCESS !" << std::endl; // debug

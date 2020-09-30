@@ -12,7 +12,7 @@
 
 void Babel::Client::Commands::RegisterCommand::handle(const unsigned char *data, std::size_t bytes) const
 {
-    const RegisterResponse *registerResponse = reinterpret_cast<const struct RegisterResponse *>(data);
+    const ClassicResponse *registerResponse = reinterpret_cast<const struct ClassicResponse *>(data);
 
     if (registerResponse->responseCode == RESPONSE_CODE::OK) {
         std::cout << "REGISTER - REGISTER SUCCESS !" << std::endl; // debug

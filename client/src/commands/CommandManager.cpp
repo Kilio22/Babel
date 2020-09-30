@@ -8,6 +8,7 @@
 #include "CommandManager.hpp"
 #include "exceptions.h"
 #include <iostream>
+#include <boost/asio/streambuf.hpp>
 
 Babel::Client::CommandManager::CommandManager()
 {
@@ -89,8 +90,15 @@ void Babel::Client::CommandManager::getContacts()
 void Babel::Client::CommandManager::startCall(std::vector<std::string> users)
 {
     if (connect()) {
+        boost::asio::streambuf b;
+        std::ostream os(&b);
+        std::vector<Commands::Username> usernames;
+        for (int i = 0; i < users.size(); i++)
+            usernames.push_back(users.at(i));
         const Commands::Header startCallRequest(Commands::COMMAND_TYPE::START_CALL);
-        tcpClient->send(reinterpret_cast<const unsigned char *>(&startCallRequest), sizeof(Commands::Header));
+        os.write(reinterpret_cast<const char *>(&startCallRequest), sizeof(Commands::Header));
+        os.write(reinterpret_cast<const char *>(usernames.data()), sizeof(Commands::Username) * usernames.size());
+        tcpClient->send(boost::asio::buffer_cast<const unsigned char *>(b.data()), sizeof(Commands::Username) * usernames.size() + sizeof(Commands::Header));
         return;
     } else {
         throw Exceptions::LoginFailedException(
@@ -103,6 +111,18 @@ void Babel::Client::CommandManager::stopCall()
     if (connect()) {
         const Commands::Header stopCallRequest(Commands::COMMAND_TYPE::STOP_CALL);
         tcpClient->send(reinterpret_cast<const unsigned char *>(&stopCallRequest), sizeof(Commands::Header));
+        return;
+    } else {
+        throw Exceptions::LoginFailedException(
+            "Can't connect to server.", "Babel::Client::CommandManager::stopCall");
+    }
+}
+
+void Babel::Client::CommandManager::disconnect()
+{
+    if (connect()) {
+        const Commands::Header disconnectRequest(Commands::COMMAND_TYPE::DISCONNECT);
+        tcpClient->send(reinterpret_cast<const unsigned char *>(&disconnectRequest), sizeof(Commands::Header));
         return;
     } else {
         throw Exceptions::LoginFailedException(

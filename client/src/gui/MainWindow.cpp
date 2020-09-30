@@ -208,8 +208,8 @@ void Babel::Client::Gui::MainWindow::openAbout() const
 
 void Babel::Client::Gui::MainWindow::disconnect() const
 {
-    // TODO GOSSELIN
-    // Tu peux déconnecter le mec ici.
+    ServiceLocator::getInstance().get<CommandManager>().disconnect();
+    // TODO : Deplacer cette fonction dans la fonction que j'appelle quand le serv a validé le disconnect
     ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Login);
 }
 

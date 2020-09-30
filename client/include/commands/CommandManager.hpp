@@ -27,6 +27,7 @@ namespace Babel::Client
         void getContacts();
         void startCall(std::vector<std::string>);
         void stopCall();
+        void disconnect();
 
     private:
         unsigned short port;
@@ -48,7 +49,7 @@ namespace Babel::Client
             char password[PASSWORD_LENGTH];
         };
 
-        struct LoginResponse
+        struct ClassicResponse
         {
             Header header;
             enum RESPONSE_CODE responseCode;
@@ -59,12 +60,6 @@ namespace Babel::Client
             Header header;
             char username[USERNAME_LENGTH];
             char password[PASSWORD_LENGTH];
-        };
-
-        struct RegisterResponse
-        {
-            Header header;
-            enum RESPONSE_CODE responseCode;
         };
 
         struct Contact
@@ -78,22 +73,19 @@ namespace Babel::Client
             bool loggedIn;
         };
 
+        struct Username
+        {
+            Username(const std::string &username)
+            {
+                std::strncpy(this->username, username.c_str(), USERNAME_LENGTH);
+            }
+            char username[USERNAME_LENGTH];
+        };
+
         struct AddContactRequest
         {
             Header header;
             char username[USERNAME_LENGTH];
-        };
-
-        struct AddContactsResponse
-        {
-            Header header;
-            enum RESPONSE_CODE responseCode;
-        };
-
-        struct GetContactsResponse
-        {
-            Header header;
-            enum RESPONSE_CODE responseCode;
         };
 
         struct UserCallInfos
@@ -112,21 +104,9 @@ namespace Babel::Client
             Header header;
         };
 
-        struct StartCallResponse
-        {
-            Header header;
-            enum RESPONSE_CODE responseCode;
-        };
-
         struct StopCallRequest
         {
             Header header;
-        };
-
-        struct StopCallResponse
-        {
-            Header header;
-            enum RESPONSE_CODE responseCode;
         };
 
 #pragma pack(pop)
