@@ -29,6 +29,8 @@ namespace Babel::Server::Commands
             char password[PASSWORD_LENGTH];
         };
 #pragma pack(pop)
+
+        void loginUser(const LoginCommand::LoginRequest *, ClassicResponse &, IUser *user);
     };
 } // namespace Babel::Server::Commands
 

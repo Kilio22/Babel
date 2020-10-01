@@ -9,7 +9,6 @@
 #include "database/DatabaseProvider.hpp"
 #include "database/SqlDb.hpp"
 #include "exceptions/ConstraintDatabaseException.hpp"
-#include <boost/shared_ptr.hpp>
 #include <iostream>
 
 void Babel::Server::Commands::RegisterCommand::handle(const unsigned char *data, const std::size_t, IUser *user) const

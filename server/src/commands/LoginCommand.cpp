@@ -26,21 +26,26 @@ void Babel::Server::Commands::LoginCommand::handle(const unsigned char *data, co
     }
 
     try {
-        std::vector<std::string> userLogs = DatabaseProvider::getDb<SqlDb>()->getUserLogs(std::string(loginRequest->username));
-        if (userLogs.empty()) {
-            classicResponse.responseCode = RESPONSE_CODE::BAD_COMBINAISON;
-            return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
-        }
-        if (std::string(loginRequest->password) != std::string(userLogs[1])) {
-            classicResponse.responseCode = RESPONSE_CODE::BAD_COMBINAISON;
-            return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
-        }
-
-        user->setLoggedIn(true);
-        user->setUsername(loginRequest->username);
-        return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
+        this->loginUser(loginRequest, classicResponse, user);
     } catch (const std::exception &) {
         classicResponse.responseCode = RESPONSE_CODE::OTHER;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
     }
+}
+
+void Babel::Server::Commands::LoginCommand::loginUser(const LoginCommand::LoginRequest *loginRequest, ClassicResponse &classicResponse, IUser *user)
+{
+    std::vector<std::string> userLogs = DatabaseProvider::getDb<SqlDb>()->getUserLogs(loginRequest->username);
+    if (userLogs.empty()) {
+        classicResponse.responseCode = RESPONSE_CODE::BAD_COMBINAISON;
+        return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
+    }
+    if (std::string(loginRequest->password) != std::string(userLogs[1])) {
+        classicResponse.responseCode = RESPONSE_CODE::BAD_COMBINAISON;
+        return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
+    }
+
+    user->setLoggedIn(true);
+    user->setUsername(loginRequest->username);
+    user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
 }
