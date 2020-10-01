@@ -7,6 +7,8 @@
 
 #include "QtUdpClient.hpp"
 #include "QtUcpClientException.hpp"
+#include <QtTest/QSignalSpy>
+#include <iostream>
 
 Babel::Client::Network::QtUdpClient::QtUdpClient()
     : socket(std::make_unique<QUdpSocket>())
@@ -22,12 +24,20 @@ void Babel::Client::Network::QtUdpClient::connect(unsigned short port)
 
 void Babel::Client::Network::QtUdpClient::closeConnection()
 {
+    QSignalSpy spy(this->socket.get(), SIGNAL(disconnect()));
+
     this->socket->disconnectFromHost();
+    if (spy.count() == 0) {
+        if (spy.wait() == false)
+            std::cerr << "Could not disconnect from socket..." << std::endl;
+        else
+            std::cout << "Disconnected from socket!" << std::endl;
+    }
 }
 
 void Babel::Client::Network::QtUdpClient::send(const DataPacket &dataPacket) const
 {
-    const auto& [data, host, port] = dataPacket;
+    const auto &[data, host, port] = dataPacket;
     QHostAddress addr(QString::fromStdString(host));
 
     this->socket->writeDatagram(data.data(), data.size(), addr, port);
