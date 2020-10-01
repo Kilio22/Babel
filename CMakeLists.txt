@@ -15,7 +15,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt5 COMPONENTS Widgets Network Test REQUIRED)
+find_package(Qt5 COMPONENTS Widgets Network REQUIRED)
 
 file(GLOB_RECURSE SRC_CLIENT ${PROJECT_SOURCE_DIR}/client/src/*)
 file(GLOB_RECURSE SRC_SERVER ${PROJECT_SOURCE_DIR}/server/src/*)
@@ -32,5 +32,5 @@ target_include_directories(client BEFORE PUBLIC ${PROJECT_SOURCE_DIR}/client/inc
 target_include_directories(client BEFORE PUBLIC ${PROJECT_SOURCE_DIR}/client/include/network)
 target_include_directories(server BEFORE PUBLIC ${PROJECT_SOURCE_DIR}/server/include)
 
-target_link_libraries(client ${CONAN_LIBS} Qt5::Widgets Qt5::Network Qt5::Test)
+target_link_libraries(client ${CONAN_LIBS} Qt5::Widgets Qt5::Network)
 target_link_libraries(server ${CONAN_LIBS})
