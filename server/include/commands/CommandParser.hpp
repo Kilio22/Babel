@@ -29,6 +29,7 @@ namespace Babel::Server
         CommandParser(const CommandParser &) = delete;
         CommandParser &operator=(const CommandParser &) = delete;
 
+    private:
         static CommandParser commandParserInstance;
     };
 } // namespace Babel::Server

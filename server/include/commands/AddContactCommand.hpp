@@ -42,6 +42,7 @@ namespace Babel::Server::Commands
         };
 #pragma pack(pop)
 
+    private:
         void addContact(const AddContactRequest *, ClassicResponse &, IUser *) const;
         std::vector<Contact> getContacts(const std::string &) const;
         void sendContacts(std::vector<Contact>, ClassicResponse &, IUser *) const;

@@ -26,6 +26,8 @@ namespace Babel::Server::Commands
             Header header;
         };
 #pragma pack(pop)
+
+    private:
         void stopCalls(const std::vector<std::string> &, ClassicResponse &) const;
     };
 } // namespace Babel::Server::Commands

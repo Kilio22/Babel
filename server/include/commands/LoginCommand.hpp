@@ -30,6 +30,7 @@ namespace Babel::Server::Commands
         };
 #pragma pack(pop)
 
+    private:
         void loginUser(const LoginCommand::LoginRequest *, ClassicResponse &, IUser *user);
     };
 } // namespace Babel::Server::Commands

@@ -42,6 +42,7 @@ namespace Babel::Server::Commands
         };
 #pragma pack(pop)
 
+    private:
         void sendInfosToUsers(const std::vector<Username> &, ClassicResponse &) const;
         void sendLoop(const std::vector<IUser *> &, const std::vector<UserCallInfos> &, ClassicResponse &) const;
     };

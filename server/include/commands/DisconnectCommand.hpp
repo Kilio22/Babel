@@ -9,6 +9,7 @@
 #define DISCONNECTCOMMAND_HPP_
 
 #include "commands/ICommand.hpp"
+#include <vector>
 
 namespace Babel::Server::Commands
 {

@@ -34,6 +34,7 @@ namespace Babel::Server
         void handleRead(const boost::system::error_code &error, std::size_t bytes_transferred);
         void handleWrite(const boost::system::error_code &error, std::size_t bytes_transferred);
 
+    private:
         boost::asio::ip::tcp::socket m_socket;
         unsigned char m_data[READ_SIZE];
         std::size_t m_bytesTransfered;

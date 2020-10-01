@@ -29,8 +29,8 @@ namespace Babel::Server
         UserManager(const UserManager &) = delete;
         UserManager &operator=(const UserManager &) = delete;
 
+    private:
         static UserManager userManagerInstance;
-
         std::vector<std::unique_ptr<IUser>> m_userList;
     };
 } // namespace Babel::Server
