@@ -39,21 +39,24 @@ void Babel::Client::Audio::AudioManager::startSpeaking() const
     this->outputDevice->startStream();
 }
 
-void Babel::Client::Audio::AudioManager::stopSpeaking() const
+void Babel::Client::Audio::AudioManager::stopSpeaking()
 {
     this->outputDevice->stopStream();
+    this->audioExtractors.clear();
 }
 
-#include <iomanip>
+// #include <iomanip>
 
-void Babel::Client::Audio::AudioManager::queueAudio(const CompressedBuffer &compressedBuffer, const std::string &hostFrom) const
+void Babel::Client::Audio::AudioManager::queueAudio(const CompressedBuffer &compressedBuffer, const std::string &hostFrom)
 {
     std::cout << "Extracting " << compressedBuffer.size << ":";
     for (auto &sample : compressedBuffer.samples)
         std::cout << " " << (int)sample;
     std::cout << std::endl;
 
-    const auto &soundBuffer = this->audioCompressor->extractAudio(compressedBuffer);
+    if (!this->audioExtractors.contains(hostFrom))
+        this->audioExtractors.insert({ hostFrom, std::make_unique<AudioCompressor>() });
+    const auto &soundBuffer = this->audioExtractors[hostFrom]->extractAudio(compressedBuffer);
 
     std::cout << "Extracted " << soundBuffer.samples.size() << ":";
     for (auto &sample : soundBuffer.samples)

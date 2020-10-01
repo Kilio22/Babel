@@ -10,8 +10,6 @@
 
 #include "Audio.hpp"
 #include "IAudioCompressor.hpp"
-#include <mutex>
-#include <memory>
 #include <opus.h>
 
 namespace Babel::Client::Audio
@@ -28,7 +26,6 @@ namespace Babel::Client::Audio
     private:
         OpusDecoder *decoder;
         OpusEncoder *encoder;
-        std::unique_ptr<std::mutex> mutex;
     };
 }
 
