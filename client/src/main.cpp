@@ -18,14 +18,12 @@ int main(int ac, char **av)
 {
     try {
         QApplication app(ac, av);
-        Babel::Client::ServiceLocator::getInstance().get<Babel::Client::BabelClient>().create(ac, av);
-        //Babel::Client::Audio::CallManager callManager;
+        // Babel::Client::ServiceLocator::getInstance().get<Babel::Client::BabelClient>().create(ac, av);
+        Babel::Client::Audio::CallManager callManager;
 
-        // std::cout << "Size of long : " << sizeof() << std::endl;
-
-        //callManager.beginCall({"10.19.254.55"});
+        callManager.beginCall({ "10.19.254.129", "127.0.0.1" /* "10.19.253.212" */ });
         app.exec();
-        //callManager.endCall();
+        callManager.endCall();
     } catch (const Babel::Client::Exceptions::ClientException &e) {
         std::cerr << e.getComponent() << ": " << e.what() << std::endl;
         return 84;

@@ -56,20 +56,20 @@ void Babel::Client::Audio::AudioPacketSender::onDataAvailable()
 {
     CompressedBuffer compressedBuffer;
     IUdpClient::DataPacket dataPacket = this->udpClient->getData();
-    SoundPacket *packetDataPtr = reinterpret_cast<SoundPacket *>(dataPacket.data.data());
+    SoundPacket *soundPacketPtr = reinterpret_cast<SoundPacket *>(dataPacket.data.data());
 
-    // std::cout << "Recieved packet of size " << dataPacket.data.size() << " (" << packetDataPtr->size << ") to " << dataPacket.host << std::endl;
-    if (packetDataPtr->magic != CorewarMagic) {
+    // std::cout << "Recieved packet of size " << dataPacket.data.size() << " (" << soundPacketPtr->size << ") to " << dataPacket.host << std::endl;
+    if (soundPacketPtr->magic != CorewarMagic) {
         std::cout << "Unidentified packet detected, ignoring..." << std::endl;
         return;
     }
-    if (packetDataPtr->timestamp < this->lastTimestamp) {
+    if (soundPacketPtr->timestamp < this->lastTimestamp) {
         std::cout << "Older sound packet recieved, ignoring..." << std::endl;
         return;
     }
-    this->lastTimestamp = packetDataPtr->timestamp;
-    compressedBuffer.size = packetDataPtr->size;
-    compressedBuffer.samples.assign(packetDataPtr->data, packetDataPtr->data + packetDataPtr->size);
+    this->lastTimestamp = soundPacketPtr->timestamp;
+    compressedBuffer.size = soundPacketPtr->size;
+    compressedBuffer.samples.assign(soundPacketPtr->data, soundPacketPtr->data + soundPacketPtr->size);
     emit this->audioPacketRecieved(compressedBuffer, dataPacket.host);
 }
 

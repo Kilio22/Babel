@@ -39,6 +39,7 @@ namespace Babel::Client::Audio
         CompressedBuffer()
         {
             this->samples.resize(ElementsPerBuffer);
+            std::fill(this->samples.begin(), this->samples.end(), 0);
         }
 
         std::vector<unsigned char> samples;

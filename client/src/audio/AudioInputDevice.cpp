@@ -12,7 +12,7 @@
 
 Babel::Client::Audio::AudioInputDevice::AudioInputDevice(ISoundInputAvailableEventListener *listener)
     : listener(listener)
-    , stream(nullptr)   
+    , stream(nullptr)
 {
     auto err = Pa_Initialize();
 
@@ -49,10 +49,13 @@ void Babel::Client::Audio::AudioInputDevice::startStream()
 
 void Babel::Client::Audio::AudioInputDevice::stopStream()
 {
+    std::queue<SoundBuffer> empty = {};
+
+    this->soundBuffers.swap(empty);
     if (Pa_CloseStream(this->stream) != paNoError)
         throw Exceptions::AudioException("Could not close input stream.");
 
-    std::cout << "Stopped streaming input." << std::endl;
+    std::cout << "Stopped streaming output." << std::endl;
 }
 
 Babel::Client::Audio::SoundBuffer Babel::Client::Audio::AudioInputDevice::getSound()
@@ -64,15 +67,11 @@ Babel::Client::Audio::SoundBuffer Babel::Client::Audio::AudioInputDevice::getSou
 }
 
 int Babel::Client::Audio::AudioInputDevice::callback(
-    const void *inputBuffer, void *, unsigned long frameCount, const PaStreamCallbackTimeInfo *, PaStreamCallbackFlags, void *data)
+    const void *inputBuffer, void *, unsigned long, const PaStreamCallbackTimeInfo *, PaStreamCallbackFlags, void *data)
 {
     AudioInputDevice *_this = static_cast<AudioInputDevice *>(data);
     const float *input = static_cast<const float *>(inputBuffer);
 
-    (void)frameCount;
-
-    if (!_this->soundBuffers.empty())
-        return paContinue;
     _this->soundBuffers.push({ input });
     _this->listener->onSoundInputAvailable();
     return paContinue;

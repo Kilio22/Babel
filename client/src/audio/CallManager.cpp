@@ -20,15 +20,15 @@ Babel::Client::Audio::CallManager::CallManager()
 void Babel::Client::Audio::CallManager::beginCall(const std::vector<std::string> &hosts)
 {
     this->audioPacketSender.connectTo(hosts);
-    this->audioManager.startRecording();
     this->audioManager.startSpeaking();
+    this->audioManager.startRecording();
 }
 
 void Babel::Client::Audio::CallManager::endCall()
 {
     this->audioPacketSender.closeConnection();
-    this->audioManager.stopRecording();
     this->audioManager.stopSpeaking();
+    this->audioManager.stopRecording();
 }
 
 void Babel::Client::Audio::CallManager::onInputAvailable(const SoundBuffer &soundBuffer)
@@ -36,11 +36,22 @@ void Babel::Client::Audio::CallManager::onInputAvailable(const SoundBuffer &soun
     this->audioPacketSender.sendAudio(this->audioCompressor->compressAudio(soundBuffer));
 }
 
+#include <iomanip>
+
 void Babel::Client::Audio::CallManager::onOutputAvailable(const CompressedBuffer &compressedBuffer, const std::string &host)
 {
-    auto soundBuffer = this->audioCompressor->extractAudio(compressedBuffer);
+    std::cout << "Extracting " << compressedBuffer.size << ":";
+    for (auto &sample : compressedBuffer.samples)
+        std::cout << " " << (int)sample;
+    std::cout << std::endl;
+    const auto &audio = this->audioCompressor->extractAudio(compressedBuffer);
 
-    this->audioManager.queueAudio(soundBuffer, host);
+    std::cout << "Extracted " << audio.samples.size() << ":";
+    for (auto &sample : audio.samples)
+        std::cout << " " << std::setprecision(3) << sample;
+    std::cout << std::endl;
+    // std::cout << "onOutputAvailable: " << audio.samples[0] << " (" << host << ")" << std::endl;
+    this->audioManager.queueAudio(audio, host);
 }
 
 #include "moc_CallManager.cpp"
