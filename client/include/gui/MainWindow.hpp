@@ -17,6 +17,7 @@
 #include "gui/PersonMainWidget.hpp"
 #include <QtWidgets/QVBoxLayout>
 #include "CommandManager.hpp"
+#include "CallManager.hpp"
 #include <vector>
 #include <memory>
 #include <unordered_map>
@@ -40,6 +41,7 @@ namespace Babel::Client::Gui {
             QPushButton aboutBtn;
             std::vector<std::unique_ptr<PersonMainWidget>> contacts;
             std::unordered_map<std::string, bool> saveContacts;
+            Babel::Client::Audio::CallManager callManager;
 
             /**
              * @brief Reset the state of the window.
@@ -57,6 +59,8 @@ namespace Babel::Client::Gui {
             void setContacts(const std::vector<Babel::Client::Commands::Contact> &contacts);
             void callWorked(const std::vector<Babel::Client::Commands::UserCallInfos> &userInfo);
             void disconnectWorked() const;
+            void startCall(const std::vector<std::string> &hosts);
+            void stopCall();
 
         private slots:
             void addContact();
