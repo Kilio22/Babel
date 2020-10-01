@@ -45,5 +45,3 @@ Babel::Client::Gui::AboutWindow::AboutWindow(QWidget *parent)
     logoLabel.show();
     textLabel.show();
 }
-
-#include "moc_AboutWindow.cpp"

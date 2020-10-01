@@ -17,7 +17,7 @@ void Babel::Client::BabelClient::create(int ac, char *av[])
 {
     if (ac != 4)
         throw Exceptions::BadArgumentsException(
-            "Bad args number, got: " + std::to_string(ac) + "but 4 are needed.", "Babel::Client::BabelClient::BabelClient");
+            "Bad args number, got: " + std::to_string(ac) + " but 4 are needed.", "Babel::Client::BabelClient::BabelClient");
     try {
         this->serveurIp = boost::lexical_cast<std::string>(av[1]);
     } catch (const std::exception &e) {
