@@ -15,12 +15,12 @@ void Babel::Client::Commands::DisconnectCommand::handle(const unsigned char *dat
     const ClassicResponse *disconnectResponse = reinterpret_cast<const ClassicResponse *>(data);
 
     if (disconnectResponse->responseCode == RESPONSE_CODE::OK) {
-        std::cout << "DISCONNECT - SUCCESS !" << std::endl; // debug
+        // std::cout << "DISCONNECT - SUCCESS !" << std::endl; // debug
         ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->disconnectWorked();
         return;
     }
     if (disconnectResponse->responseCode == RESPONSE_CODE::NOT_LOGGED_IN) {
-        std::cout << "DISCONNECT - USER NOT LOGGED IN !" << std::endl; // debug
+        // std::cout << "DISCONNECT - USER NOT LOGGED IN !" << std::endl; // debug
         ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setError("User not logged in");
         return;
     }

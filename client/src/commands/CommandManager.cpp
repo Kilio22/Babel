@@ -12,9 +12,7 @@
 #include <iostream>
 #include <sstream>
 
-Babel::Client::CommandManager::CommandManager()
-{
-}
+Babel::Client::CommandManager::CommandManager() { }
 
 void Babel::Client::CommandManager::create(const std::string &serveurIp, unsigned short port, const std::string &clientIp)
 {
@@ -22,7 +20,7 @@ void Babel::Client::CommandManager::create(const std::string &serveurIp, unsigne
     this->port = port;
     this->clientIp = clientIp;
     this->tcpClient = std::make_unique<Babel::Client::Network::QtTcpClient>();
-    QObject::connect(dynamic_cast<QObject *>(this->tcpClient.get()), SIGNAL (dataAvailable()), this, SLOT (onDataAvailable()));
+    QObject::connect(dynamic_cast<QObject *>(this->tcpClient.get()), SIGNAL(dataAvailable()), this, SLOT(onDataAvailable()));
 }
 
 bool Babel::Client::CommandManager::connect()
@@ -41,42 +39,39 @@ bool Babel::Client::CommandManager::connect()
 void Babel::Client::CommandManager::signup(const std::string &username, const std::string &password)
 {
     if (connect()) {
-        Commands::RegisterRequest registerRequest = { Commands::Header(Commands::COMMAND_TYPE::REGISTER)};
+        Commands::RegisterRequest registerRequest = { Commands::Header(Commands::COMMAND_TYPE::REGISTER) };
         strcpy(registerRequest.username, username.c_str());
         strcpy(registerRequest.password, password.c_str());
         tcpClient->send(reinterpret_cast<const unsigned char *>(&registerRequest), sizeof(Commands::RegisterRequest));
         return;
     } else {
-        throw Exceptions::SignupFailedException(
-            "Can't connect to server.", "Babel::Client::CommandManager::signup");
+        throw Exceptions::SignupFailedException("Can't connect to server.", "Babel::Client::CommandManager::signup");
     }
 }
 
 void Babel::Client::CommandManager::login(const std::string &username, const std::string &password)
 {
     if (connect()) {
-        Commands::LoginRequest loginRequest = { Commands::Header(Commands::COMMAND_TYPE::LOGIN)};
+        Commands::LoginRequest loginRequest = { Commands::Header(Commands::COMMAND_TYPE::LOGIN) };
         strcpy(loginRequest.username, username.c_str());
         strcpy(loginRequest.password, password.c_str());
         strcpy(loginRequest.ip, this->clientIp.c_str());
         tcpClient->send(reinterpret_cast<const unsigned char *>(&loginRequest), sizeof(Commands::LoginRequest));
         return;
     } else {
-        throw Exceptions::LoginFailedException(
-            "Can't connect to server.", "Babel::Client::CommandManager::login");
+        throw Exceptions::LoginFailedException("Can't connect to server.", "Babel::Client::CommandManager::login");
     }
 }
 
 void Babel::Client::CommandManager::addContact(const std::string &username)
 {
     if (connect()) {
-        Commands::AddContactRequest contactRequest = { Commands::Header(Commands::COMMAND_TYPE::ADD_CONTACT)};
+        Commands::AddContactRequest contactRequest = { Commands::Header(Commands::COMMAND_TYPE::ADD_CONTACT) };
         strcpy(contactRequest.username, username.c_str());
         tcpClient->send(reinterpret_cast<const unsigned char *>(&contactRequest), sizeof(Commands::AddContactRequest));
         return;
     } else {
-        throw Exceptions::LoginFailedException(
-            "Can't connect to server.", "Babel::Client::CommandManager::addContact");
+        throw Exceptions::LoginFailedException("Can't connect to server.", "Babel::Client::CommandManager::addContact");
     }
 }
 
@@ -87,8 +82,7 @@ void Babel::Client::CommandManager::getContacts()
         tcpClient->send(reinterpret_cast<const unsigned char *>(&getContactRequest), sizeof(Commands::Header));
         return;
     } else {
-        throw Exceptions::LoginFailedException(
-            "Can't connect to server.", "Babel::Client::CommandManager::getContacts");
+        throw Exceptions::LoginFailedException("Can't connect to server.", "Babel::Client::CommandManager::getContacts");
     }
 }
 
@@ -103,11 +97,11 @@ void Babel::Client::CommandManager::startCall(std::vector<std::string> users)
         const Commands::Header startCallRequest(Commands::COMMAND_TYPE::START_CALL);
         os.write(reinterpret_cast<const char *>(&startCallRequest), sizeof(Commands::Header));
         os.write(reinterpret_cast<const char *>(usernames.data()), sizeof(Commands::Username) * usernames.size());
-        tcpClient->send(reinterpret_cast<const unsigned char *>(b.str().c_str()), sizeof(Commands::Username) * usernames.size() + sizeof(Commands::Header));
+        tcpClient->send(
+            reinterpret_cast<const unsigned char *>(b.str().c_str()), sizeof(Commands::Username) * usernames.size() + sizeof(Commands::Header));
         return;
     } else {
-        throw Exceptions::LoginFailedException(
-            "Can't connect to server.", "Babel::Client::CommandManager::startCall");
+        throw Exceptions::LoginFailedException("Can't connect to server.", "Babel::Client::CommandManager::startCall");
     }
 }
 
@@ -118,8 +112,7 @@ void Babel::Client::CommandManager::stopCall()
         tcpClient->send(reinterpret_cast<const unsigned char *>(&stopCallRequest), sizeof(Commands::Header));
         return;
     } else {
-        throw Exceptions::LoginFailedException(
-            "Can't connect to server.", "Babel::Client::CommandManager::stopCall");
+        throw Exceptions::LoginFailedException("Can't connect to server.", "Babel::Client::CommandManager::stopCall");
     }
 }
 
@@ -130,8 +123,7 @@ void Babel::Client::CommandManager::disconnect()
         tcpClient->send(reinterpret_cast<const unsigned char *>(&disconnectRequest), sizeof(Commands::Header));
         return;
     } else {
-        throw Exceptions::LoginFailedException(
-            "Can't connect to server.", "Babel::Client::CommandManager::stopCall");
+        throw Exceptions::LoginFailedException("Can't connect to server.", "Babel::Client::CommandManager::stopCall");
     }
 }
 
@@ -140,7 +132,7 @@ void Babel::Client::CommandManager::onDataAvailable()
     std::pair<std::size_t, const unsigned char *> data = tcpClient->getData();
     for (std::size_t i = 0; i < 4096; i++) {
         if (data.second[i] != 0) {
-            std::cout << data.second[i] << std::endl;
+            // std::cout << data.second[i] << std::endl;
         }
     }
     CommandParser::getInstance().parseCommand(data.second, data.first);

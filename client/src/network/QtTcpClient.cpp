@@ -17,9 +17,7 @@ Babel::Client::Network::QtTcpClient::QtTcpClient()
     connect(this->socket.get(), SIGNAL(readyRead()), this, SLOT(handleReadyRead()));
 }
 
-Babel::Client::Network::QtTcpClient::~QtTcpClient()
-{
-}
+Babel::Client::Network::QtTcpClient::~QtTcpClient() { }
 
 bool Babel::Client::Network::QtTcpClient::send(const unsigned char *data, std::size_t size) const
 {
@@ -53,17 +51,17 @@ bool Babel::Client::Network::QtTcpClient::isConnected() const
 
 void Babel::Client::Network::QtTcpClient::connected()
 {
-    std::cout << "Client connected to the server !" << std::endl;
+    // std::cout << "Client connected to the server !" << std::endl;
 }
 
 void Babel::Client::Network::QtTcpClient::disconnected()
 {
-    std::cout << "Server disconnected !" << std::endl;
+    // std::cout << "Server disconnected !" << std::endl;
 }
 
 void Babel::Client::Network::QtTcpClient::handleReadyRead()
 {
-    std::cout << "Ready to read !" << std::endl;
+    // std::cout << "Ready to read !" << std::endl;
     this->data.fill('\0');
     this->bytes_transfered = socket->read(this->data.data(), readSize);
     if (this->bytes_transfered == -1)
