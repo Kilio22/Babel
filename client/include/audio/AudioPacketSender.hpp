@@ -39,6 +39,7 @@ namespace Babel::Client::Audio
         ~AudioPacketSender() = default;
 
         void connectTo(const std::vector<std::string> &hosts);
+        void closeConnection();
         void sendAudio(const CompressedBuffer &compressedBuffer);
 
     private slots:

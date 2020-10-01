@@ -27,6 +27,11 @@ void Babel::Client::Audio::AudioPacketSender::connectTo(const std::vector<std::s
     this->udpClient->connect(DefaultAudioPort);
 }
 
+void Babel::Client::Audio::AudioPacketSender::closeConnection()
+{
+    this->udpClient->closeConnection();
+}
+
 void Babel::Client::Audio::AudioPacketSender::sendAudio(const CompressedBuffer &compressedBuffer)
 {
     IUdpClient::DataPacket dataPacket;

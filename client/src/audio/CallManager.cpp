@@ -24,8 +24,9 @@ void Babel::Client::Audio::CallManager::beginCall(const std::vector<std::string>
     this->audioManager.startSpeaking();
 }
 
-void Babel::Client::Audio::CallManager::endCall() const
+void Babel::Client::Audio::CallManager::endCall()
 {
+    this->audioPacketSender.closeConnection();
     this->audioManager.stopRecording();
     this->audioManager.stopSpeaking();
 }

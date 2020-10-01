@@ -27,6 +27,7 @@ namespace Babel::Client::Network
         ~QtUdpClient() = default;
 
         void connect(unsigned short port) override;
+        void closeConnection() override;
         void send(const DataPacket &dataPacket) const override;
         DataPacket getData() override;
 

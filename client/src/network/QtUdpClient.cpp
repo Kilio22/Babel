@@ -20,6 +20,11 @@ void Babel::Client::Network::QtUdpClient::connect(unsigned short port)
         throw Exceptions::QtUcpClientException(ERROR_STR, "connect");
 }
 
+void Babel::Client::Network::QtUdpClient::closeConnection()
+{
+    this->socket->disconnectFromHost();
+}
+
 void Babel::Client::Network::QtUdpClient::send(const DataPacket &dataPacket) const
 {
     const auto& [data, host, port] = dataPacket;

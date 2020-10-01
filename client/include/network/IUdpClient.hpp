@@ -25,6 +25,7 @@ namespace Babel::Client::Network
         virtual ~IUdpClient() = default;
 
         virtual void connect(unsigned short port) = 0;
+        virtual void closeConnection() = 0;
         virtual void send(const DataPacket &dataPacket) const = 0;
         virtual DataPacket getData() = 0;
 
