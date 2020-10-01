@@ -224,22 +224,23 @@ void Babel::Client::Gui::MainWindow::callWorked(const std::vector<Babel::Client:
 {
     ServiceLocator::getInstance().get<WindowManager>().setState(Babel::Client::WindowManager::State::Call);
     ServiceLocator::getInstance().get<WindowManager>().getCallWindow()->setUsername(username);
-    // TODO : start le call manager
     std::vector<std::string> nameList;
-    for (int i = 0; i < userInfo.size(); i++)
+    std::vector<std::string> ips;
+    for (int i = 0; i < userInfo.size(); i++) {
         nameList.push_back(userInfo.at(i).username);
+        ips.push_back(userInfo.at(i).ip);
+    }
+    startCall(ips);
     ServiceLocator::getInstance().get<WindowManager>().getCallWindow()->setCallList(nameList);
 }
 
 void Babel::Client::Gui::MainWindow::startCall(const std::vector<std::string> &hosts)
 {
-    // Commencer le call ici avec le call manager
     callManager.beginCall(hosts);
 }
 
 void Babel::Client::Gui::MainWindow::stopCall()
 {
-    // A call depuis la CallWindow quand le call s'arrête.
     callManager.endCall();
 }
 
