@@ -24,6 +24,7 @@ namespace Babel::Client::Commands
         USERNAME_TAKEN,
         USER_DISCONNECTED,
         NOT_IN_CALL,
+        BAD_IP,
         OTHER
     };
     class ICommand {

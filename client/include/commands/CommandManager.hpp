@@ -21,7 +21,7 @@ namespace Babel::Client
         CommandManager();
         ~CommandManager() = default;
 
-        void create(const std::string &ip, unsigned short port);
+        void create(const std::string &serveurIp, unsigned short port, const std::string &clientIp);
         bool connect();
         void signup(const std::string &username, const std::string &password);
         void login(const std::string &username, const std::string &password);
@@ -33,7 +33,8 @@ namespace Babel::Client
 
     private:
         unsigned short port;
-        std::string ip;
+        std::string serveurIp;
+        std::string clientIp;
         std::unique_ptr<Network::ITcpClient> tcpClient;
     private slots:
         void onDataAvailable();
@@ -51,6 +52,7 @@ namespace Babel::Client
             Header header;
             char username[USERNAME_LENGTH];
             char password[PASSWORD_LENGTH];
+            char ip[IP_LENGTH];
         };
 
         struct ClassicResponse

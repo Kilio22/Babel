@@ -21,7 +21,8 @@ namespace Babel::Client
             void create(int ac, char *av[]);
         private:
             unsigned short port;
-            std::string ip;
+            std::string serveurIp;
+            std::string clientIp;
     };
 }
 

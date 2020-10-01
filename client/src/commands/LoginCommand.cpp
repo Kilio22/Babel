@@ -29,6 +29,11 @@ void Babel::Client::Commands::LoginCommand::handle(const unsigned char *data, st
         ServiceLocator::getInstance().get<WindowManager>().getLoginWindow()->setError("User already logged in");
         return;
     }
+    if (loginResponse->responseCode == RESPONSE_CODE::BAD_IP) {
+        std::cout << "LOGIN - BAD IP ADDRESS !" << std::endl; // debug
+        ServiceLocator::getInstance().get<WindowManager>().getLoginWindow()->setError("Bad client ip address");
+        return;
+    }
     if (loginResponse->responseCode == RESPONSE_CODE::OTHER) {
         std::cout << "LOGIN - ERROR !" << std::endl; // debug
         ServiceLocator::getInstance().get<WindowManager>().getLoginWindow()->setError("Error");

@@ -16,10 +16,11 @@ Babel::Client::CommandManager::CommandManager()
 {
 }
 
-void Babel::Client::CommandManager::create(const std::string &ip, unsigned short port)
+void Babel::Client::CommandManager::create(const std::string &serveurIp, unsigned short port, const std::string &clientIp)
 {
-    this->ip = ip;
+    this->serveurIp = serveurIp;
     this->port = port;
+    this->clientIp = clientIp;
     this->tcpClient = std::make_unique<Babel::Client::Network::QtTcpClient>();
     QObject::connect(dynamic_cast<QObject *>(this->tcpClient.get()), SIGNAL (dataAvailable()), this, SLOT (onDataAvailable()));
 }
@@ -29,7 +30,7 @@ bool Babel::Client::CommandManager::connect()
     try {
         if (tcpClient->isConnected())
             return true;
-        tcpClient->connectSocket(this->ip, this->port);
+        tcpClient->connectSocket(this->serveurIp, this->port);
         return true;
     } catch (Babel::Client::Exceptions::QtTcpClientException &e) {
         std::cerr << e.getComponent() << ": " << e.what() << std::endl;
@@ -57,6 +58,7 @@ void Babel::Client::CommandManager::login(const std::string &username, const std
         Commands::LoginRequest loginRequest = { Commands::Header(Commands::COMMAND_TYPE::LOGIN)};
         strcpy(loginRequest.username, username.c_str());
         strcpy(loginRequest.password, password.c_str());
+        strcpy(loginRequest.ip, this->clientIp.c_str());
         tcpClient->send(reinterpret_cast<const unsigned char *>(&loginRequest), sizeof(Commands::LoginRequest));
         return;
     } else {
