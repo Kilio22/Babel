@@ -33,7 +33,7 @@ void Babel::Server::Commands::LoginCommand::handle(const unsigned char *data, co
     }
 }
 
-void Babel::Server::Commands::LoginCommand::loginUser(const LoginCommand::LoginRequest *loginRequest, ClassicResponse &classicResponse, IUser *user)
+void Babel::Server::Commands::LoginCommand::loginUser(const LoginRequest *loginRequest, ClassicResponse &classicResponse, IUser *user) const
 {
     std::vector<std::string> userLogs = DatabaseProvider::getDb<SqlDb>()->getUserLogs(loginRequest->username);
     if (userLogs.empty()) {

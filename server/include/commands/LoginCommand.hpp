@@ -31,7 +31,7 @@ namespace Babel::Server::Commands
 #pragma pack(pop)
 
     private:
-        void loginUser(const LoginCommand::LoginRequest *, ClassicResponse &, IUser *user);
+        void loginUser(const LoginRequest *, ClassicResponse &, IUser *user) const;
     };
 } // namespace Babel::Server::Commands
 
