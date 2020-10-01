@@ -8,6 +8,7 @@
 #include "network/AsioTcpClient.hpp"
 #include "UserManager.hpp"
 #include "commands/CommandParser.hpp"
+#include <boost/asio/ip/address_v4.hpp>
 #include <boost/bind.hpp>
 #include <iostream>
 
@@ -28,7 +29,20 @@ boost::asio::ip::tcp::socket &Babel::Server::AsioTcpClient::getSocket()
 
 std::string Babel::Server::AsioTcpClient::getIp() const
 {
-    return this->m_socket.remote_endpoint().address().to_string();
+    return this->m_ip;
+}
+
+bool Babel::Server::AsioTcpClient::setIp(const std::string &newIp)
+{
+    boost::system::error_code ec;
+    boost::asio::ip::address_v4 ip = boost::asio::ip::make_address_v4(newIp, ec);
+
+    if (ec != boost::system::errc::success) {
+        this->m_ip.assign("");
+        return false;
+    }
+    this->m_ip.assign(newIp);
+    return true;
 }
 
 void Babel::Server::AsioTcpClient::read()

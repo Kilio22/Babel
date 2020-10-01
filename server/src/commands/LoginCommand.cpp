@@ -24,6 +24,10 @@ void Babel::Server::Commands::LoginCommand::handle(const unsigned char *data, co
         classicResponse.responseCode = RESPONSE_CODE::OTHER;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
     }
+    if (user->getTcpClient()->setIp(loginRequest->ip) == false) {
+        classicResponse.responseCode = RESPONSE_CODE::BAD_IP;
+        return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
+    }
 
     try {
         this->loginUser(loginRequest, classicResponse, user);
@@ -49,3 +53,5 @@ void Babel::Server::Commands::LoginCommand::loginUser(const LoginRequest *loginR
     user->setUsername(loginRequest->username);
     user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
 }
+
+bool Babel::Server::Commands::LoginCommand::checkIp(const std::string &ip) const { }

@@ -14,8 +14,6 @@
 
 namespace Babel::Server::Commands
 {
-    const std::size_t IP_LENGTH = 16;
-
     class StartCallCommand : public ICommand {
     public:
         StartCallCommand() = default;

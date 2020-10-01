@@ -13,6 +13,7 @@
 namespace Babel::Server::Commands
 {
     const std::size_t PASSWORD_LENGTH = 43;
+    const std::size_t IP_LENGTH = 16;
 
     enum COMMAND_TYPE
     {
@@ -38,6 +39,7 @@ namespace Babel::Server::Commands
         USERNAME_TAKEN,
         USER_DISCONNECTED,
         NOT_IN_CALL,
+        BAD_IP,
         OTHER
     };
 

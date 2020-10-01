@@ -20,6 +20,7 @@ namespace Babel::Server
         virtual void write(const unsigned char *data, std::size_t size) = 0;
         virtual void disconnect() = 0;
         virtual std::string getIp() const = 0;
+        virtual bool setIp(const std::string &) = 0;
         virtual std::pair<std::size_t, const unsigned char *> getData() const = 0;
     };
 } // namespace Babel::Server

@@ -27,11 +27,13 @@ namespace Babel::Server::Commands
             Header header;
             char username[USERNAME_LENGTH];
             char password[PASSWORD_LENGTH];
+            char ip[IP_LENGTH];
         };
 #pragma pack(pop)
 
     private:
         void loginUser(const LoginRequest *, ClassicResponse &, IUser *user) const;
+        bool checkIp(const std::string &) const;
     };
 } // namespace Babel::Server::Commands
 

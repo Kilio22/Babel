@@ -25,6 +25,7 @@ namespace Babel::Server
         boost::asio::ip::tcp::socket &getSocket();
 
         std::string getIp() const final;
+        bool setIp(const std::string &) final;
         void read() final;
         void write(const unsigned char *data, std::size_t size) final;
         void disconnect() final;
@@ -38,6 +39,7 @@ namespace Babel::Server
         boost::asio::ip::tcp::socket m_socket;
         unsigned char m_data[READ_SIZE];
         std::size_t m_bytesTransfered;
+        std::string m_ip;
     };
 } // namespace Babel::Server
 
