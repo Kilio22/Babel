@@ -14,6 +14,7 @@
 Babel::Client::Audio::AudioCompressor::AudioCompressor()
     : decoder(NULL)
     , encoder(NULL)
+    , mutex(std::make_unique<std::mutex>())
 {
     int err;
 
@@ -33,9 +34,6 @@ Babel::Client::Audio::AudioCompressor::~AudioCompressor()
         opus_decoder_destroy(this->decoder);
 }
 
-#include <mutex>
-
-std::mutex my_mutex;
 
 Babel::Client::Audio::CompressedBuffer Babel::Client::Audio::AudioCompressor::compressAudio(const SoundBuffer &sb) const
 {
@@ -50,7 +48,7 @@ Babel::Client::Audio::CompressedBuffer Babel::Client::Audio::AudioCompressor::co
 
 Babel::Client::Audio::SoundBuffer Babel::Client::Audio::AudioCompressor::extractAudio(const CompressedBuffer &cb) const
 {
-    const std::lock_guard<std::mutex> guard(my_mutex);
+    const std::lock_guard<std::mutex> guard(*this->mutex.get());
     SoundBuffer soundBuffer;
     int nDecode = opus_decode_float(this->decoder, cb.samples.data(), cb.size, soundBuffer.samples.data(), Audio::FramesPerBuffer, 0);
 

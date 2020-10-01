@@ -27,13 +27,12 @@ namespace Babel::Client::Audio
         void endCall();
 
     private slots:
-        void onInputAvailable(const SoundBuffer &);
+        void onInputAvailable(const CompressedBuffer &);
         void onOutputAvailable(const CompressedBuffer &, const std::string &);
 
     private:
         AudioManager audioManager;
         AudioPacketSender audioPacketSender;
-        std::unique_ptr<IAudioCompressor> audioCompressor;
     };
 }
 

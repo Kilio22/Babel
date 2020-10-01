@@ -9,6 +9,7 @@
 #define AUDIOMANAGER_HPP_
 
 #include "Audio.hpp"
+#include "AudioCompressor.hpp"
 #include "IAudioDevice.hpp"
 #include <QtCore/QObject>
 #include <memory>
@@ -29,14 +30,15 @@ namespace Babel::Client::Audio
         void stopRecording() const;
         void startSpeaking() const;
         void stopSpeaking() const;
-        void queueAudio(const SoundBuffer &soundBuffer, const std::string &hostFrom) const;
+        void queueAudio(const CompressedBuffer &soundBuffer, const std::string &hostFrom) const;
 
     signals:
-        void inputAvailable(const SoundBuffer &);
+        void inputAvailable(const CompressedBuffer &);
 
     private:
         std::unique_ptr<IInputDevice> inputDevice;
         std::unique_ptr<IOutputDevice> outputDevice;
+        std::unique_ptr<IAudioCompressor> audioCompressor;
     };
 }
 
