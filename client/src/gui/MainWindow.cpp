@@ -230,18 +230,18 @@ void Babel::Client::Gui::MainWindow::callWorked(const std::vector<Babel::Client:
         nameList.push_back(userInfo.at(i).username);
         ips.push_back(userInfo.at(i).ip);
     }
-    startCall(ips);
     ServiceLocator::getInstance().get<WindowManager>().getCallWindow()->setCallList(nameList);
+    startCall(ips);
 }
 
 void Babel::Client::Gui::MainWindow::startCall(const std::vector<std::string> &hosts)
 {
-    callManager.beginCall(hosts);
+    //callManager.beginCall(hosts);
 }
 
 void Babel::Client::Gui::MainWindow::stopCall()
 {
-    callManager.endCall();
+    //callManager.endCall();
 }
 
 #include "moc_MainWindow.cpp"

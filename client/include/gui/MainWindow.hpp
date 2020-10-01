@@ -41,7 +41,7 @@ namespace Babel::Client::Gui {
             QPushButton aboutBtn;
             std::vector<std::unique_ptr<PersonMainWidget>> contacts;
             std::unordered_map<std::string, bool> saveContacts;
-            Babel::Client::Audio::CallManager callManager;
+            //Babel::Client::Audio::CallManager callManager;
 
             /**
              * @brief Reset the state of the window.
