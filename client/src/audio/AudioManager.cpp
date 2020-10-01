@@ -6,6 +6,8 @@
 */
 
 #include "AudioManager.hpp"
+#include "AudioCompressor.hpp"
+#include "AudioExtractor.hpp"
 #include "AudioInputDevice.hpp"
 #include "AudioOutputDevice.hpp"
 #include "exceptions/AudioException.hpp"
@@ -45,25 +47,11 @@ void Babel::Client::Audio::AudioManager::stopSpeaking()
     this->audioExtractors.clear();
 }
 
-// #include <iomanip>
-
 void Babel::Client::Audio::AudioManager::queueAudio(const CompressedBuffer &compressedBuffer, const std::string &hostFrom)
 {
-    std::cout << "Extracting " << compressedBuffer.size << ":";
-    for (auto &sample : compressedBuffer.samples)
-        std::cout << " " << (int)sample;
-    std::cout << std::endl;
-
     if (!this->audioExtractors.contains(hostFrom))
-        this->audioExtractors.insert({ hostFrom, std::make_unique<AudioCompressor>() });
-    const auto &soundBuffer = this->audioExtractors[hostFrom]->extractAudio(compressedBuffer);
-
-    std::cout << "Extracted " << soundBuffer.samples.size() << ":";
-    for (auto &sample : soundBuffer.samples)
-        std::cout << " " << std::setprecision(3) << sample;
-    std::cout << std::endl;
-
-    this->outputDevice->setSound(soundBuffer, hostFrom);
+        this->audioExtractors.insert({ hostFrom, std::make_unique<AudioExtractor>() });
+    this->outputDevice->setSound(this->audioExtractors[hostFrom]->extractAudio(compressedBuffer), hostFrom);
 }
 
 #include "moc_AudioManager.cpp"

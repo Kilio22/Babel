@@ -8,7 +8,6 @@
 #ifndef AUDIOCOMPRESSOR_HPP_
 #define AUDIOCOMPRESSOR_HPP_
 
-#include "Audio.hpp"
 #include "IAudioCompressor.hpp"
 #include <opus.h>
 
@@ -21,10 +20,8 @@ namespace Babel::Client::Audio
         ~AudioCompressor();
 
         CompressedBuffer compressAudio(const SoundBuffer &soundBuffer) const override;
-        SoundBuffer extractAudio(const CompressedBuffer &compressedBuffer) const override;
 
     private:
-        OpusDecoder *decoder;
         OpusEncoder *encoder;
     };
 }

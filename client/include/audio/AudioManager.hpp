@@ -9,8 +9,9 @@
 #define AUDIOMANAGER_HPP_
 
 #include "Audio.hpp"
-#include "AudioCompressor.hpp"
+#include "IAudioCompressor.hpp"
 #include "IAudioDevice.hpp"
+#include "IAudioExtractor.hpp"
 #include <QtCore/QObject>
 #include <memory>
 #include <unordered_map>
@@ -40,7 +41,7 @@ namespace Babel::Client::Audio
         std::unique_ptr<IInputDevice> inputDevice;
         std::unique_ptr<IOutputDevice> outputDevice;
         std::unique_ptr<IAudioCompressor> audioCompressor;
-        std::unordered_map<std::string, std::unique_ptr<IAudioCompressor>> audioExtractors;
+        std::unordered_map<std::string, std::unique_ptr<IAudioExtractor>> audioExtractors;
     };
 }
 
