@@ -18,6 +18,7 @@ void Babel::Server::Commands::DisconnectCommand::handle(const unsigned char *, c
     if (user->isInCall() == false) {
         user->setUsername("");
         user->setLoggedIn(false);
+        user->getTcpClient()->setIp("");
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
     }
 
@@ -29,6 +30,7 @@ void Babel::Server::Commands::DisconnectCommand::handle(const unsigned char *, c
     user->setCalledUsers({});
     user->setUsername("");
     user->setLoggedIn(false);
+    user->getTcpClient()->setIp("");
     classicResponse.header.commandType = COMMAND_TYPE::DISCONNECT;
     return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
 }
