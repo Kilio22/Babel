@@ -31,8 +31,6 @@ namespace Babel::Client::Audio
     private:
         static int callback(const void *, void *, unsigned long, const PaStreamCallbackTimeInfo *, PaStreamCallbackFlags, void *);
 
-        bool soundQueuesEmpty() const;
-
     private:
         PaStream *stream;
         PaStreamParameters params;

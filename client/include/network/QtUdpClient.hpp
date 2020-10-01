@@ -31,8 +31,6 @@ namespace Babel::Client::Network
         void send(const DataPacket &dataPacket) const override;
         DataPacket getData() override;
 
-        void sendPacketsTo(std::vector<std::pair<std::string, unsigned short>> hosts);
-
     signals:
         void dataAvailable();
 
