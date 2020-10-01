@@ -53,5 +53,3 @@ void Babel::Server::Commands::LoginCommand::loginUser(const LoginRequest *loginR
     user->setUsername(loginRequest->username);
     user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
 }
-
-bool Babel::Server::Commands::LoginCommand::checkIp(const std::string &ip) const { }

@@ -226,6 +226,7 @@ void Babel::Client::Gui::MainWindow::callWorked(const std::vector<Babel::Client:
     ServiceLocator::getInstance().get<WindowManager>().getCallWindow()->setUsername(username);
     std::vector<std::string> nameList;
     std::vector<std::string> ips;
+
     for (int i = 0; i < userInfo.size(); i++) {
         nameList.push_back(userInfo.at(i).username);
         ips.push_back(userInfo.at(i).ip);

@@ -33,7 +33,6 @@ namespace Babel::Server::Commands
 
     private:
         void loginUser(const LoginRequest *, ClassicResponse &, IUser *user) const;
-        bool checkIp(const std::string &) const;
     };
 } // namespace Babel::Server::Commands
 
