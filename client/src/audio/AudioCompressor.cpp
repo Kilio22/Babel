@@ -34,7 +34,6 @@ Babel::Client::Audio::AudioCompressor::~AudioCompressor()
         opus_decoder_destroy(this->decoder);
 }
 
-
 Babel::Client::Audio::CompressedBuffer Babel::Client::Audio::AudioCompressor::compressAudio(const SoundBuffer &sb) const
 {
     CompressedBuffer compressedBuffer;
