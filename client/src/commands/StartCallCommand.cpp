@@ -34,6 +34,11 @@ void Babel::Client::Commands::StartCallCommand::handle(const unsigned char *data
         ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setError("User called not logged in");
         return;
     }
+    if (startCallResponse->responseCode == RESPONSE_CODE::USER_IN_CALL) {
+        // std::cout << "START CALL - USER YOU ARE CALLING IS IN CALL !" << std::endl; // debug
+        ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setError("User called is already in call");
+        return;
+    }
     if (startCallResponse->responseCode == RESPONSE_CODE::OTHER) {
         // std::cout << "START CALL - ERROR !" << std::endl; // debug
         ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setError("Error");
