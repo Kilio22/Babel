@@ -24,7 +24,7 @@ void Babel::Client::Network::QtUdpClient::connect(unsigned short port)
 
 void Babel::Client::Network::QtUdpClient::closeConnection()
 {
-    QSignalSpy spy(this->socket.get(), SIGNAL(disconnect()));
+    QSignalSpy spy(this->socket.get(), SIGNAL(disconnected()));
 
     this->socket->disconnectFromHost();
     if (spy.count() == 0) {
