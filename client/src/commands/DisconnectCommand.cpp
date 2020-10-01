@@ -16,7 +16,7 @@ void Babel::Client::Commands::DisconnectCommand::handle(const unsigned char *dat
 
     if (disconnectResponse->responseCode == RESPONSE_CODE::OK) {
         std::cout << "DISCONNECT - SUCCESS !" << std::endl; // debug
-        // TODO : appeler la fonction de Ghassane qui change la fenetre
+        ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->disconnectWorked();
         return;
     }
     if (disconnectResponse->responseCode == RESPONSE_CODE::NOT_LOGGED_IN) {

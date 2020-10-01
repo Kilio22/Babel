@@ -140,11 +140,6 @@ void Babel::Client::Gui::MainWindow::callClicked()
 {
     ServiceLocator::getInstance().get<CommandManager>().startCall(getUsersCalled());
     reset();
-    // TODO : deplacer les fonctions ci dessous dans une fonction que je call si le serveur dis ok pour le call
-    // Si le call se lance, faites ça :
-    ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Call);
-    ServiceLocator::getInstance().get<WindowManager>().getCallWindow()->setUsername(username);
-    ServiceLocator::getInstance().get<WindowManager>().getCallWindow()->setCallList({"un utilisateur", "un autre utilisateur"}); // Faut filer un vecteur des gens qui sont dans le call. Si qqn quitte tu peux redonner le vector pour update la liste de la gui aussi.
 }
 
 void Babel::Client::Gui::MainWindow::setContacts(const std::vector<Babel::Client::Commands::Contact> &contactsList)
@@ -217,23 +212,23 @@ void Babel::Client::Gui::MainWindow::openAbout() const
 
 void Babel::Client::Gui::MainWindow::disconnect() const
 {
-    // TODO GOSSELIN
-    // Tu peux déconnecter le mec ici.
-    //ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Login);
+    ServiceLocator::getInstance().get<CommandManager>().disconnect();
 }
 
 void Babel::Client::Gui::MainWindow::disconnectWorked() const
 {
-    // Quand le serv dit que c'est ok il est deco
-    // Tu peux déconnecter le mec ici.
     ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Login);
 }
 
 void Babel::Client::Gui::MainWindow::callWorked(const std::vector<Babel::Client::Commands::UserCallInfos> &userInfo)
 {
-    Babel::Client::ServiceLocator::getInstance().get<Babel::Client::WindowManager>().setState(Babel::Client::WindowManager::State::Call);
-    // start call manager ici.
-    // Set les gens qui ont été call dans la Call Window ici.
+    ServiceLocator::getInstance().get<WindowManager>().setState(Babel::Client::WindowManager::State::Call);
+    ServiceLocator::getInstance().get<WindowManager>().getCallWindow()->setUsername(username);
+    // TODO : start le call manager
+    std::vector<std::string> nameList;
+    for (int i = 0; i < userInfo.size(); i++)
+        nameList.push_back(userInfo.at(i).username);
+    ServiceLocator::getInstance().get<WindowManager>().getCallWindow()->setCallList(nameList);
 }
 
 

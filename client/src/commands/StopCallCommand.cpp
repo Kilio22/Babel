@@ -16,7 +16,7 @@ void Babel::Client::Commands::StopCallCommand::handle(const unsigned char *data,
 
     if (stopCallResponse->responseCode == RESPONSE_CODE::OK) {
         std::cout << "STOP CALL - SUCCESS !" << std::endl; // debug
-        // TODO: stop le callManager et changer de fenetre vers la main window
+        ServiceLocator::getInstance().get<WindowManager>().getCallWindow()->EndCallWorked();
         return;
     }
     if (stopCallResponse->responseCode == RESPONSE_CODE::NOT_LOGGED_IN) {

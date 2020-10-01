@@ -21,7 +21,7 @@ void Babel::Client::Commands::StartCallCommand::handle(const unsigned char *data
         for (int i = 0; i < users.size(); i++) {
             std::cout << users.at(i).username << std::endl;
         }
-        // TODO : passer fenetre de startCall et appeler le callManager
+        ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->callWorked(users);
         return;
     }
     if (startCallResponse->responseCode == RESPONSE_CODE::NOT_LOGGED_IN) {

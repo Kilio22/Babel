@@ -95,6 +95,7 @@ void Babel::Client::Gui::CallWindow::EndCallClicked()
 
 void Babel::Client::Gui::CallWindow::EndCallWorked()
 {
+    // TODO : stop le call manager
     ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Main);
 }
 
