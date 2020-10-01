@@ -20,19 +20,13 @@ void Babel::Client::Network::QtUdpClient::connect(unsigned short port)
 {
     if (this->socket->bind(QHostAddress::AnyIPv4, port) == false)
         throw Exceptions::QtUcpClientException(ERROR_STR, "connect");
+    std::cout << "UDP client connected." << std::endl;
 }
 
 void Babel::Client::Network::QtUdpClient::closeConnection()
 {
-    QSignalSpy spy(this->socket.get(), SIGNAL(disconnected()));
-
     this->socket->disconnectFromHost();
-    if (spy.count() == 0) {
-        if (spy.wait() == false)
-            std::cerr << "Could not disconnect from socket..." << std::endl;
-        else
-            std::cout << "Disconnected from socket!" << std::endl;
-    }
+    std::cout << "UDP client disconnected." << std::endl;
 }
 
 void Babel::Client::Network::QtUdpClient::send(const DataPacket &dataPacket) const
