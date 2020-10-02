@@ -12,7 +12,7 @@
 #include <iostream>
 #include <sstream>
 
-void Babel::Server::Commands::GetContactsCommand::handle(const unsigned char *, const std::size_t, IUser *user) const
+void Babel::Server::Commands::GetContactsCommand::handle(const unsigned char *, std::size_t, IUser *user) const
 {
     ClassicResponse classicResponse = { Header(COMMAND_TYPE::GET_CONTACTS), RESPONSE_CODE::OK };
     if (!user->isLoggedIn()) {
@@ -39,9 +39,9 @@ std::vector<Babel::Server::Commands::GetContactsCommand::Contact> Babel::Server:
         IUser *user = UserManager::getInstance().getUserByUsername(contactUsername.username);
 
         if (user == nullptr) {
-            contacts.push_back({ contactUsername.username, false });
+            contacts.emplace_back( contactUsername.username, false );
         } else {
-            contacts.push_back({ contactUsername.username, user->isLoggedIn() });
+            contacts.emplace_back( contactUsername.username, user->isLoggedIn() );
         }
     }
     return contacts;

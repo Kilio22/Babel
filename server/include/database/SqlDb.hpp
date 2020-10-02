@@ -16,7 +16,7 @@ namespace Babel::Server
     class SqlDb : public IDb {
     public:
         SqlDb();
-        ~SqlDb();
+        ~SqlDb() override;
 
         bool hasUser(const std::string &username) const final;
         void addUser(const std::string &username, const std::string &password) const final;

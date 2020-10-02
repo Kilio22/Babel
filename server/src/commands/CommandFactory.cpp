@@ -25,7 +25,7 @@ const std::unordered_map<enum COMMAND_TYPE, const std::function<ICommand *()>> B
           { COMMAND_TYPE::STOP_CALL, []() { return &CommandFactory::createCommand<StopCallCommand>(); } },
           { COMMAND_TYPE::DISCONNECT, []() { return &CommandFactory::createCommand<DisconnectCommand>(); } } };
 
-Babel::Server::Commands::ICommand *Babel::Server::CommandFactory::createCommandFromCommandType(const enum COMMAND_TYPE commandType)
+Babel::Server::Commands::ICommand *Babel::Server::CommandFactory::createCommandFromCommandType(enum COMMAND_TYPE commandType)
 {
     return m_commandMap.at(commandType)();
 }

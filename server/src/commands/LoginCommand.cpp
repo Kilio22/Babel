@@ -11,7 +11,7 @@
 #include "database/SqlDb.hpp"
 #include <iostream>
 
-void Babel::Server::Commands::LoginCommand::handle(const unsigned char *data, const std::size_t, IUser *user) const
+void Babel::Server::Commands::LoginCommand::handle(const unsigned char *data, std::size_t, IUser *user) const
 {
     ClassicResponse classicResponse = { Header(Commands::COMMAND_TYPE::LOGIN), RESPONSE_CODE::OK };
     if (user->isLoggedIn()) {
@@ -19,12 +19,8 @@ void Babel::Server::Commands::LoginCommand::handle(const unsigned char *data, co
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
     }
 
-    const LoginCommand::LoginRequest *loginRequest = reinterpret_cast<const LoginRequest *>(data);
-    if (loginRequest->password == nullptr || loginRequest->username == nullptr) {
-        classicResponse.responseCode = RESPONSE_CODE::OTHER;
-        return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
-    }
-    if (user->getTcpClient()->setIp(loginRequest->ip) == false) {
+    const auto *loginRequest = reinterpret_cast<const LoginRequest *>(data);
+    if (!user->getTcpClient()->setIp(loginRequest->ip)) {
         classicResponse.responseCode = RESPONSE_CODE::BAD_IP;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
     }

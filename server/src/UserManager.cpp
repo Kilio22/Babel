@@ -15,10 +15,6 @@ Babel::Server::UserManager &Babel::Server::UserManager::getInstance()
     return userManagerInstance;
 }
 
-Babel::Server::UserManager::UserManager() { }
-
-Babel::Server::UserManager::~UserManager() { }
-
 void Babel::Server::UserManager::addUser(std::unique_ptr<Babel::Server::IUser> newUser)
 {
     this->m_userList.push_back(std::move(newUser));

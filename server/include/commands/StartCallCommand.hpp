@@ -17,9 +17,9 @@ namespace Babel::Server::Commands
     class StartCallCommand : public ICommand {
     public:
         StartCallCommand() = default;
-        ~StartCallCommand() = default;
+        ~StartCallCommand() override = default;
 
-        void handle(const unsigned char *, const std::size_t, IUser *) const final;
+        void handle(const unsigned char *, std::size_t, IUser *) const final;
 
     private:
 #pragma pack(push, 1)
@@ -30,8 +30,8 @@ namespace Babel::Server::Commands
                 std::strncpy(this->username, username, USERNAME_LENGTH);
                 std::strncpy(this->ip, ip, IP_LENGTH);
             }
-            char username[USERNAME_LENGTH];
-            char ip[IP_LENGTH];
+            char username[USERNAME_LENGTH]{};
+            char ip[IP_LENGTH]{};
         };
 
         struct StartCallRequest

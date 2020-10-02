@@ -15,7 +15,7 @@ namespace Babel::Server
     class User : public IUser {
     public:
         User(const boost::shared_ptr<ITcpClient> &tcpClient);
-        ~User();
+        ~User() = default;
 
         boost::shared_ptr<ITcpClient> getTcpClient() const final;
         const std::string &getUsername() const final;

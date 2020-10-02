@@ -24,7 +24,7 @@ void Babel::Server::CommandParser::parseCommand(const unsigned char *data, std::
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&responseHeader), sizeof(Commands::Header));
     }
 
-    const Commands::Header *header = reinterpret_cast<const Commands::Header *>(data);
+    const auto *header = reinterpret_cast<const Commands::Header *>(data);
     if (header->corewarMagic != COREWAR_MAGIC) {
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&responseHeader), sizeof(Commands::Header));
     }

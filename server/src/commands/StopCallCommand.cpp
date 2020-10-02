@@ -8,14 +8,14 @@
 #include "commands/StopCallCommand.hpp"
 #include "UserManager.hpp"
 
-void Babel::Server::Commands::StopCallCommand::handle(const unsigned char *, const std::size_t, Babel::Server::IUser *user) const
+void Babel::Server::Commands::StopCallCommand::handle(const unsigned char *, std::size_t, Babel::Server::IUser *user) const
 {
     ClassicResponse classicResponse = { { COMMAND_TYPE::STOP_CALL }, RESPONSE_CODE::OK };
     if (!user->isLoggedIn()) {
         classicResponse.responseCode = RESPONSE_CODE::NOT_LOGGED_IN;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
     }
-    if (user->isInCall() == false) {
+    if (!user->isInCall()) {
         classicResponse.responseCode = RESPONSE_CODE::NOT_IN_CALL;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
     }

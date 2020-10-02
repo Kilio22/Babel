@@ -8,14 +8,14 @@
 #include "commands/DisconnectCommand.hpp"
 #include "UserManager.hpp"
 
-void Babel::Server::Commands::DisconnectCommand::handle(const unsigned char *, const std::size_t, IUser *user) const
+void Babel::Server::Commands::DisconnectCommand::handle(const unsigned char *, std::size_t, IUser *user) const
 {
     ClassicResponse classicResponse = { { COMMAND_TYPE::DISCONNECT }, RESPONSE_CODE::OK };
     if (!user->isLoggedIn()) {
         classicResponse.responseCode = RESPONSE_CODE::NOT_LOGGED_IN;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
     }
-    if (user->isInCall() == false) {
+    if (!user->isInCall()) {
         user->setUsername("");
         user->setLoggedIn(false);
         user->getTcpClient()->setIp("");
