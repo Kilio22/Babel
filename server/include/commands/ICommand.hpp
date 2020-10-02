@@ -15,8 +15,7 @@ namespace Babel::Server::Commands
     const std::size_t PASSWORD_LENGTH = 43;
     const std::size_t IP_LENGTH = 16;
 
-    enum COMMAND_TYPE
-    {
+    enum COMMAND_TYPE {
         REGISTER,
         LOGIN,
         GET_CONTACTS,
@@ -27,8 +26,7 @@ namespace Babel::Server::Commands
         ERR
     };
 
-    enum RESPONSE_CODE
-    {
+    enum RESPONSE_CODE {
         OK,
         NOT_LOGGED_IN,
         ALREADY_LOGGED_IN,
@@ -46,18 +44,17 @@ namespace Babel::Server::Commands
 
 #pragma pack(push, 1)
 
-    struct Header
-    {
+    struct Header {
         Header(enum COMMAND_TYPE commandType)
-            : corewarMagic(0xea83f3)
-            , commandType(commandType)
-        {
-        }
+                : corewarMagic(0xea83f3),
+                  commandType(commandType)
+        {}
+
         int corewarMagic;
         enum COMMAND_TYPE commandType;
     };
-    struct ClassicResponse
-    {
+
+    struct ClassicResponse {
         Header header;
         enum RESPONSE_CODE responseCode;
     };

@@ -13,7 +13,7 @@
 #include <iostream>
 
 Babel::Server::AsioTcpClient::AsioTcpClient(boost::asio::io_context &io_context)
-    : m_socket(io_context)
+        : m_socket(io_context)
 {
 }
 
@@ -48,7 +48,8 @@ bool Babel::Server::AsioTcpClient::setIp(const std::string &newIp)
 void Babel::Server::AsioTcpClient::read()
 {
     this->m_socket.async_read_some(boost::asio::buffer(this->m_data, READ_SIZE),
-        boost::bind(&AsioTcpClient::handleRead, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+                                   boost::bind(&AsioTcpClient::handleRead, shared_from_this(), boost::asio::placeholders::error,
+                                               boost::asio::placeholders::bytes_transferred));
 }
 
 void Babel::Server::AsioTcpClient::handleRead(const boost::system::error_code &error, std::size_t bytesTransferred)
@@ -88,7 +89,8 @@ void Babel::Server::AsioTcpClient::handleWrite(const boost::system::error_code &
 void Babel::Server::AsioTcpClient::write(const unsigned char *data, std::size_t size)
 {
     this->m_socket.async_write_some(boost::asio::buffer(data, size),
-        boost::bind(&AsioTcpClient::handleWrite, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+                                    boost::bind(&AsioTcpClient::handleWrite, shared_from_this(), boost::asio::placeholders::error,
+                                                boost::asio::placeholders::bytes_transferred));
 }
 
 std::pair<std::size_t, const unsigned char *> Babel::Server::AsioTcpClient::getData() const

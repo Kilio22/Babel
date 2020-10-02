@@ -6,16 +6,13 @@
 */
 
 #include "database/SqlDb.hpp"
-#include "database/DatabaseProvider.hpp"
 #include "exceptions/ConstraintDatabaseException.hpp"
-#include "exceptions/CreateTableException.hpp"
 #include "exceptions/OpenDatabaseException.hpp"
 #include "exceptions/QueryDatabaseException.hpp"
 #include <cstring>
-#include <iostream>
 
 Babel::Server::SqlDb::SqlDb()
-    : m_db(nullptr)
+        : m_db(nullptr)
 {
     int rc = sqlite3_open("babel_dev.db", &this->m_db);
     char *errorMessage = nullptr;
@@ -100,7 +97,8 @@ void Babel::Server::SqlDb::addContact(const std::string &username, const std::st
     int rc = 0;
     char *errorMessage = nullptr;
     std::string query = "INSERT INTO users_contacts(username,contact_username) SELECT \"" + username + "\", \"" + contactUsername
-        + "\" WHERE NOT EXISTS(SELECT 1 FROM users_contacts WHERE username=\"" + username + "\" AND contact_username=\"" + contactUsername + "\");";
+                        + "\" WHERE NOT EXISTS(SELECT 1 FROM users_contacts WHERE username=\"" + username + "\" AND contact_username=\"" +
+                        contactUsername + "\");";
 
     rc = sqlite3_exec(m_db, query.c_str(), nullptr, nullptr, &errorMessage);
     if (rc != SQLITE_OK) {
@@ -113,7 +111,7 @@ int Babel::Server::SqlDb::callback(void *data, int argc, char **argv, char **)
     auto *queryResults = reinterpret_cast<std::vector<std::string> *>(data);
 
     for (std::size_t i = 0; i < argc; i++) {
-        queryResults->push_back(argv[i]);
+        queryResults->push_back(argv[ i ]);
     }
     return 0;
 }
@@ -123,7 +121,7 @@ int Babel::Server::SqlDb::contactCallback(void *data, int argc, char **argv, cha
     auto *queryResults = reinterpret_cast<std::vector<Username> *>(data);
 
     for (std::size_t i = 0; i < argc; i++) {
-        queryResults->push_back({ argv[i] });
+        queryResults->push_back({ argv[ i ] });
     }
     return 0;
 }

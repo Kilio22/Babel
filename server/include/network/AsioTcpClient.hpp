@@ -20,7 +20,7 @@ namespace Babel::Server
     class AsioTcpClient : public boost::enable_shared_from_this<AsioTcpClient>, public ITcpClient {
     public:
         AsioTcpClient(boost::asio::io_context &io_context);
-        ~AsioTcpClient();
+        ~AsioTcpClient() override;
 
         boost::asio::ip::tcp::socket &getSocket();
 

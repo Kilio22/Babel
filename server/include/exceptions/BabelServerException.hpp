@@ -16,7 +16,7 @@ namespace Babel::Server::Exceptions
     class BabelServerException : public std::exception {
     public:
         BabelServerException(const std::string &message, const std::string &where);
-        virtual ~BabelServerException() = default;
+        ~BabelServerException() override = default;
 
         const char *what() const noexcept final;
 

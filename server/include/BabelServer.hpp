@@ -16,7 +16,7 @@ namespace Babel::Server
     class BabelServer : public IServer {
     public:
         BabelServer(int ac, const char *av[]);
-        ~BabelServer() = default;
+        ~BabelServer() override = default;
 
         void run() final;
 

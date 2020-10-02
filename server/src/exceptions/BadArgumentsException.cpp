@@ -8,6 +8,6 @@
 #include "exceptions/BadArgumentsException.hpp"
 
 Babel::Server::Exceptions::BadArgumentsException::BadArgumentsException(const std::string &message, const std::string &where)
-    : BabelServerException(message, where)
+        : BabelServerException(message, where)
 {
 }

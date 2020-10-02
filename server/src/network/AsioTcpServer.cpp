@@ -14,13 +14,14 @@
 #include <iostream>
 
 Babel::Server::AsioTcpServer::AsioTcpServer(unsigned short port)
-    : m_ioContext()
-    , m_acceptor(m_ioContext, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
+        : m_ioContext(),
+          m_acceptor(m_ioContext, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
 {
     this->startAccept();
 }
 
-Babel::Server::AsioTcpServer::~AsioTcpServer() { }
+Babel::Server::AsioTcpServer::~AsioTcpServer()
+{}
 
 void Babel::Server::AsioTcpServer::listen()
 {
@@ -32,7 +33,7 @@ void Babel::Server::AsioTcpServer::startAccept()
     boost::shared_ptr<AsioTcpClient> newConnection = boost::make_shared<AsioTcpClient>(this->m_ioContext);
 
     this->m_acceptor.async_accept(
-        newConnection->getSocket(), boost::bind(&AsioTcpServer::acceptHandler, this, newConnection, boost::asio::placeholders::error));
+            newConnection->getSocket(), boost::bind(&AsioTcpServer::acceptHandler, this, newConnection, boost::asio::placeholders::error));
 }
 
 void Babel::Server::AsioTcpServer::acceptHandler(boost::shared_ptr<AsioTcpClient> asioTcpClient, const boost::system::error_code &error)

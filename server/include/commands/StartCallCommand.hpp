@@ -23,19 +23,19 @@ namespace Babel::Server::Commands
 
     private:
 #pragma pack(push, 1)
-        struct UserCallInfos
-        {
+
+        struct UserCallInfos {
             UserCallInfos(const char *username, const char *ip)
             {
                 std::strncpy(this->username, username, USERNAME_LENGTH);
                 std::strncpy(this->ip, ip, IP_LENGTH);
             }
-            char username[USERNAME_LENGTH]{};
-            char ip[IP_LENGTH]{};
+
+            char username[USERNAME_LENGTH] {};
+            char ip[IP_LENGTH] {};
         };
 
-        struct StartCallRequest
-        {
+        struct StartCallRequest {
             Header header;
         };
 #pragma pack(pop)

@@ -22,8 +22,7 @@ namespace Babel::Server::Commands
 
     private:
 #pragma pack(push, 1)
-        struct LoginRequest
-        {
+        struct LoginRequest {
             Header header;
             char username[USERNAME_LENGTH];
             char password[PASSWORD_LENGTH];

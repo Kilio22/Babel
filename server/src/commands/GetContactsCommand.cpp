@@ -30,7 +30,7 @@ void Babel::Server::Commands::GetContactsCommand::handle(const unsigned char *, 
 }
 
 std::vector<Babel::Server::Commands::GetContactsCommand::Contact> Babel::Server::Commands::GetContactsCommand::getContacts(
-    const std::string &username) const
+        const std::string &username) const
 {
     const std::vector<Username> &contactsUsername = DatabaseProvider::getDb<SqlDb>()->getUserContacts(username);
     std::vector<Contact> contacts;
@@ -39,9 +39,9 @@ std::vector<Babel::Server::Commands::GetContactsCommand::Contact> Babel::Server:
         IUser *user = UserManager::getInstance().getUserByUsername(contactUsername.username);
 
         if (user == nullptr) {
-            contacts.emplace_back( contactUsername.username, false );
+            contacts.emplace_back(contactUsername.username, false);
         } else {
-            contacts.emplace_back( contactUsername.username, user->isLoggedIn() );
+            contacts.emplace_back(contactUsername.username, user->isLoggedIn());
         }
     }
     return contacts;
@@ -55,5 +55,5 @@ void Babel::Server::Commands::GetContactsCommand::sendContacts(std::vector<Conta
     os.write(reinterpret_cast<const char *>(&classicResponse), sizeof(ClassicResponse));
     os.write(reinterpret_cast<const char *>(contacts.data()), sizeof(Contact) * contacts.size());
     user->getTcpClient()->write(
-        reinterpret_cast<const unsigned char *>(b.str().c_str()), (sizeof(Contact) * contacts.size() + sizeof(ClassicResponse)));
+            reinterpret_cast<const unsigned char *>(b.str().c_str()), (sizeof(Contact) * contacts.size() + sizeof(ClassicResponse)));
 }

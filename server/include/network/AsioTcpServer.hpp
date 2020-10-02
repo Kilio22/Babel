@@ -17,7 +17,7 @@ namespace Babel::Server
     class AsioTcpServer : public ITcpServer {
     public:
         AsioTcpServer(unsigned short port);
-        ~AsioTcpServer();
+        ~AsioTcpServer() override;
 
         void listen() final;
 

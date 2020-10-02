@@ -17,13 +17,13 @@
 using namespace Babel::Server::Commands;
 
 const std::unordered_map<enum COMMAND_TYPE, const std::function<ICommand *()>> Babel::Server::CommandFactory::m_commandMap
-    = { { COMMAND_TYPE::REGISTER, []() { return &CommandFactory::createCommand<RegisterCommand>(); } },
-          { COMMAND_TYPE::LOGIN, []() { return &CommandFactory::createCommand<LoginCommand>(); } },
-          { COMMAND_TYPE::ADD_CONTACT, []() { return &CommandFactory::createCommand<AddContactCommand>(); } },
-          { COMMAND_TYPE::GET_CONTACTS, []() { return &CommandFactory::createCommand<GetContactsCommand>(); } },
-          { COMMAND_TYPE::START_CALL, []() { return &CommandFactory::createCommand<StartCallCommand>(); } },
-          { COMMAND_TYPE::STOP_CALL, []() { return &CommandFactory::createCommand<StopCallCommand>(); } },
-          { COMMAND_TYPE::DISCONNECT, []() { return &CommandFactory::createCommand<DisconnectCommand>(); } } };
+        = {{ COMMAND_TYPE::REGISTER,     []() { return &CommandFactory::createCommand<RegisterCommand>(); }},
+           { COMMAND_TYPE::LOGIN,        []() { return &CommandFactory::createCommand<LoginCommand>(); }},
+           { COMMAND_TYPE::ADD_CONTACT,  []() { return &CommandFactory::createCommand<AddContactCommand>(); }},
+           { COMMAND_TYPE::GET_CONTACTS, []() { return &CommandFactory::createCommand<GetContactsCommand>(); }},
+           { COMMAND_TYPE::START_CALL,   []() { return &CommandFactory::createCommand<StartCallCommand>(); }},
+           { COMMAND_TYPE::STOP_CALL,    []() { return &CommandFactory::createCommand<StopCallCommand>(); }},
+           { COMMAND_TYPE::DISCONNECT,   []() { return &CommandFactory::createCommand<DisconnectCommand>(); }}};
 
 Babel::Server::Commands::ICommand *Babel::Server::CommandFactory::createCommandFromCommandType(enum COMMAND_TYPE commandType)
 {

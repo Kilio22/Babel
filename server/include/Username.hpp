@@ -16,14 +16,16 @@ namespace Babel::Server
     const std::size_t USERNAME_LENGTH = 33;
 
 #pragma pack(push, 1)
-    struct Username
-    {
+
+    struct Username {
         Username(const std::string &username)
         {
             std::strncpy(this->username, username.c_str(), USERNAME_LENGTH);
         }
+
         char username[USERNAME_LENGTH];
     };
+
 #pragma pack(pop)
 
 } // namespace Babel::Server

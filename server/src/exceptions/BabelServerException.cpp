@@ -8,8 +8,7 @@
 #include "exceptions/BabelServerException.hpp"
 
 Babel::Server::Exceptions::BabelServerException::BabelServerException(const std::string &message, const std::string &component)
-    : m_message(message)
-    , m_where(component)
+        : m_message(message), m_where(component)
 {
 }
 

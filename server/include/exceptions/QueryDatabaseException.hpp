@@ -15,7 +15,7 @@ namespace Babel::Server::Exceptions
     class QueryDatabaseException : public BabelServerException {
     public:
         QueryDatabaseException(const std::string &message, const std::string &where);
-        ~QueryDatabaseException() = default;
+        ~QueryDatabaseException() override = default;
 
     protected:
     private:

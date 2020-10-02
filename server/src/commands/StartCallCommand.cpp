@@ -23,13 +23,14 @@ void Babel::Server::Commands::StartCallCommand::handle(const unsigned char *data
     }
 
     std::vector<Username> usernames;
-    usernames.assign(reinterpret_cast<const Username *>(&data[sizeof(StartCallRequest)]), reinterpret_cast<const Username *>(data + bytesTransfered));
-    usernames.emplace_back( user->getUsername() );
+    usernames.assign(reinterpret_cast<const Username *>(&data[ sizeof(StartCallRequest) ]),
+                     reinterpret_cast<const Username *>(data + bytesTransfered));
+    usernames.emplace_back(user->getUsername());
     this->sendInfosToUsers(usernames, classicResponse, user);
 }
 
 void Babel::Server::Commands::StartCallCommand::sendInfosToUsers(
-    const std::vector<Username> &usernames, ClassicResponse &classicResponse, IUser *mainUser) const
+        const std::vector<Username> &usernames, ClassicResponse &classicResponse, IUser *mainUser) const
 {
     std::vector<IUser *> users;
     std::vector<UserCallInfos> usersCallInfos;
@@ -46,13 +47,13 @@ void Babel::Server::Commands::StartCallCommand::sendInfosToUsers(
             return mainUser->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
         }
         users.push_back(user);
-        usersCallInfos.emplace_back( user->getUsername().c_str(), user->getTcpClient()->getIp().c_str() );
+        usersCallInfos.emplace_back(user->getUsername().c_str(), user->getTcpClient()->getIp().c_str());
     }
     this->sendLoop(users, usersCallInfos, classicResponse);
 }
 
 void Babel::Server::Commands::StartCallCommand::sendLoop(
-    const std::vector<IUser *> &users, const std::vector<UserCallInfos> &usersCallInfos, ClassicResponse &classicResponse) const
+        const std::vector<IUser *> &users, const std::vector<UserCallInfos> &usersCallInfos, ClassicResponse &classicResponse) const
 {
     for (const auto &user : users) {
         std::vector<UserCallInfos> infosToSend;
@@ -61,7 +62,7 @@ void Babel::Server::Commands::StartCallCommand::sendLoop(
         std::ostream os(&b);
 
         std::copy_if(usersCallInfos.begin(), usersCallInfos.end(), std::back_insert_iterator(infosToSend),
-            [user](const UserCallInfos &userCallInfos) { return user->getUsername() != std::string(userCallInfos.username); });
+                     [ user ](const UserCallInfos &userCallInfos) { return user->getUsername() != std::string(userCallInfos.username); });
         for (const auto &userCallInfos : usersCallInfos) {
             if (user->getUsername() != userCallInfos.username) {
                 calledUsers.emplace_back(userCallInfos.username);
@@ -70,7 +71,7 @@ void Babel::Server::Commands::StartCallCommand::sendLoop(
         os.write(reinterpret_cast<const char *>(&classicResponse), sizeof(ClassicResponse));
         os.write(reinterpret_cast<const char *>(infosToSend.data()), infosToSend.size() * sizeof(UserCallInfos));
         user->getTcpClient()->write(
-            reinterpret_cast<const unsigned char *>(b.str().c_str()), sizeof(UserCallInfos) * infosToSend.size() + sizeof(ClassicResponse));
+                reinterpret_cast<const unsigned char *>(b.str().c_str()), sizeof(UserCallInfos) * infosToSend.size() + sizeof(ClassicResponse));
         user->setInCall(true);
         user->setCalledUsers(calledUsers);
     }

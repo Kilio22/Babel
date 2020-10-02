@@ -20,7 +20,7 @@ namespace Babel::Server
         CommandFactory() = default;
         ~CommandFactory() = default;
 
-        template <class T>
+        template<class T>
         static T &createCommand()
         {
             static T instance;

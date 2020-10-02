@@ -11,9 +11,9 @@
 #include <utility>
 
 Babel::Server::User::User(const boost::shared_ptr<ITcpClient> &tcpClient)
-    : m_tcpClient(tcpClient)
-    , m_loggedIn(false)
-    , m_inCall(false)
+        : m_tcpClient(tcpClient),
+          m_loggedIn(false),
+          m_inCall(false)
 {
 }
 

@@ -23,16 +23,18 @@ namespace Babel::Server::Commands
 
     private:
 #pragma pack(push, 1)
-        struct Contact
-        {
+
+        struct Contact {
             Contact(const char *username, bool loggedIn)
-                : loggedIn(loggedIn)
+                    : loggedIn(loggedIn)
             {
                 std::strncpy(this->username, username, USERNAME_LENGTH);
             }
-            char username[USERNAME_LENGTH]{};
+
+            char username[USERNAME_LENGTH] {};
             bool loggedIn;
         };
+
 #pragma pack(pop)
 
     private:

@@ -8,6 +8,6 @@
 #include "exceptions/QueryDatabaseException.hpp"
 
 Babel::Server::Exceptions::QueryDatabaseException::QueryDatabaseException(const std::string &message, const std::string &where)
-    : BabelServerException(message, where)
+        : BabelServerException(message, where)
 {
 }

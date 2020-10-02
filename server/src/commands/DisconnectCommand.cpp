@@ -10,7 +10,7 @@
 
 void Babel::Server::Commands::DisconnectCommand::handle(const unsigned char *, std::size_t, IUser *user) const
 {
-    ClassicResponse classicResponse = { { COMMAND_TYPE::DISCONNECT }, RESPONSE_CODE::OK };
+    ClassicResponse classicResponse = {{ COMMAND_TYPE::DISCONNECT }, RESPONSE_CODE::OK };
     if (!user->isLoggedIn()) {
         classicResponse.responseCode = RESPONSE_CODE::NOT_LOGGED_IN;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));

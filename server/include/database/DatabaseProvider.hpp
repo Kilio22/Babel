@@ -21,7 +21,7 @@ namespace Babel::Server
         DatabaseProvider() = default;
         ~DatabaseProvider() = default;
 
-        template <typename T>
+        template<typename T>
         static IDb *getDb()
         {
             static_assert(std::is_base_of<IDb, T>::value, "T must extend list");

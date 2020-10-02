@@ -22,8 +22,7 @@ namespace Babel::Server::Commands
 
     private:
 #pragma pack(push, 1)
-        struct RegisterRequest
-        {
+        struct RegisterRequest {
             Header header;
             char username[USERNAME_LENGTH];
             char password[PASSWORD_LENGTH];

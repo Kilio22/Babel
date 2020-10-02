@@ -31,8 +31,8 @@ void Babel::Server::UserManager::removeUserByTcpClient(const ITcpClient *tcpClie
         }
     }
     this->m_userList.erase(std::remove_if(this->m_userList.begin(), this->m_userList.end(),
-                             [tcpClient](const std::unique_ptr<IUser> &user) { return user->getTcpClient().get() == tcpClient; }),
-        this->m_userList.end());
+                                          [ tcpClient ](const std::unique_ptr<IUser> &user) { return user->getTcpClient().get() == tcpClient; }),
+                           this->m_userList.end());
 }
 
 Babel::Server::IUser *Babel::Server::UserManager::getUserByTcpClient(const ITcpClient *tcpClient) const
