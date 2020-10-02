@@ -18,15 +18,18 @@ Babel::Client::Network::QtUdpClient::QtUdpClient()
 
 void Babel::Client::Network::QtUdpClient::connect(unsigned short port)
 {
-    if (this->socket->bind(QHostAddress::AnyIPv4, port) == false)
+    std::cout << "Binding..." << std::endl;
+    if (!this->socket->bind(QHostAddress::AnyIPv4, port)) {
+        std::cerr << "Bind failed" << std::endl;
         throw Exceptions::QtUcpClientException(ERROR_STR, "connect");
+    }
     std::cout << "UDP client connected." << std::endl;
 }
 
 void Babel::Client::Network::QtUdpClient::closeConnection()
 {
     this->socket->disconnectFromHost();
-    std::cout << "UDP client disconnected." << std::endl;
+    std::cout << "UDP client disconnected with state: " << this->socket->state() << std::endl;
 }
 
 void Babel::Client::Network::QtUdpClient::send(const DataPacket &dataPacket) const
