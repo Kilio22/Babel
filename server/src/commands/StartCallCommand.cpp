@@ -25,10 +25,11 @@ void Babel::Server::Commands::StartCallCommand::handle(const unsigned char *data
     std::vector<Username> usernames;
     usernames.assign(reinterpret_cast<const Username *>(&data[sizeof(StartCallRequest)]), reinterpret_cast<const Username *>(data + bytesTransfered));
     usernames.push_back({ user->getUsername() });
-    this->sendInfosToUsers(usernames, classicResponse);
+    this->sendInfosToUsers(usernames, classicResponse, user);
 }
 
-void Babel::Server::Commands::StartCallCommand::sendInfosToUsers(const std::vector<Username> &usernames, ClassicResponse &classicResponse) const
+void Babel::Server::Commands::StartCallCommand::sendInfosToUsers(
+    const std::vector<Username> &usernames, ClassicResponse &classicResponse, IUser *mainUser) const
 {
     std::vector<IUser *> users;
     std::vector<UserCallInfos> usersCallInfos;
@@ -38,7 +39,11 @@ void Babel::Server::Commands::StartCallCommand::sendInfosToUsers(const std::vect
 
         if (user == nullptr) {
             classicResponse.responseCode = RESPONSE_CODE::USER_DISCONNECTED;
-            return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
+            return mainUser->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
+        }
+        if (user->isInCall() == true) {
+            classicResponse.responseCode = RESPONSE_CODE::USER_IN_CALL;
+            return mainUser->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
         }
         users.push_back(user);
         usersCallInfos.push_back({ user->getUsername().c_str(), user->getTcpClient()->getIp().c_str() });

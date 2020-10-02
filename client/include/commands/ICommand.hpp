@@ -23,6 +23,7 @@ namespace Babel::Client::Commands
         WRONG_PASSWORD_LENGTH,
         USERNAME_TAKEN,
         USER_DISCONNECTED,
+        USER_IN_CALL,
         NOT_IN_CALL,
         BAD_IP,
         OTHER
