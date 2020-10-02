@@ -33,6 +33,7 @@ namespace Babel::Client::Audio
     private:
         AudioManager audioManager;
         AudioPacketSender audioPacketSender;
+        bool inCall;
     };
 }
 
