@@ -22,7 +22,7 @@ namespace Babel::Client::Audio
     const int ElementsPerBuffer = FramesPerBuffer * ChannelCount;
 
     struct SoundBuffer {
-        SoundBuffer()
+        SoundBuffer() : samples({})
         {
             this->samples.fill(0);
         }
@@ -47,6 +47,6 @@ namespace Babel::Client::Audio
     };
 }
 
-Q_DECLARE_METATYPE(Babel::Client::Audio::SoundBuffer);
+Q_DECLARE_METATYPE(Babel::Client::Audio::SoundBuffer)
 
 #endif /* !SOUND_HPP_ */

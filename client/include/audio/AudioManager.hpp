@@ -24,7 +24,7 @@ namespace Babel::Client::Audio
 
     public:
         AudioManager();
-        ~AudioManager() = default;
+        ~AudioManager() override = default;
 
         void onSoundInputAvailable() override;
 

@@ -12,7 +12,6 @@
 #include "AudioOutputDevice.hpp"
 #include "exceptions/AudioException.hpp"
 #include <iomanip>
-#include <iostream>
 
 Babel::Client::Audio::AudioManager::AudioManager()
     : inputDevice(std::make_unique<AudioInputDevice>(this))

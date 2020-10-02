@@ -17,7 +17,7 @@ namespace Babel::Client::Audio
     {
     public:
         AudioCompressor();
-        ~AudioCompressor();
+        ~AudioCompressor() override;
 
         CompressedBuffer compressAudio(const SoundBuffer &soundBuffer) const override;
 

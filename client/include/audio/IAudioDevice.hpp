@@ -37,7 +37,7 @@ namespace Babel::Client::Audio
     class IInputDevice : public IAudioDevice
     {
     public:
-        virtual ~IInputDevice() = default;
+        ~IInputDevice() override = default;
 
         /**
          * @brief Gets the SoundBuffer object resulting an audio input
@@ -53,7 +53,7 @@ namespace Babel::Client::Audio
     class IOutputDevice : public IAudioDevice
     {
     public:
-        virtual ~IOutputDevice() = default;
+        ~IOutputDevice() override = default;
 
         /**
          * @brief Sets the SoundBuffer object for audio output

@@ -17,7 +17,7 @@ namespace Babel::Client::Audio
     {
     public:
         AudioExtractor();
-        ~AudioExtractor();
+        ~AudioExtractor() override;
 
         SoundBuffer extractAudio(const CompressedBuffer &compressedBuffer) const override;
 

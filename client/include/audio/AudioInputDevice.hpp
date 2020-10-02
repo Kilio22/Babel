@@ -17,8 +17,8 @@ namespace Babel::Client::Audio
     class AudioInputDevice : public IInputDevice
     {
     public:
-        AudioInputDevice(ISoundInputAvailableEventListener *listener);
-        ~AudioInputDevice();
+        explicit AudioInputDevice(ISoundInputAvailableEventListener *listener);
+        ~AudioInputDevice() override;
 
         void startStream() override;
         void stopStream() override;
@@ -30,7 +30,7 @@ namespace Babel::Client::Audio
     private:
         ISoundInputAvailableEventListener *listener;
         PaStream *stream;
-        PaStreamParameters params;
+        PaStreamParameters params{};
         std::queue<SoundBuffer> soundBuffers;
     };
 }

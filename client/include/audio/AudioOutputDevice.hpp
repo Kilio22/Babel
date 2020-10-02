@@ -22,7 +22,7 @@ namespace Babel::Client::Audio
     {
     public:
         AudioOutputDevice();
-        ~AudioOutputDevice();
+        ~AudioOutputDevice() override;
 
         void startStream() override;
         void stopStream() override;
@@ -33,7 +33,7 @@ namespace Babel::Client::Audio
 
     private:
         PaStream *stream;
-        PaStreamParameters params;
+        PaStreamParameters params{};
         std::unordered_map<std::string, std::queue<SoundBuffer>> soundBuffers;
     };
 }

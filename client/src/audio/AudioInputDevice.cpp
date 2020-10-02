@@ -7,7 +7,6 @@
 
 #include "AudioInputDevice.hpp"
 #include "AudioException.hpp"
-#include <iomanip>
 #include <iostream>
 
 Babel::Client::Audio::AudioInputDevice::AudioInputDevice(ISoundInputAvailableEventListener *listener)
@@ -25,7 +24,7 @@ Babel::Client::Audio::AudioInputDevice::AudioInputDevice(ISoundInputAvailableEve
     this->params.channelCount = Audio::ChannelCount;
     this->params.sampleFormat = paFloat32;
     this->params.suggestedLatency = Pa_GetDeviceInfo(this->params.device)->defaultLowInputLatency;
-    this->params.hostApiSpecificStreamInfo = NULL;
+    this->params.hostApiSpecificStreamInfo = nullptr;
 }
 
 Babel::Client::Audio::AudioInputDevice::~AudioInputDevice()
@@ -37,13 +36,11 @@ Babel::Client::Audio::AudioInputDevice::~AudioInputDevice()
 
 void Babel::Client::Audio::AudioInputDevice::startStream()
 {
-    if (Pa_OpenStream(&this->stream, &this->params, NULL, Audio::SampleRate, Audio::FramesPerBuffer, paClipOff, AudioInputDevice::callback, this)
+    if (Pa_OpenStream(&this->stream, &this->params, nullptr, Audio::SampleRate, Audio::FramesPerBuffer, paClipOff, AudioInputDevice::callback, this)
         != paNoError)
         throw Exceptions::AudioException("Could not open input stream.");
-
     if (Pa_StartStream(this->stream) != paNoError)
         throw Exceptions::AudioException("Could not start input stream.");
-
     std::cout << "Steaming input." << std::endl;
 }
 
@@ -54,7 +51,6 @@ void Babel::Client::Audio::AudioInputDevice::stopStream()
     this->soundBuffers.swap(empty);
     if (Pa_CloseStream(this->stream) != paNoError)
         throw Exceptions::AudioException("Could not close input stream.");
-
     std::cout << "Stopped streaming output." << std::endl;
 }
 
@@ -69,8 +65,8 @@ Babel::Client::Audio::SoundBuffer Babel::Client::Audio::AudioInputDevice::getSou
 int Babel::Client::Audio::AudioInputDevice::callback(
     const void *inputBuffer, void *, unsigned long, const PaStreamCallbackTimeInfo *, PaStreamCallbackFlags, void *data)
 {
-    AudioInputDevice *_this = static_cast<AudioInputDevice *>(data);
-    const float *input = static_cast<const float *>(inputBuffer);
+    auto _this = static_cast<AudioInputDevice *>(data);
+    auto input = static_cast<const float *>(inputBuffer);
 
     _this->soundBuffers.push({ input });
     _this->listener->onSoundInputAvailable();

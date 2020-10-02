@@ -23,7 +23,7 @@ Babel::Client::Audio::AudioOutputDevice::AudioOutputDevice()
     this->params.channelCount = Audio::ChannelCount;
     this->params.sampleFormat = paFloat32;
     this->params.suggestedLatency = Pa_GetDeviceInfo(this->params.device)->defaultLowOutputLatency;
-    this->params.hostApiSpecificStreamInfo = NULL;
+    this->params.hostApiSpecificStreamInfo = nullptr;
 }
 
 Babel::Client::Audio::AudioOutputDevice::~AudioOutputDevice()
@@ -35,13 +35,11 @@ Babel::Client::Audio::AudioOutputDevice::~AudioOutputDevice()
 
 void Babel::Client::Audio::AudioOutputDevice::startStream()
 {
-    if (Pa_OpenStream(&this->stream, NULL, &this->params, Audio::SampleRate, Audio::FramesPerBuffer, paClipOff, AudioOutputDevice::callback, this)
+    if (Pa_OpenStream(&this->stream, nullptr, &this->params, Audio::SampleRate, Audio::FramesPerBuffer, paClipOff, AudioOutputDevice::callback, this)
         != paNoError)
         throw Exceptions::AudioException("Could not open output stream.");
-
     if (Pa_StartStream(this->stream) != paNoError)
         throw Exceptions::AudioException("Could not start output stream.");
-
     std::cout << "Steaming output." << std::endl;
 }
 
@@ -50,7 +48,6 @@ void Babel::Client::Audio::AudioOutputDevice::stopStream()
     this->soundBuffers.clear();
     if (Pa_CloseStream(this->stream) != paNoError)
         throw Exceptions::AudioException("Could not close output stream.");
-
     std::cout << "Stopped streaming input." << std::endl;
 }
 
@@ -59,40 +56,28 @@ void Babel::Client::Audio::AudioOutputDevice::setSound(const SoundBuffer &soundB
     this->soundBuffers[idFrom].push(soundBuffer);
 }
 
-#include <mutex>
-
-std::mutex callback_mutex;
-
 int Babel::Client::Audio::AudioOutputDevice::callback(
     const void *, void *outputBuffer, unsigned long, const PaStreamCallbackTimeInfo *, PaStreamCallbackFlags, void *data)
 {
-    const std::lock_guard<std::mutex> guard(callback_mutex);
-    AudioOutputDevice *_this = static_cast<AudioOutputDevice *>(data);
-    float *output = static_cast<float *>(outputBuffer);
+    auto _this = static_cast<AudioOutputDevice *>(data);
+    auto output = static_cast<float *>(outputBuffer);
 
     std::memset(output, 0, Audio::ElementsPerBuffer * sizeof(float));
-    // std::cout << "Id count: " << _this->soundBuffers.size();
-    // for (auto &pair : _this->soundBuffers) {
     for (auto it = _this->soundBuffers.begin(); it != _this->soundBuffers.end();) {
         auto &pair = *it;
 
         ++it;
         if (pair.second.empty()) {
-            // std::cout << ", removing " << pair.first;
             _this->soundBuffers.erase(pair.first);
             continue;
         }
 
-        // std::cout << ", " << pair.first << " of size " << pair.second.size();
-
         auto &soundBuffer = pair.second.front();
 
-        // std::cout << ", " << pair.first << " plays " << soundBuffer.samples[0];
         for (int i = 0; i < Audio::ElementsPerBuffer; ++i) {
             output[i] += soundBuffer.samples[i];
         }
         pair.second.pop();
     }
-    // std::cout << std::endl;
     return paContinue;
 }

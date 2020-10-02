@@ -28,15 +28,15 @@ namespace Babel::Client::Audio
 #pragma pack(push, 1)
         struct SoundPacket {
             int magic = CorewarMagic;
-            int64_t timestamp;
-            int32_t size;
-            char data[512 - sizeof(magic) - sizeof(timestamp) - sizeof(size)];
+            int64_t timestamp{};
+            int32_t size{};
+            char data[512 - sizeof(magic) - sizeof(timestamp) - sizeof(size)]{};
         };
 #pragma pack(pop)
 
     public:
         AudioPacketSender();
-        ~AudioPacketSender() = default;
+        ~AudioPacketSender() override = default;
 
         void connectTo(const std::vector<std::string> &hosts);
         void closeConnection();

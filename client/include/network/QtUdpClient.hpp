@@ -24,7 +24,7 @@ namespace Babel::Client::Network
 
     public:
         QtUdpClient();
-        ~QtUdpClient() = default;
+        ~QtUdpClient() override = default;
 
         void connect(unsigned short port) override;
         void closeConnection() override;
@@ -32,7 +32,7 @@ namespace Babel::Client::Network
         DataPacket getData() override;
 
     signals:
-        void dataAvailable();
+        void dataAvailable() override;
 
     private slots:
         void readPendingDatagrams();

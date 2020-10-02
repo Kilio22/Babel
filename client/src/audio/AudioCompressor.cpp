@@ -10,7 +10,7 @@
 #include "opus.h"
 
 Babel::Client::Audio::AudioCompressor::AudioCompressor()
-    : encoder(NULL)
+    : encoder(nullptr)
 {
     int err;
 

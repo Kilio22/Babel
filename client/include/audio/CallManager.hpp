@@ -21,7 +21,7 @@ namespace Babel::Client::Audio
 
     public:
         CallManager();
-        ~CallManager() = default;
+        ~CallManager() override = default;
 
         void beginCall(const std::vector<std::string> &hosts);
         void endCall();

@@ -10,7 +10,7 @@
 #include "opus.h"
 
 Babel::Client::Audio::AudioExtractor::AudioExtractor()
-    : decoder(NULL)
+    : decoder(nullptr)
 {
     int err;
 
