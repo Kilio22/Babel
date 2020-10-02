@@ -51,7 +51,7 @@ namespace Babel::Client::Audio
     private:
         std::unique_ptr<Network::IUdpClient> udpClient;
         std::vector<std::string> hosts;
-        int64_t lastTimestamp;
+        std::unordered_map<std::string, int64_t> timestamps;
     };
 }
 
