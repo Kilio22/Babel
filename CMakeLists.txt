@@ -34,3 +34,5 @@ target_include_directories(server BEFORE PUBLIC ${PROJECT_SOURCE_DIR}/server/inc
 
 target_link_libraries(client ${CONAN_LIBS} Qt5::Widgets Qt5::Network)
 target_link_libraries(server ${CONAN_LIBS})
+
+file(COPY ${PROJECT_SOURCE_DIR}/client/assets/ DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets/)
