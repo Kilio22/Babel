@@ -131,6 +131,9 @@ flycheck_*.el
 
 /.vscode
 /build
+/cmake-build-debug
+/cmake-build-release
 unit_test*
 vgcore*
 results.html
+/.idea/
