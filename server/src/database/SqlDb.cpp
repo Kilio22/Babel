@@ -39,28 +39,27 @@ Babel::Server::SqlDb::~SqlDb()
     sqlite3_close(this->m_db);
 }
 
-bool Babel::Server::SqlDb::hasUser(const std::string &username)
+bool Babel::Server::SqlDb::hasUser(const std::string &username) const
 {
     int rc = 0;
     char *errorMessage = nullptr;
     std::string query = "SELECT username FROM users WHERE username=\"" + username + "\";";
+    std::vector<std::string> queryResults;
 
-    this->m_contactQueryResults.clear();
-    this->m_queryResults.clear();
-    rc = sqlite3_exec(m_db, query.c_str(), SqlDb::callback, this, &errorMessage);
+    rc = sqlite3_exec(m_db, query.c_str(), SqlDb::callback, &queryResults, &errorMessage);
     if (rc != SQLITE_OK) {
         throw Exceptions::QueryDatabaseException("Can't get user logs: " + std::string(errorMessage), "Babel::Server::SqlDb::getUserLogs");
     }
-    return this->m_queryResults.size() != 0;
+    return queryResults.size() != 0;
 }
 
-void Babel::Server::SqlDb::addUser(const std::string &username, const std::string &password)
+void Babel::Server::SqlDb::addUser(const std::string &username, const std::string &password) const
 {
     int rc = 0;
     char *errorMessage = nullptr;
     std::string query = "INSERT INTO users VALUES (\"" + username + "\", \"" + password + "\");";
 
-    rc = sqlite3_exec(m_db, query.c_str(), NULL, 0, &errorMessage);
+    rc = sqlite3_exec(m_db, query.c_str(), nullptr, nullptr, &errorMessage);
     if (rc != SQLITE_OK && rc == SQLITE_CONSTRAINT) {
         throw Exceptions::ConstraintDatabaseException("Can't insert new user : " + std::string(errorMessage), "Babel::Server::SqlDb::addUser");
     } else if (rc != SQLITE_OK) {
@@ -68,74 +67,63 @@ void Babel::Server::SqlDb::addUser(const std::string &username, const std::strin
     }
 }
 
-const std::vector<std::string> &Babel::Server::SqlDb::getUserLogs(const std::string &username)
+std::vector<std::string> Babel::Server::SqlDb::getUserLogs(const std::string &username) const
 {
     int rc = 0;
     char *errorMessage = nullptr;
     std::string query = "SELECT username, password FROM users WHERE username=\"" + username + "\";";
+    std::vector<std::string> queryResults;
 
-    this->m_contactQueryResults.clear();
-    this->m_queryResults.clear();
-    rc = sqlite3_exec(m_db, query.c_str(), SqlDb::callback, this, &errorMessage);
+    rc = sqlite3_exec(m_db, query.c_str(), SqlDb::callback, &queryResults, &errorMessage);
     if (rc != SQLITE_OK) {
         throw Exceptions::QueryDatabaseException("Can't get user logs: " + std::string(errorMessage), "Babel::Server::SqlDb::getUserLogs");
     }
-    return this->m_queryResults;
+    return queryResults;
 }
 
-const std::vector<Babel::Server::Username> &Babel::Server::SqlDb::getUserContacts(const std::string &username)
+std::vector<Babel::Server::Username> Babel::Server::SqlDb::getUserContacts(const std::string &username) const
 {
     int rc = 0;
     char *errorMessage = nullptr;
     std::string query = "SELECT contact_username FROM users_contacts WHERE users_contacts.username=\"" + username + "\";";
+    std::vector<Username> queryResults;
 
-    this->m_contactQueryResults.clear();
-    this->m_queryResults.clear();
-    rc = sqlite3_exec(m_db, query.c_str(), SqlDb::contactCallback, this, &errorMessage);
+    rc = sqlite3_exec(m_db, query.c_str(), SqlDb::contactCallback, &queryResults, &errorMessage);
     if (rc != SQLITE_OK) {
         throw Exceptions::QueryDatabaseException("Can't get user contacts: " + std::string(errorMessage), "Babel::Server::SqlDb::getUserContacts");
     }
-    return this->m_contactQueryResults;
+    return queryResults;
 }
 
-void Babel::Server::SqlDb::addContact(const std::string &username, const std::string &contactUsername)
+void Babel::Server::SqlDb::addContact(const std::string &username, const std::string &contactUsername) const
 {
     int rc = 0;
     char *errorMessage = nullptr;
     std::string query = "INSERT INTO users_contacts(username,contact_username) SELECT \"" + username + "\", \"" + contactUsername
         + "\" WHERE NOT EXISTS(SELECT 1 FROM users_contacts WHERE username=\"" + username + "\" AND contact_username=\"" + contactUsername + "\");";
 
-    rc = sqlite3_exec(m_db, query.c_str(), NULL, 0, &errorMessage);
+    rc = sqlite3_exec(m_db, query.c_str(), nullptr, nullptr, &errorMessage);
     if (rc != SQLITE_OK) {
         throw Exceptions::QueryDatabaseException("Can't get insert new contact: " + std::string(errorMessage), "Babel::Server::SqlDb::addContact");
     }
 }
 
-int Babel::Server::SqlDb::callback(void *sqlDb, int argc, char **argv, char **)
+int Babel::Server::SqlDb::callback(void *data, int argc, char **argv, char **)
 {
-    SqlDb *db = reinterpret_cast<SqlDb *>(sqlDb);
+    std::vector<std::string> *queryResults = reinterpret_cast<std::vector<std::string> *>(data);
 
-    db->setSqlResults(argc, argv, false);
-    return 0;
-}
-
-int Babel::Server::SqlDb::contactCallback(void *sqlDb, int argc, char **argv, char **oui)
-{
-    SqlDb *db = reinterpret_cast<SqlDb *>(sqlDb);
-
-    db->setSqlResults(argc, argv, true);
-    return 0;
-}
-
-void Babel::Server::SqlDb::setSqlResults(int argc, char **argv, bool isUsername)
-{
-    if (isUsername) {
-        for (int i = 0; i < argc; i++) {
-            this->m_contactQueryResults.push_back({ argv[i] });
-        }
-    } else {
-        for (int i = 0; i < argc; i++) {
-            this->m_queryResults.push_back(argv[i]);
-        }
+    for (std::size_t i = 0; i < argc; i++) {
+        queryResults->push_back(argv[i]);
     }
+    return 0;
+}
+
+int Babel::Server::SqlDb::contactCallback(void *data, int argc, char **argv, char **)
+{
+    std::vector<Username> *queryResults = reinterpret_cast<std::vector<Username> *>(data);
+
+    for (std::size_t i = 0; i < argc; i++) {
+        queryResults->push_back({ argv[i] });
+    }
+    return 0;
 }
