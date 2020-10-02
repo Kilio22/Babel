@@ -12,6 +12,9 @@
 #include <vector>
 #include <memory>
 
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QWidget>
 #include "gui/LoginWindow.hpp"
 #include "gui/SignupWindow.hpp"
 #include "gui/MainWindow.hpp"
@@ -24,9 +27,9 @@ namespace Babel::Client {
      * @brief This class is used to managed all the windows and their interactions.
      * 
      */
-    class WindowManager {
+    class WindowManager : public QApplication {
         public:
-                WindowManager();
+                WindowManager(int argc = 0, char **argv = nullptr);
                 ~WindowManager();
 
             enum class State : int {
@@ -59,8 +62,10 @@ namespace Babel::Client {
             // TODO ajouter la about window ici plutôt
             WindowManager::State state;
             //std::unique_ptr<QMainWindow> loginWindow;
-            std::vector<std::unique_ptr<QMainWindow>> windows;
+            std::vector<std::unique_ptr<QWidget>> widgets;
+            std::vector<std::string> windowNames;
             ContactTimer contactTimer;
+            QMainWindow appWindow;
             std::unique_ptr<Babel::Client::Gui::AboutWindow> aboutPopUp;
     };
 };

@@ -9,19 +9,14 @@
 #define LOGINWINDOW_HPP_
 
 #include <QtCore/QObject>
-#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QWidget>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QWidget>
 #include <QtGui/QMovie>
 
 namespace Babel::Client::Gui {
-    /**
-     * @brief This class represents the login window. It inherits from QMainWindow.
-     * 
-     */
-    class LoginWindow : public QMainWindow
+    class LoginWindow : public QWidget
     {
         Q_OBJECT
         private:

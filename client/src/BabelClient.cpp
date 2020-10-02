@@ -40,5 +40,4 @@ void Babel::Client::BabelClient::create(int ac, char *av[])
             "Babel::Client::BabelClient::BabelClient");
     }
     ServiceLocator::getInstance().get<Babel::Client::CommandManager>().create(this->serveurIp, this->port, this->clientIp);
-    ServiceLocator::getInstance().get<WindowManager>().setState(WindowManager::State::Signup);
 }

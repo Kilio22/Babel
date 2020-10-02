@@ -9,14 +9,14 @@
 #define SIGNUPWINDOW_HPP_
 
 #include <QtCore/QObject>
-#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QWidget>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QLabel>
 #include <QtGui/QMovie>
 
 namespace Babel::Client::Gui {
-    class SignupWindow : public QMainWindow
+    class SignupWindow : public QWidget
     {
         Q_OBJECT
         private:

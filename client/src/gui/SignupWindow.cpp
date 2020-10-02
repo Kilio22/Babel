@@ -12,11 +12,10 @@
 #include "exceptions.h"
 #include <QtGui/QGuiApplication>
 #include <QtGui/QPixmap>
-#include <QtGui/QScreen>
 #include <iostream>
 
 Babel::Client::Gui::SignupWindow::SignupWindow(QWidget *parent)
-: QMainWindow(parent)
+: QWidget(parent)
 , mainWidget(this)
 , submitBtn("S'inscrire", &mainWidget)
 , logo(&mainWidget)
@@ -29,15 +28,10 @@ Babel::Client::Gui::SignupWindow::SignupWindow(QWidget *parent)
 , movie("./assets/loader.gif")
 , lastUsername("Default Username")
 {
-    QScreen *screen = QGuiApplication::primaryScreen();
-    QRect screenGeometry = screen->geometry();
     QPixmap pm("./assets/Babybel.png");
 
-    this->setWindowTitle("Babybel - Inscription");
     this->setStyleSheet("background-color: white;");
     this->setFixedSize(640, 800);
-    this->move(screenGeometry.width() / 2 - this->width() / 2, screenGeometry.height() / 2 - this->height() / 2);
-    this->setWindowIcon(QIcon("./assets/logo.jpg"));
 
     mainWidget.setStyleSheet("background-color: white;");
     mainWidget.setFixedSize(640, 800);
@@ -171,14 +165,9 @@ void Babel::Client::Gui::SignupWindow::switchToLogin()
 
 void Babel::Client::Gui::SignupWindow::reset()
 {
-    QScreen *screen = QGuiApplication::primaryScreen();
-    QRect screenGeometry = screen->geometry();
-
     username.clear();
     password.clear();
     topText.setText("");
-    this->setFixedSize(640, 800);
-    this->move(screenGeometry.width() / 2 - this->width() / 2, screenGeometry.height() / 2 - this->height() / 2);
 }
 
 void Babel::Client::Gui::SignupWindow::setError(const std::string & errorStr)

@@ -8,7 +8,6 @@
 #include "LoginWindow.hpp"
 
 #include <iostream>
-#include <QtGui/QScreen>
 #include <QtGui/QGuiApplication>
 #include <QtGui/QPixmap>
 #include "exceptions.h"
@@ -17,7 +16,7 @@
 #include "CommandManager.hpp"
 
 Babel::Client::Gui::LoginWindow::LoginWindow(QWidget *parent) 
-: QMainWindow(parent)
+: QWidget(parent)
 , mainWidget(this)
 , loginBtn("Se connecter", &mainWidget)
 , logo(&mainWidget)
@@ -30,15 +29,10 @@ Babel::Client::Gui::LoginWindow::LoginWindow(QWidget *parent)
 , movie("./assets/loader.gif")
 , lastUsername("Default Username")
 {
-    QScreen *screen = QGuiApplication::primaryScreen();
-    QRect screenGeometry = screen->geometry();
     QPixmap pm("./assets/Babybel.png");
 
-    this->setWindowTitle("Babybel - Connexion");
     this->setStyleSheet("background-color: white;");
     this->setFixedSize(640, 800);
-    this->move(screenGeometry.width() / 2 - this->width() / 2, screenGeometry.height() / 2 - this->height() / 2);
-    this->setWindowIcon(QIcon("./assets/logo.jpg"));
 
     mainWidget.setStyleSheet("background-color: white;");
     mainWidget.setFixedSize(640, 800);
@@ -168,14 +162,9 @@ void Babel::Client::Gui::LoginWindow::switchToSignup() {
 }
 
 void Babel::Client::Gui::LoginWindow::reset() {
-    QScreen *screen = QGuiApplication::primaryScreen();
-    QRect screenGeometry = screen->geometry();
-
     username.clear();
     password.clear();
     topText.setText("");
-    this->setFixedSize(640, 800);
-    this->move(screenGeometry.width() / 2 - this->width() / 2, screenGeometry.height() / 2 - this->height() / 2);
 }
 
 void Babel::Client::Gui::LoginWindow::setError(const std::string & errorStr)

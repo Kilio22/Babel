@@ -7,7 +7,6 @@
 
 #include "CallWindow.hpp"
 
-#include <QtGui/QScreen>
 #include <QtGui/QGuiApplication>
 #include <QtGui/QPixmap>
 #include <QtWidgets/QHBoxLayout>
@@ -19,7 +18,7 @@
 #include "CommandManager.hpp"
 
 Babel::Client::Gui::CallWindow::CallWindow(QWidget *parent)
-: QMainWindow(parent)
+: QWidget(parent)
 , area(this)
 , widget()
 , avatar(this)
@@ -29,17 +28,12 @@ Babel::Client::Gui::CallWindow::CallWindow(QWidget *parent)
 , errorStr(this)
 , username("Default Username")
 {
-    QScreen *screen = QGuiApplication::primaryScreen();
-    QRect screenGeometry = screen->geometry();
     std::string path = "./assets/avatars/" + std::to_string(username[0] % 26 + 1) + ".png";
     QPixmap pixmap(path.c_str());
     QRegion *region;
 
-    this->setWindowTitle("Babybel - Call");
     this->setStyleSheet("background-color: white;");
     this->setFixedSize(640, 800);
-    this->move(screenGeometry.width() / 2 - this->width() / 2, screenGeometry.height() / 2 - this->height() / 2);
-    this->setWindowIcon(QIcon("./assets/logo.jpg"));
 
     avatar.setPixmap(pixmap);
     avatar.setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);

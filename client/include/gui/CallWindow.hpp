@@ -9,7 +9,7 @@
 #define CALLWINDOW_HPP_
 
 #include <QtCore/QObject>
-#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QWidget>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QLabel>
@@ -20,7 +20,7 @@
 #include <memory>
 
 namespace Babel::Client::Gui {
-    class CallWindow : public QMainWindow
+    class CallWindow : public QWidget
     {
         Q_OBJECT
         private:

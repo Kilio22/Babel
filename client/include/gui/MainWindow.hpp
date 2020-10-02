@@ -9,7 +9,7 @@
 #define MAINWINDOW_HPP_
 
 #include <QtCore/QObject>
-#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QWidget>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QLabel>
@@ -23,7 +23,7 @@
 #include <unordered_map>
 
 namespace Babel::Client::Gui {
-    class MainWindow : public QMainWindow
+    class MainWindow : public QWidget
     {
         Q_OBJECT
         private:
