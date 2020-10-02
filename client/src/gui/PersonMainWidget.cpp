@@ -18,14 +18,12 @@ Babel::Client::Gui::PersonMainWidget::PersonMainWidget(QWidget *parent, std::str
 {
     std::string path = "./assets/avatars/" + std::to_string(nameStr[0] % 26 + 1) + ".png";
     QPixmap pixmap(path.c_str());
-    QRegion *region;
 
     avatar.setPixmap(pixmap);
     avatar.setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     avatar.setFixedSize(60, 60);
-    region = new QRegion(0, 0, avatar.width(), avatar.height(), QRegion::Ellipse);
     avatar.setScaledContents(true);
-    avatar.setMask(*region);
+    avatar.setMask({0, 0, avatar.width(), avatar.height(), QRegion::Ellipse});
     avatar.show();
     avatar.move(10, 10);
 

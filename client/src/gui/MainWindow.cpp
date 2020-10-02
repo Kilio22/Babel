@@ -34,7 +34,6 @@ Babel::Client::Gui::MainWindow::MainWindow(QWidget *parent)
 {
     std::string path = "./assets/avatars/" + std::to_string(username[0] % 26 + 1) + ".png";
     QPixmap pixmap(path.c_str());
-    QRegion *region;
 
     this->setStyleSheet("background-color: white;");
     this->setFixedSize(640, 800);
@@ -42,9 +41,8 @@ Babel::Client::Gui::MainWindow::MainWindow(QWidget *parent)
     avatar.setPixmap(pixmap);
     avatar.setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     avatar.setFixedSize(200, 200);
-    region = new QRegion(0, 0, avatar.width(), avatar.height(), QRegion::Ellipse);
     avatar.setScaledContents(true);
-    avatar.setMask(*region);
+    avatar.setMask({0, 0, avatar.width(), avatar.height(), QRegion::Ellipse});
     avatar.move(20, 20);
 
     area.setFixedSize(600, 350);
@@ -170,15 +168,13 @@ void Babel::Client::Gui::MainWindow::setUsername(const std::string &name)
 {
     std::string path = "./assets/avatars/" + std::to_string(name[0] % 26 + 1) + ".png";
     QPixmap pixmap(path.c_str());
-    QRegion *region;
 
     username = name;
     avatar.setPixmap(pixmap);
     avatar.setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     avatar.setFixedSize(200, 200);
-    region = new QRegion(0, 0, avatar.width(), avatar.height(), QRegion::Ellipse);
     avatar.setScaledContents(true);
-    avatar.setMask(*region);
+    avatar.setMask({0, 0, avatar.width(), avatar.height(), QRegion::Ellipse});
     avatar.move(20, 20);
     myName.setText(username.c_str());
 }
