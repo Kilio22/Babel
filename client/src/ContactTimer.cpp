@@ -25,7 +25,7 @@ void Babel::Client::ContactTimer::getContacts()
 {
     if (ServiceLocator::getInstance().get<WindowManager>().getState() == WindowManager::State::Main) {
         ServiceLocator::getInstance().get<CommandManager>().getContacts();
-        std::cout << "Contact timer triggered" << std::endl;
+//        std::cout << "Contact timer triggered" << std::endl;
     }
 }
 
