@@ -16,9 +16,9 @@ namespace Babel::Server::Commands
     class DisconnectCommand : public ICommand {
     public:
         DisconnectCommand() = default;
-        ~DisconnectCommand() = default;
+        ~DisconnectCommand() override = default;
 
-        void handle(const unsigned char *, const std::size_t, IUser *) const;
+        void handle(const unsigned char *, std::size_t, IUser *) const final;
 
     private:
         void stopCalls(const std::vector<std::string> &, ClassicResponse &) const;

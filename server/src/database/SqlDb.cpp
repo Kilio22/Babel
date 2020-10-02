@@ -24,11 +24,11 @@ Babel::Server::SqlDb::SqlDb()
         sqlite3_close(this->m_db);
         throw Exceptions::OpenDatabaseException("Can't open database: " + std::string(sqlite3_errmsg(m_db)), "Babel::Server::SqlDb::SqlDb");
     }
-    rc = sqlite3_exec(m_db, "CREATE TABLE IF NOT EXISTS users(username TEXT PRIMARY KEY, password TEXT);", NULL, 0, &errorMessage);
+    rc = sqlite3_exec(m_db, "CREATE TABLE IF NOT EXISTS users(username TEXT PRIMARY KEY, password TEXT);", nullptr, nullptr, &errorMessage);
     if (rc != SQLITE_OK) {
         throw Exceptions::OpenDatabaseException("Can't create table \"users\": " + std::string(errorMessage), "Babel::Server::SqlDb::SqlDb");
     }
-    rc = sqlite3_exec(m_db, "CREATE TABLE IF NOT EXISTS users_contacts(username TEXT, contact_username TEXT);", NULL, 0, &errorMessage);
+    rc = sqlite3_exec(m_db, "CREATE TABLE IF NOT EXISTS users_contacts(username TEXT, contact_username TEXT);", nullptr, nullptr, &errorMessage);
     if (rc != SQLITE_OK) {
         throw Exceptions::OpenDatabaseException("Can't create table \"users_contacts\": " + std::string(errorMessage), "Babel::Server::SqlDb::SqlDb");
     }
@@ -50,7 +50,7 @@ bool Babel::Server::SqlDb::hasUser(const std::string &username) const
     if (rc != SQLITE_OK) {
         throw Exceptions::QueryDatabaseException("Can't get user logs: " + std::string(errorMessage), "Babel::Server::SqlDb::getUserLogs");
     }
-    return queryResults.size() != 0;
+    return !queryResults.empty();
 }
 
 void Babel::Server::SqlDb::addUser(const std::string &username, const std::string &password) const
@@ -110,7 +110,7 @@ void Babel::Server::SqlDb::addContact(const std::string &username, const std::st
 
 int Babel::Server::SqlDb::callback(void *data, int argc, char **argv, char **)
 {
-    std::vector<std::string> *queryResults = reinterpret_cast<std::vector<std::string> *>(data);
+    auto *queryResults = reinterpret_cast<std::vector<std::string> *>(data);
 
     for (std::size_t i = 0; i < argc; i++) {
         queryResults->push_back(argv[i]);
@@ -120,7 +120,7 @@ int Babel::Server::SqlDb::callback(void *data, int argc, char **argv, char **)
 
 int Babel::Server::SqlDb::contactCallback(void *data, int argc, char **argv, char **)
 {
-    std::vector<Username> *queryResults = reinterpret_cast<std::vector<Username> *>(data);
+    auto *queryResults = reinterpret_cast<std::vector<Username> *>(data);
 
     for (std::size_t i = 0; i < argc; i++) {
         queryResults->push_back({ argv[i] });

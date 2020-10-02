@@ -11,9 +11,9 @@
 #include "exceptions/ConstraintDatabaseException.hpp"
 #include <iostream>
 
-void Babel::Server::Commands::RegisterCommand::handle(const unsigned char *data, const std::size_t, IUser *user) const
+void Babel::Server::Commands::RegisterCommand::handle(const unsigned char *data, std::size_t, IUser *user) const
 {
-    const RegisterRequest *registerRequest = reinterpret_cast<const struct RegisterRequest *>(data);
+    const auto *registerRequest = reinterpret_cast<const struct RegisterRequest *>(data);
     ClassicResponse classicResponse = { Header(COMMAND_TYPE::REGISTER), RESPONSE_CODE::OK };
     const std::string username = registerRequest->username;
     if (username.length() < 3) {

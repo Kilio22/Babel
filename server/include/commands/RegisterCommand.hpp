@@ -16,9 +16,9 @@ namespace Babel::Server::Commands
     class RegisterCommand : public ICommand {
     public:
         RegisterCommand() = default;
-        ~RegisterCommand() = default;
+        ~RegisterCommand() override = default;
 
-        void handle(const unsigned char *, const std::size_t, IUser *) const final;
+        void handle(const unsigned char *, std::size_t, IUser *) const final;
 
     private:
 #pragma pack(push, 1)

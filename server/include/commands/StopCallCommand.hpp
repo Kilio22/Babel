@@ -15,17 +15,9 @@ namespace Babel::Server::Commands
     class StopCallCommand : public ICommand {
     public:
         StopCallCommand() = default;
-        ~StopCallCommand() = default;
+        ~StopCallCommand() override = default;
 
-        void handle(const unsigned char *, const std::size_t, IUser *) const final;
-
-    private:
-#pragma pack(push, 1)
-        struct StopCallRequest
-        {
-            Header header;
-        };
-#pragma pack(pop)
+        void handle(const unsigned char *, std::size_t, IUser *) const final;
 
     private:
         void stopCalls(const std::vector<std::string> &, ClassicResponse &) const;

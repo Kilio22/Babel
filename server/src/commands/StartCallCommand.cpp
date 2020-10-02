@@ -10,7 +10,7 @@
 #include <iostream>
 #include <sstream>
 
-void Babel::Server::Commands::StartCallCommand::handle(const unsigned char *data, const std::size_t bytesTransfered, IUser *user) const
+void Babel::Server::Commands::StartCallCommand::handle(const unsigned char *data, std::size_t bytesTransfered, IUser *user) const
 {
     ClassicResponse classicResponse = { Header(COMMAND_TYPE::START_CALL), RESPONSE_CODE::OK };
     if (!user->isLoggedIn()) {
@@ -24,7 +24,7 @@ void Babel::Server::Commands::StartCallCommand::handle(const unsigned char *data
 
     std::vector<Username> usernames;
     usernames.assign(reinterpret_cast<const Username *>(&data[sizeof(StartCallRequest)]), reinterpret_cast<const Username *>(data + bytesTransfered));
-    usernames.push_back({ user->getUsername() });
+    usernames.emplace_back( user->getUsername() );
     this->sendInfosToUsers(usernames, classicResponse, user);
 }
 
@@ -41,12 +41,12 @@ void Babel::Server::Commands::StartCallCommand::sendInfosToUsers(
             classicResponse.responseCode = RESPONSE_CODE::USER_DISCONNECTED;
             return mainUser->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
         }
-        if (user->isInCall() == true) {
+        if (user->isInCall()) {
             classicResponse.responseCode = RESPONSE_CODE::USER_IN_CALL;
             return mainUser->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
         }
         users.push_back(user);
-        usersCallInfos.push_back({ user->getUsername().c_str(), user->getTcpClient()->getIp().c_str() });
+        usersCallInfos.emplace_back( user->getUsername().c_str(), user->getTcpClient()->getIp().c_str() );
     }
     this->sendLoop(users, usersCallInfos, classicResponse);
 }
@@ -61,10 +61,10 @@ void Babel::Server::Commands::StartCallCommand::sendLoop(
         std::ostream os(&b);
 
         std::copy_if(usersCallInfos.begin(), usersCallInfos.end(), std::back_insert_iterator(infosToSend),
-            [user](const UserCallInfos &userCallInfos) { return user->getUsername().compare(std::string(userCallInfos.username)) != 0; });
+            [user](const UserCallInfos &userCallInfos) { return user->getUsername() != std::string(userCallInfos.username); });
         for (const auto &userCallInfos : usersCallInfos) {
-            if (user->getUsername().compare(userCallInfos.username) != 0) {
-                calledUsers.push_back(userCallInfos.username);
+            if (user->getUsername() != userCallInfos.username) {
+                calledUsers.emplace_back(userCallInfos.username);
             }
         }
         os.write(reinterpret_cast<const char *>(&classicResponse), sizeof(ClassicResponse));

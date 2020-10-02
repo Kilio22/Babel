@@ -15,7 +15,7 @@ namespace Babel::Server
 {
     class UserManager {
     public:
-        ~UserManager();
+        ~UserManager() = default;
 
         static UserManager &getInstance();
 
@@ -25,7 +25,7 @@ namespace Babel::Server
         IUser *getUserByUsername(const std::string &) const;
 
     private:
-        UserManager();
+        UserManager() = default;
         UserManager(const UserManager &) = delete;
         UserManager &operator=(const UserManager &) = delete;
 

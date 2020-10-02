@@ -17,9 +17,9 @@ namespace Babel::Server::Commands
     class GetContactsCommand : public ICommand {
     public:
         GetContactsCommand() = default;
-        ~GetContactsCommand() = default;
+        ~GetContactsCommand() override = default;
 
-        void handle(const unsigned char *, const std::size_t, IUser *) const;
+        void handle(const unsigned char *, std::size_t, IUser *) const override;
 
     private:
 #pragma pack(push, 1)
@@ -30,7 +30,7 @@ namespace Babel::Server::Commands
             {
                 std::strncpy(this->username, username, USERNAME_LENGTH);
             }
-            char username[USERNAME_LENGTH];
+            char username[USERNAME_LENGTH]{};
             bool loggedIn;
         };
 #pragma pack(pop)

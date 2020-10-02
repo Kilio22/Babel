@@ -16,9 +16,9 @@ namespace Babel::Server::Commands
     class LoginCommand : public ICommand {
     public:
         LoginCommand() = default;
-        ~LoginCommand() = default;
+        ~LoginCommand() override = default;
 
-        void handle(const unsigned char *, const std::size_t, IUser *) const final;
+        void handle(const unsigned char *, std::size_t, IUser *) const final;
 
     private:
 #pragma pack(push, 1)

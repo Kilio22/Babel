@@ -9,10 +9,9 @@
 #include "UserManager.hpp"
 #include "database/DatabaseProvider.hpp"
 #include "database/SqlDb.hpp"
-#include <iostream>
 #include <sstream>
 
-void Babel::Server::Commands::AddContactCommand::handle(const unsigned char *data, const std::size_t, IUser *user) const
+void Babel::Server::Commands::AddContactCommand::handle(const unsigned char *data, std::size_t, IUser *user) const
 {
     ClassicResponse classicResponse = { { COMMAND_TYPE::ADD_CONTACT }, RESPONSE_CODE::OK };
     if (!user->isLoggedIn()) {
@@ -20,7 +19,7 @@ void Babel::Server::Commands::AddContactCommand::handle(const unsigned char *dat
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
     }
 
-    const AddContactRequest *addContactRequest = reinterpret_cast<const AddContactRequest *>(data);
+    const auto *addContactRequest = reinterpret_cast<const AddContactRequest *>(data);
     if (user->getUsername().compare(addContactRequest->username) == 0) {
         classicResponse.responseCode = RESPONSE_CODE::BAD_CONTACT;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
@@ -39,7 +38,7 @@ void Babel::Server::Commands::AddContactCommand::handle(const unsigned char *dat
 void Babel::Server::Commands::AddContactCommand::addContact(
     const AddContactRequest *addContactRequest, ClassicResponse &classicResponse, IUser *user) const
 {
-    if (DatabaseProvider::getDb<SqlDb>()->hasUser(addContactRequest->username) == false) {
+    if (!DatabaseProvider::getDb<SqlDb>()->hasUser(addContactRequest->username)) {
         classicResponse.responseCode = RESPONSE_CODE::BAD_CONTACT;
         return user->getTcpClient()->write(reinterpret_cast<const unsigned char *>(&classicResponse), sizeof(ClassicResponse));
     }
@@ -55,9 +54,9 @@ std::vector<Babel::Server::Commands::AddContactCommand::Contact> Babel::Server::
         IUser *user = UserManager::getInstance().getUserByUsername(contactUsername.username);
 
         if (user == nullptr) {
-            contacts.push_back({ contactUsername.username, false });
+            contacts.emplace_back( contactUsername.username, false );
         } else {
-            contacts.push_back({ contactUsername.username, user->isLoggedIn() });
+            contacts.emplace_back( contactUsername.username, user->isLoggedIn() );
         }
     }
     return contacts;
