@@ -20,8 +20,8 @@ find_package(Qt5 COMPONENTS Widgets Network REQUIRED)
 file(GLOB_RECURSE SRC_CLIENT ${PROJECT_SOURCE_DIR}/client/src/*)
 file(GLOB_RECURSE SRC_SERVER ${PROJECT_SOURCE_DIR}/server/src/*)
 
-add_executable(client ${SRC_CLIENT})
-add_executable(server ${SRC_SERVER})
+add_executable(babel_client ${SRC_CLIENT})
+add_executable(babel_server ${SRC_SERVER})
 
 include_directories(${CMAKE_INCLUDE_PATH})
 target_include_directories(client BEFORE PUBLIC ${PROJECT_SOURCE_DIR}/client/include)
