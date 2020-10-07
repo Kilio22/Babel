@@ -47,9 +47,9 @@ Babel::Client::WindowManager::WindowManager(int argc, char **argv)
 
 Babel::Client::WindowManager::~WindowManager()
 {
-    for (int i = int(State::Signup); i < int(State::LastEnum); i++) {
-        widgets[i].release();
-    }
+    //for (int i = int(State::Signup); i < int(State::LastEnum); i++) {
+    //    widgets[i].reset();
+    //}
 }
 
 void Babel::Client::WindowManager::setState(const Babel::Client::WindowManager::State &state)
