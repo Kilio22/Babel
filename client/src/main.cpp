@@ -15,8 +15,11 @@
 int main(int ac, char **av)
 {
     try {
+        QApplication qApplication(ac, av);
+
         Babel::Client::ServiceLocator::getInstance().get<Babel::Client::BabelClient>().create(ac, av);
-        Babel::Client::ServiceLocator::getInstance().get<Babel::Client::WindowManager>().exec();
+        Babel::Client::ServiceLocator::getInstance().get<Babel::Client::WindowManager>();
+        qApplication.exec();
     } catch (const Babel::Client::Exceptions::ClientException &e) {
         std::cerr << e.getComponent() << ": " << e.what() << std::endl;
         return 84;

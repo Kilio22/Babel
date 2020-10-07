@@ -22,51 +22,50 @@
 #include "gui/AboutWindow.hpp"
 #include "ContactTimer.hpp"
 
-namespace Babel::Client {
+namespace Babel::Client
+{
     /**
      * @brief This class is used to managed all the windows and their interactions.
-     * 
+     *
      */
-    class WindowManager : public QApplication {
-        public:
-                WindowManager(int argc = 0, char **argv = nullptr);
-                ~WindowManager();
+    class WindowManager {
+    public:
+        WindowManager(int argc = 0, char **argv = nullptr);
+        ~WindowManager();
 
-            enum class State : int {
-                Signup,
-                Login,
-                Main,
-                Call,
-                LastEnum
-            };
+        enum class State : int {
+            Signup,
+            Login,
+            Main,
+            Call,
+            LastEnum
+        };
 
-            /**
-             * @brief Set the State object
-             * 
-             * @param state State of the manager (Which window should be displayed)
-             */
-            void setState(const WindowManager::State &state);
-            /**
-             * @brief Get the State object
-             * 
-             * @return const WindowManager::State& 
-             */
-            const WindowManager::State &getState() const;
-            Babel::Client::Gui::LoginWindow *getLoginWindow() const;
-            Babel::Client::Gui::SignupWindow *getSignupWindow() const;
-            Babel::Client::Gui::MainWindow *getMainWindow() const;
-            Babel::Client::Gui::CallWindow *getCallWindow() const;
-            void openAbout();
+        /**
+         * @brief Set the State object
+         *
+         * @param state State of the manager (Which window should be displayed)
+         */
+        void setState(const WindowManager::State &state);
+        /**
+         * @brief Get the State object
+         *
+         * @return const WindowManager::State&
+         */
+        const WindowManager::State &getState() const;
+        Babel::Client::Gui::LoginWindow *getLoginWindow() const;
+        Babel::Client::Gui::SignupWindow *getSignupWindow() const;
+        Babel::Client::Gui::MainWindow *getMainWindow() const;
+        Babel::Client::Gui::CallWindow *getCallWindow() const;
+        void openAbout();
 
-        private:
-            // TODO ajouter la about window ici plutôt
-            WindowManager::State state;
-            //std::unique_ptr<QMainWindow> loginWindow;
-            std::vector<std::unique_ptr<QWidget>> widgets;
-            std::vector<std::string> windowNames;
-            ContactTimer contactTimer;
-            QMainWindow appWindow;
-            std::unique_ptr<Babel::Client::Gui::AboutWindow> aboutPopUp;
+    private:
+        WindowManager::State state;
+        std::vector<std::unique_ptr<QWidget>> widgets;
+        std::vector<std::string> windowNames;
+        ContactTimer contactTimer;
+        QMainWindow appWindow;
+        std::unique_ptr<Babel::Client::Gui::AboutWindow> aboutPopUp;
     };
 };
 

@@ -11,12 +11,12 @@
 #include <QtGui/QScreen>
 
 Babel::Client::WindowManager::WindowManager(int argc, char **argv)
-: QApplication(argc, argv)
-, state(Babel::Client::WindowManager::State::Signup)
-, widgets(int(State::LastEnum))
-, windowNames(int(State::LastEnum))
-, contactTimer()
-, appWindow(nullptr)
+        :
+        state(Babel::Client::WindowManager::State::Signup),
+        widgets(int(State::LastEnum)),
+        windowNames(int(State::LastEnum)),
+        contactTimer(),
+        appWindow(nullptr)
 {
     QScreen *screen = QGuiApplication::primaryScreen();
     QRect screenGeometry = screen->geometry();
@@ -49,7 +49,7 @@ Babel::Client::WindowManager::WindowManager(int argc, char **argv)
 Babel::Client::WindowManager::~WindowManager()
 {
     for (int i = int(State::Signup); i < int(State::LastEnum); i++) {
-        widgets[i].reset();
+        widgets[i].release();
     }
 }
 
@@ -72,8 +72,7 @@ const Babel::Client::WindowManager::State &Babel::Client::WindowManager::getStat
 
 Babel::Client::Gui::LoginWindow *Babel::Client::WindowManager::getLoginWindow() const
 {
-    if (Babel::Client::Gui::LoginWindow* c = dynamic_cast<Babel::Client::Gui::LoginWindow*>(widgets[int(State::Login)].get()))
-    {
+    if (Babel::Client::Gui::LoginWindow *c = dynamic_cast<Babel::Client::Gui::LoginWindow *>(widgets[int(State::Login)].get())) {
         return (c);
     }
     return (nullptr);
@@ -81,8 +80,7 @@ Babel::Client::Gui::LoginWindow *Babel::Client::WindowManager::getLoginWindow() 
 
 Babel::Client::Gui::SignupWindow *Babel::Client::WindowManager::getSignupWindow() const
 {
-    if (Babel::Client::Gui::SignupWindow* c = dynamic_cast<Babel::Client::Gui::SignupWindow*>(widgets[int(State::Signup)].get()))
-    {
+    if (Babel::Client::Gui::SignupWindow *c = dynamic_cast<Babel::Client::Gui::SignupWindow *>(widgets[int(State::Signup)].get())) {
         return (c);
     }
     return (nullptr);
@@ -90,8 +88,7 @@ Babel::Client::Gui::SignupWindow *Babel::Client::WindowManager::getSignupWindow(
 
 Babel::Client::Gui::MainWindow *Babel::Client::WindowManager::getMainWindow() const
 {
-    if (Babel::Client::Gui::MainWindow* c = dynamic_cast<Babel::Client::Gui::MainWindow*>(widgets[int(State::Main)].get()))
-    {
+    if (Babel::Client::Gui::MainWindow *c = dynamic_cast<Babel::Client::Gui::MainWindow *>(widgets[int(State::Main)].get())) {
         return (c);
     }
     return (nullptr);
@@ -99,8 +96,7 @@ Babel::Client::Gui::MainWindow *Babel::Client::WindowManager::getMainWindow() co
 
 Babel::Client::Gui::CallWindow *Babel::Client::WindowManager::getCallWindow() const
 {
-    if (Babel::Client::Gui::CallWindow* c = dynamic_cast<Babel::Client::Gui::CallWindow*>(widgets[int(State::Call)].get()))
-    {
+    if (Babel::Client::Gui::CallWindow *c = dynamic_cast<Babel::Client::Gui::CallWindow *>(widgets[int(State::Call)].get())) {
         return (c);
     }
     return (nullptr);
