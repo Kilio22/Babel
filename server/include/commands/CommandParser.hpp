@@ -18,20 +18,10 @@ namespace Babel::Server
 
     class CommandParser {
     public:
+        CommandParser() = default;
         ~CommandParser() = default;
 
-        CommandParser(const CommandParser &) = delete;
-        CommandParser &operator=(const CommandParser &) = delete;
-
-        static CommandParser &getInstance();
-
-        void parseCommand(const unsigned char *, std::size_t, IUser *) const;
-
-    private:
-        CommandParser() = default;
-
-    private:
-        static CommandParser commandParserInstance;
+        static void parseCommand(const unsigned char *, std::size_t, IUser *);
     };
 } // namespace Babel::Server
 

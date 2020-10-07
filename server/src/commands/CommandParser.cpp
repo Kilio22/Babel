@@ -10,14 +10,7 @@
 #include "commands/ICommand.hpp"
 #include <iostream>
 
-Babel::Server::CommandParser Babel::Server::CommandParser::commandParserInstance;
-
-Babel::Server::CommandParser &Babel::Server::CommandParser::getInstance()
-{
-    return commandParserInstance;
-}
-
-void Babel::Server::CommandParser::parseCommand(const unsigned char *data, std::size_t bytes_transfered, IUser *user) const
+void Babel::Server::CommandParser::parseCommand(const unsigned char *data, std::size_t bytes_transfered, IUser *user)
 {
     const Commands::Header responseHeader(Commands::COMMAND_TYPE::ERR);
     if (bytes_transfered < sizeof(Commands::Header)) {

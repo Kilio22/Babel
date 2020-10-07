@@ -46,7 +46,7 @@ void Babel::Server::User::tcpClientHasData() const
 {
     std::pair<std::size_t, const unsigned char *> data = this->m_tcpClient->getData();
 
-    CommandParser::getInstance().parseCommand(data.second, data.first, UserManager::getInstance().getUserByTcpClient(this->m_tcpClient.get()));
+    CommandParser::parseCommand(data.second, data.first, UserManager::getInstance().getUserByTcpClient(this->m_tcpClient.get()));
 }
 
 bool Babel::Server::User::isInCall() const
