@@ -27,7 +27,7 @@ namespace Babel::Client {
      * @brief This class is used to managed all the windows and their interactions.
      * 
      */
-    class WindowManager : public QApplication {
+    class WindowManager {
         public:
                 WindowManager(int argc = 0, char **argv = nullptr);
                 ~WindowManager();

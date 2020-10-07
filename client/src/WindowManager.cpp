@@ -11,8 +11,7 @@
 #include <QtGui/QScreen>
 
 Babel::Client::WindowManager::WindowManager(int argc, char **argv)
-: QApplication(argc, argv)
-, state(Babel::Client::WindowManager::State::Signup)
+: state(Babel::Client::WindowManager::State::Signup)
 , widgets(int(State::LastEnum))
 , windowNames(int(State::LastEnum))
 , contactTimer()
