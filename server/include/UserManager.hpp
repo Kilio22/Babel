@@ -17,6 +17,9 @@ namespace Babel::Server
     public:
         ~UserManager() = default;
 
+        UserManager(const UserManager &) = delete;
+        UserManager &operator=(const UserManager &) = delete;
+
         static UserManager &getInstance();
 
         void addUser(std::unique_ptr<IUser>);
@@ -26,8 +29,6 @@ namespace Babel::Server
 
     private:
         UserManager() = default;
-        UserManager(const UserManager &) = delete;
-        UserManager &operator=(const UserManager &) = delete;
 
     private:
         static UserManager userManagerInstance;
