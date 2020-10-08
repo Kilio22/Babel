@@ -24,22 +24,22 @@ void Babel::Client::Commands::AddContactCommand::handle(const unsigned char *dat
             // std::cout << contacts.at(i).username << std::endl;
             contactsNames.push_back(contacts.at(i).username);
         }
-        ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setContacts(contacts);
+        ServiceLocator::getInstance().get<Gui::WindowManager>().getMainWindow()->setContacts(contacts);
         return;
     }
     if (addContactResponse->responseCode == RESPONSE_CODE::BAD_CONTACT) {
         // std::cout << "ADD CONTACT - INVALID CONTACT !" << std::endl; // debug
-        ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setError("Invalid contact");
+        ServiceLocator::getInstance().get<Gui::WindowManager>().getMainWindow()->setError("Invalid contact");
         return;
     }
     if (addContactResponse->responseCode == RESPONSE_CODE::NOT_LOGGED_IN) {
         // std::cout << "ADD CONTACT - USER NOT LOGGED IN !" << std::endl; // debug
-        ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setError("User not logged in");
+        ServiceLocator::getInstance().get<Gui::WindowManager>().getMainWindow()->setError("User not logged in");
         return;
     }
     if (addContactResponse->responseCode == RESPONSE_CODE::OTHER) {
         // std::cout << "ADD CONTACT - ERROR !" << std::endl; // debug
-        ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setError("Error");
+        ServiceLocator::getInstance().get<Gui::WindowManager>().getMainWindow()->setError("Error");
         return;
     }
 }

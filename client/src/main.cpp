@@ -26,7 +26,7 @@ int main(int ac, char **av)
             return 0;
         }
         Babel::Client::ServiceLocator::getInstance().get<Babel::Client::BabelClient>().create(ac, av);
-        Babel::Client::ServiceLocator::getInstance().get<Babel::Client::WindowManager>();
+        Babel::Client::ServiceLocator::getInstance().get<Babel::Client::Gui::WindowManager>();
         qApplication.exec();
     } catch (const Babel::Client::Exceptions::ClientException &e) {
         std::cerr << e.getComponent() << ": " << e.what() << std::endl;

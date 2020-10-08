@@ -21,27 +21,27 @@ void Babel::Client::Commands::StartCallCommand::handle(const unsigned char *data
         for (int i = 0; i < users.size(); i++) {
             // std::cout << users.at(i).username << std::endl;
         }
-        ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->callWorked(users);
+        ServiceLocator::getInstance().get<Gui::WindowManager>().getMainWindow()->callWorked(users);
         return;
     }
     if (startCallResponse->responseCode == RESPONSE_CODE::NOT_LOGGED_IN) {
         // std::cout << "START CALL - USER NOT LOGGED IN !" << std::endl; // debug
-        ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setError("User not logged in");
+        ServiceLocator::getInstance().get<Gui::WindowManager>().getMainWindow()->setError("User not logged in");
         return;
     }
     if (startCallResponse->responseCode == RESPONSE_CODE::USER_DISCONNECTED) {
         // std::cout << "START CALL - USER YOU ARE CALLING IS DISCONNECTED !" << std::endl; // debug
-        ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setError("User called not logged in");
+        ServiceLocator::getInstance().get<Gui::WindowManager>().getMainWindow()->setError("User called not logged in");
         return;
     }
     if (startCallResponse->responseCode == RESPONSE_CODE::USER_IN_CALL) {
         // std::cout << "START CALL - USER YOU ARE CALLING IS IN CALL !" << std::endl; // debug
-        ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setError("User called is already in call");
+        ServiceLocator::getInstance().get<Gui::WindowManager>().getMainWindow()->setError("User called is already in call");
         return;
     }
     if (startCallResponse->responseCode == RESPONSE_CODE::OTHER) {
         // std::cout << "START CALL - ERROR !" << std::endl; // debug
-        ServiceLocator::getInstance().get<WindowManager>().getMainWindow()->setError("Error");
+        ServiceLocator::getInstance().get<Gui::WindowManager>().getMainWindow()->setError("Error");
         return;
     }
 }

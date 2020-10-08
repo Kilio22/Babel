@@ -10,9 +10,9 @@
 
 #include <QtGui/QScreen>
 
-Babel::Client::WindowManager::WindowManager(int argc, char **argv)
+Babel::Client::Gui::WindowManager::WindowManager(int argc, char **argv)
         :
-        state(Babel::Client::WindowManager::State::Signup),
+        state(Babel::Client::Gui::WindowManager::State::Signup),
         widgets(int(State::LastEnum)),
         windowNames(int(State::LastEnum)),
         contactTimer(),
@@ -46,14 +46,14 @@ Babel::Client::WindowManager::WindowManager(int argc, char **argv)
     setState(State::Signup);
 }
 
-Babel::Client::WindowManager::~WindowManager()
+Babel::Client::Gui::WindowManager::~WindowManager()
 {
     for (int i = int(State::Signup); i < int(State::LastEnum); i++) {
         widgets[i].release();
     }
 }
 
-void Babel::Client::WindowManager::setState(const Babel::Client::WindowManager::State &state)
+void Babel::Client::Gui::WindowManager::setState(const Babel::Client::Gui::WindowManager::State &state)
 {
     if (state == this->state || state == State::LastEnum)
         return;
@@ -65,12 +65,12 @@ void Babel::Client::WindowManager::setState(const Babel::Client::WindowManager::
     appWindow.setWindowTitle(windowNames[int(state)].c_str());
 }
 
-const Babel::Client::WindowManager::State &Babel::Client::WindowManager::getState() const
+const Babel::Client::Gui::WindowManager::State &Babel::Client::Gui::WindowManager::getState() const
 {
     return (state);
 }
 
-Babel::Client::Gui::LoginWindow *Babel::Client::WindowManager::getLoginWindow() const
+Babel::Client::Gui::LoginWindow *Babel::Client::Gui::WindowManager::getLoginWindow() const
 {
     if (Babel::Client::Gui::LoginWindow *c = dynamic_cast<Babel::Client::Gui::LoginWindow *>(widgets[int(State::Login)].get())) {
         return (c);
@@ -78,7 +78,7 @@ Babel::Client::Gui::LoginWindow *Babel::Client::WindowManager::getLoginWindow() 
     return (nullptr);
 }
 
-Babel::Client::Gui::SignupWindow *Babel::Client::WindowManager::getSignupWindow() const
+Babel::Client::Gui::SignupWindow *Babel::Client::Gui::WindowManager::getSignupWindow() const
 {
     if (Babel::Client::Gui::SignupWindow *c = dynamic_cast<Babel::Client::Gui::SignupWindow *>(widgets[int(State::Signup)].get())) {
         return (c);
@@ -86,7 +86,7 @@ Babel::Client::Gui::SignupWindow *Babel::Client::WindowManager::getSignupWindow(
     return (nullptr);
 }
 
-Babel::Client::Gui::MainWindow *Babel::Client::WindowManager::getMainWindow() const
+Babel::Client::Gui::MainWindow *Babel::Client::Gui::WindowManager::getMainWindow() const
 {
     if (Babel::Client::Gui::MainWindow *c = dynamic_cast<Babel::Client::Gui::MainWindow *>(widgets[int(State::Main)].get())) {
         return (c);
@@ -94,7 +94,7 @@ Babel::Client::Gui::MainWindow *Babel::Client::WindowManager::getMainWindow() co
     return (nullptr);
 }
 
-Babel::Client::Gui::CallWindow *Babel::Client::WindowManager::getCallWindow() const
+Babel::Client::Gui::CallWindow *Babel::Client::Gui::WindowManager::getCallWindow() const
 {
     if (Babel::Client::Gui::CallWindow *c = dynamic_cast<Babel::Client::Gui::CallWindow *>(widgets[int(State::Call)].get())) {
         return (c);
@@ -102,7 +102,7 @@ Babel::Client::Gui::CallWindow *Babel::Client::WindowManager::getCallWindow() co
     return (nullptr);
 }
 
-void Babel::Client::WindowManager::openAbout()
+void Babel::Client::Gui::WindowManager::openAbout()
 {
     aboutPopUp = std::make_unique<Gui::AboutWindow>();
 }

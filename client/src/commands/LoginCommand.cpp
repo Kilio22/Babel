@@ -16,27 +16,27 @@ void Babel::Client::Commands::LoginCommand::handle(const unsigned char *data, st
 
     if (loginResponse->responseCode == RESPONSE_CODE::OK) {
         // std::cout << "LOGIN - LOGIN SUCCESS !" << std::endl; // debug
-        ServiceLocator::getInstance().get<WindowManager>().getLoginWindow()->loginWorked();
+        ServiceLocator::getInstance().get<Gui::WindowManager>().getLoginWindow()->loginWorked();
         return;
     }
     if (loginResponse->responseCode == RESPONSE_CODE::BAD_COMBINAISON) {
         // std::cout << "LOGIN - BAD COMBINAISON !" << std::endl; // debug
-        ServiceLocator::getInstance().get<WindowManager>().getLoginWindow()->setError("Invalid username / password");
+        ServiceLocator::getInstance().get<Gui::WindowManager>().getLoginWindow()->setError("Invalid username / password");
         return;
     }
     if (loginResponse->responseCode == RESPONSE_CODE::ALREADY_LOGGED_IN) {
         // std::cout << "LOGIN - USER ALREADY LOGGED IN !" << std::endl; // debug
-        ServiceLocator::getInstance().get<WindowManager>().getLoginWindow()->setError("User already logged in");
+        ServiceLocator::getInstance().get<Gui::WindowManager>().getLoginWindow()->setError("User already logged in");
         return;
     }
     if (loginResponse->responseCode == RESPONSE_CODE::BAD_IP) {
         // std::cout << "LOGIN - BAD IP ADDRESS !" << std::endl; // debug
-        ServiceLocator::getInstance().get<WindowManager>().getLoginWindow()->setError("Bad client ip address");
+        ServiceLocator::getInstance().get<Gui::WindowManager>().getLoginWindow()->setError("Bad client ip address");
         return;
     }
     if (loginResponse->responseCode == RESPONSE_CODE::OTHER) {
         // std::cout << "LOGIN - ERROR !" << std::endl; // debug
-        ServiceLocator::getInstance().get<WindowManager>().getLoginWindow()->setError("Error");
+        ServiceLocator::getInstance().get<Gui::WindowManager>().getLoginWindow()->setError("Error");
         return;
     }
 }

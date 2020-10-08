@@ -23,7 +23,7 @@ Babel::Client::ContactTimer::ContactTimer(QWidget *parent)
 
 void Babel::Client::ContactTimer::getContacts()
 {
-    if (ServiceLocator::getInstance().get<WindowManager>().getState() == WindowManager::State::Main) {
+    if (ServiceLocator::getInstance().get<Gui::WindowManager>().getState() == Gui::WindowManager::State::Main) {
         ServiceLocator::getInstance().get<CommandManager>().getContacts();
 //        std::cout << "Contact timer triggered" << std::endl;
     }

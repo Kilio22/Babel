@@ -22,7 +22,7 @@
 #include "gui/AboutWindow.hpp"
 #include "ContactTimer.hpp"
 
-namespace Babel::Client
+namespace Babel::Client::Gui
 {
     /**
      * @brief This class is used to managed all the windows and their interactions.

@@ -212,7 +212,7 @@ void Babel::Client::Gui::MainWindow::disconnectWorked() const
 
 void Babel::Client::Gui::MainWindow::callWorked(const std::vector<Babel::Client::Commands::UserCallInfos> &userInfo)
 {
-    ServiceLocator::getInstance().get<WindowManager>().setState(Babel::Client::WindowManager::State::Call);
+    ServiceLocator::getInstance().get<WindowManager>().setState(Babel::Client::Gui::WindowManager::State::Call);
     ServiceLocator::getInstance().get<WindowManager>().getCallWindow()->setUsername(username);
     std::vector<std::string> nameList;
     std::vector<std::string> ips;

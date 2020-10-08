@@ -158,7 +158,7 @@ void Babel::Client::Gui::LoginWindow::submitLogin() {
 
 void Babel::Client::Gui::LoginWindow::switchToSignup() {
     reset();
-    Babel::Client::ServiceLocator::getInstance().get<Babel::Client::WindowManager>().setState(Babel::Client::WindowManager::State::Signup);
+    Babel::Client::ServiceLocator::getInstance().get<Babel::Client::Gui::WindowManager>().setState(Babel::Client::Gui::WindowManager::State::Signup);
 }
 
 void Babel::Client::Gui::LoginWindow::reset() {
