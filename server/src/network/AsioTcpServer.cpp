@@ -36,7 +36,7 @@ void Babel::Server::AsioTcpServer::startAccept()
             newConnection->getSocket(), boost::bind(&AsioTcpServer::acceptHandler, this, newConnection, boost::asio::placeholders::error));
 }
 
-void Babel::Server::AsioTcpServer::acceptHandler(boost::shared_ptr<AsioTcpClient> asioTcpClient, const boost::system::error_code &error)
+void Babel::Server::AsioTcpServer::acceptHandler(const boost::shared_ptr<ITcpClient> &asioTcpClient, const boost::system::error_code &error)
 {
     if (error) {
         std::cerr << "Something went wrong: " << error.message() << std::endl;
