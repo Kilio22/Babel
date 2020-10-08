@@ -11,6 +11,11 @@
 
 int main(int ac, const char *av[])
 {
+    if (ac >= 2 && std::string(av[1]) == "-h") {
+        std::cout << "USAGE: ./babel_server <port>" << std::endl;
+        std::cout << "port: unsigned number between 1024 and 65 535" << std::endl;
+        return 0;
+    }
     try {
         Babel::Server::BabelServer babelServer(ac, av);
 
