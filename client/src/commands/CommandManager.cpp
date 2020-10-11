@@ -45,7 +45,7 @@ void Babel::Client::CommandManager::signup(const std::string &username, const st
         tcpClient->send(reinterpret_cast<const unsigned char *>(&registerRequest), sizeof(Commands::RegisterRequest));
         return;
     } else {
-        throw Exceptions::CommandFailedException("Can't connect to server.", "Babel::Client::CommandManager::signup");
+        throw Exceptions::CommandFailedException(ERROR_STR, "Can't connect to server.");
     }
 }
 
@@ -59,7 +59,7 @@ void Babel::Client::CommandManager::login(const std::string &username, const std
         tcpClient->send(reinterpret_cast<const unsigned char *>(&loginRequest), sizeof(Commands::LoginRequest));
         return;
     } else {
-        throw Exceptions::CommandFailedException("Can't connect to server.", "Babel::Client::CommandManager::login");
+        throw Exceptions::CommandFailedException(ERROR_STR, "Can't connect to server.");
     }
 }
 
@@ -71,7 +71,7 @@ void Babel::Client::CommandManager::addContact(const std::string &username)
         tcpClient->send(reinterpret_cast<const unsigned char *>(&contactRequest), sizeof(Commands::AddContactRequest));
         return;
     } else {
-        throw Exceptions::CommandFailedException("Can't connect to server.", "Babel::Client::CommandManager::addContact");
+        throw Exceptions::CommandFailedException(ERROR_STR, "Can't connect to server.");
     }
 }
 
@@ -82,7 +82,7 @@ void Babel::Client::CommandManager::getContacts()
         tcpClient->send(reinterpret_cast<const unsigned char *>(&getContactRequest), sizeof(Commands::Header));
         return;
     } else {
-        throw Exceptions::CommandFailedException("Can't connect to server.", "Babel::Client::CommandManager::getContacts");
+        throw Exceptions::CommandFailedException(ERROR_STR, "Can't connect to server.");
     }
 }
 
@@ -101,7 +101,7 @@ void Babel::Client::CommandManager::startCall(std::vector<std::string> users)
             reinterpret_cast<const unsigned char *>(b.str().c_str()), sizeof(Commands::Username) * usernames.size() + sizeof(Commands::Header));
         return;
     } else {
-        throw Exceptions::CommandFailedException("Can't connect to server.", "Babel::Client::CommandManager::startCall");
+        throw Exceptions::CommandFailedException(ERROR_STR, "Can't connect to server.");
     }
 }
 
@@ -112,7 +112,7 @@ void Babel::Client::CommandManager::stopCall()
         tcpClient->send(reinterpret_cast<const unsigned char *>(&stopCallRequest), sizeof(Commands::Header));
         return;
     } else {
-        throw Exceptions::CommandFailedException("Can't connect to server.", "Babel::Client::CommandManager::stopCall");
+        throw Exceptions::CommandFailedException(ERROR_STR, "Can't connect to server.");
     }
 }
 
@@ -123,18 +123,13 @@ void Babel::Client::CommandManager::disconnect()
         tcpClient->send(reinterpret_cast<const unsigned char *>(&disconnectRequest), sizeof(Commands::Header));
         return;
     } else {
-        throw Exceptions::CommandFailedException("Can't connect to server.", "Babel::Client::CommandManager::stopCall");
+        throw Exceptions::CommandFailedException(ERROR_STR, "Can't connect to server.");
     }
 }
 
 void Babel::Client::CommandManager::onDataAvailable()
 {
     std::pair<std::size_t, const unsigned char *> data = tcpClient->getData();
-    for (std::size_t i = 0; i < 4096; i++) {
-        if (data.second[i] != 0) {
-            // std::cout << data.second[i] << std::endl;
-        }
-    }
     CommandParser::getInstance().parseCommand(data.second, data.first);
 }
 

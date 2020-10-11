@@ -15,32 +15,24 @@ void Babel::Client::Commands::StartCallCommand::handle(const unsigned char *data
     const ClassicResponse *startCallResponse = reinterpret_cast<const ClassicResponse *>(data);
 
     if (startCallResponse->responseCode == RESPONSE_CODE::OK) {
-        // std::cout << "START CALL - SUCCESS !" << std::endl; // debug
         std::vector<UserCallInfos> users;
         users.assign(reinterpret_cast<const UserCallInfos *>(&data[sizeof(ClassicResponse)]), reinterpret_cast<const UserCallInfos *>(data + bytes));
-        for (std::size_t i = 0; i < users.size(); i++) {
-            // std::cout << users.at(i).username << std::endl;
-        }
         ServiceLocator::getInstance().get<Gui::WindowManager>().getMainWindow()->callWorked(users);
         return;
     }
     if (startCallResponse->responseCode == RESPONSE_CODE::NOT_LOGGED_IN) {
-        // std::cout << "START CALL - USER NOT LOGGED IN !" << std::endl; // debug
         ServiceLocator::getInstance().get<Gui::WindowManager>().getMainWindow()->setError("User not logged in");
         return;
     }
     if (startCallResponse->responseCode == RESPONSE_CODE::USER_DISCONNECTED) {
-        // std::cout << "START CALL - USER YOU ARE CALLING IS DISCONNECTED !" << std::endl; // debug
         ServiceLocator::getInstance().get<Gui::WindowManager>().getMainWindow()->setError("User called not logged in");
         return;
     }
     if (startCallResponse->responseCode == RESPONSE_CODE::USER_IN_CALL) {
-        // std::cout << "START CALL - USER YOU ARE CALLING IS IN CALL !" << std::endl; // debug
         ServiceLocator::getInstance().get<Gui::WindowManager>().getMainWindow()->setError("User called is already in call");
         return;
     }
     if (startCallResponse->responseCode == RESPONSE_CODE::OTHER) {
-        // std::cout << "START CALL - ERROR !" << std::endl; // debug
         ServiceLocator::getInstance().get<Gui::WindowManager>().getMainWindow()->setError("Error");
         return;
     }

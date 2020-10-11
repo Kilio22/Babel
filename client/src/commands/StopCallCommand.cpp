@@ -16,17 +16,14 @@ void Babel::Client::Commands::StopCallCommand::handle(const unsigned char *data,
 
     (void)bytes;
     if (stopCallResponse->responseCode == RESPONSE_CODE::OK) {
-        // std::cout << "STOP CALL - SUCCESS !" << std::endl; // debug
         ServiceLocator::getInstance().get<Gui::WindowManager>().getCallWindow()->EndCallWorked();
         return;
     }
     if (stopCallResponse->responseCode == RESPONSE_CODE::NOT_LOGGED_IN) {
-        // std::cout << "STOP CALL - USER NOT LOGGED IN !" << std::endl; // debug
         ServiceLocator::getInstance().get<Gui::WindowManager>().getCallWindow()->setError("User not logged in");
         return;
     }
     if (stopCallResponse->responseCode == RESPONSE_CODE::NOT_IN_CALL) {
-        // std::cout << "STOP CALL - USER NOT IN CALL !" << std::endl; // debug
         ServiceLocator::getInstance().get<Gui::WindowManager>().getCallWindow()->setError("User not in call");
         return;
     }
