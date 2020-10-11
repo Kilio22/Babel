@@ -110,8 +110,8 @@ int Babel::Server::SqlDb::callback(void *data, int argc, char **argv, char **)
 {
     auto *queryResults = reinterpret_cast<std::vector<std::string> *>(data);
 
-    for (std::size_t i = 0; i < argc; i++) {
-        queryResults->push_back(argv[ i ]);
+    for (int i = 0; i < argc; i++) {
+        queryResults->push_back(argv[i]);
     }
     return 0;
 }
@@ -120,8 +120,8 @@ int Babel::Server::SqlDb::contactCallback(void *data, int argc, char **argv, cha
 {
     auto *queryResults = reinterpret_cast<std::vector<Username> *>(data);
 
-    for (std::size_t i = 0; i < argc; i++) {
-        queryResults->push_back({ argv[ i ] });
+    for (int i = 0; i < argc; i++) {
+        queryResults->push_back({ argv[i] });
     }
     return 0;
 }

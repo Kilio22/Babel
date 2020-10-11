@@ -78,7 +78,7 @@ void Babel::Server::AsioTcpClient::disconnect()
     UserManager::getInstance().removeUserByTcpClient(this);
 }
 
-void Babel::Server::AsioTcpClient::handleWrite(const boost::system::error_code &error, std::size_t bytes_transferred)
+void Babel::Server::AsioTcpClient::handleWrite(const boost::system::error_code &error, std::size_t)
 {
     if (error) {
         std::cerr << "Something went wrong: " << error.message() << std::endl;
