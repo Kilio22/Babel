@@ -65,7 +65,7 @@ namespace Babel::Client::Gui {
         private slots:
             void addContact();
             void callClicked();
-            void disconnect() const;
+            void disconnect();
             void openAbout() const;
     };
 };

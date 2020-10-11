@@ -43,7 +43,6 @@ Babel::Client::Gui::PersonMainWidget::PersonMainWidget(QWidget *parent, std::str
     }
     username.setFixedSize(260, 64);
     username.move(100, 10);
-    //username.setAlignment(Qt::AlignLeft);
     if (connected) {
         username.setText(nameStr.c_str());
         username.setStyleSheet( "color: black;"

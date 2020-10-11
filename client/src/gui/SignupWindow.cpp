@@ -157,7 +157,6 @@ void Babel::Client::Gui::SignupWindow::submitSignup()
     reset();
     mainWidget.hide();
     loaderGif.show();
-    //activer le truc qui tourne ici
 }
 
 void Babel::Client::Gui::SignupWindow::switchToLogin()

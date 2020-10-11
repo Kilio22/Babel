@@ -13,6 +13,7 @@
 #include <QtWidgets/QLayoutItem>
 #include <iostream>
 
+#include "exceptions.h"
 #include "ServiceLocator.hpp"
 #include "CommandManager.hpp"
 #include "WindowManager.hpp"
@@ -169,7 +170,6 @@ void Babel::Client::Gui::MainWindow::setContacts(const std::vector<Babel::Client
 
 void Babel::Client::Gui::MainWindow::reset()
 {
-    //contacts.clear();
     contactLine.clear();
     errorStr.setText("");
 }
@@ -210,7 +210,7 @@ void Babel::Client::Gui::MainWindow::openAbout() const
     ServiceLocator::getInstance().get<WindowManager>().openAbout();
 }
 
-void Babel::Client::Gui::MainWindow::disconnect() const
+void Babel::Client::Gui::MainWindow::disconnect()
 {
     try {
         ServiceLocator::getInstance().get<CommandManager>().disconnect();

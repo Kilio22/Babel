@@ -13,6 +13,7 @@
 #include <QtWidgets/QLayoutItem>
 #include <iostream>
 
+#include "exceptions.h"
 #include "ServiceLocator.hpp"
 #include "WindowManager.hpp"
 #include "CommandManager.hpp"
@@ -112,7 +113,6 @@ void Babel::Client::Gui::CallWindow::setCallList(const std::vector<std::string> 
 
 void Babel::Client::Gui::CallWindow::reset()
 {
-    //callList.clear();
     errorStr.setText("");
 }
 
