@@ -124,13 +124,23 @@ Babel::Client::Gui::MainWindow::MainWindow(QWidget *parent)
 
 void Babel::Client::Gui::MainWindow::addContact()
 {
-    ServiceLocator::getInstance().get<CommandManager>().addContact(contactLine.text().toStdString());
+    try {
+        ServiceLocator::getInstance().get<CommandManager>().addContact(contactLine.text().toStdString());
+    } catch (Babel::Client::Exceptions::CommandFailedException &e) {
+        errorStr.setText(e.what());
+        return;
+    }
     reset();
 }
 
 void Babel::Client::Gui::MainWindow::callClicked()
 {
-    ServiceLocator::getInstance().get<CommandManager>().startCall(getUsersCalled());
+    try {
+        ServiceLocator::getInstance().get<CommandManager>().startCall(getUsersCalled());
+    } catch (Babel::Client::Exceptions::CommandFailedException &e) {
+        errorStr.setText(e.what());
+        return;
+    }
     reset();
 }
 
@@ -202,7 +212,12 @@ void Babel::Client::Gui::MainWindow::openAbout() const
 
 void Babel::Client::Gui::MainWindow::disconnect() const
 {
-    ServiceLocator::getInstance().get<CommandManager>().disconnect();
+    try {
+        ServiceLocator::getInstance().get<CommandManager>().disconnect();
+    } catch (Babel::Client::Exceptions::CommandFailedException &e) {
+        errorStr.setText(e.what());
+        return;
+    }
 }
 
 void Babel::Client::Gui::MainWindow::disconnectWorked() const

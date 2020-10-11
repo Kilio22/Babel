@@ -149,6 +149,9 @@ void Babel::Client::Gui::LoginWindow::submitLogin() {
         (void)e;
         topText.setText("Veuillez entrer votre pseudo & votre mot de passe pour vous connecter.");
         return;
+    } catch (Babel::Client::Exceptions::CommandFailedException &e) {
+        topText.setText(e.what());
+        return;
     }
     reset();
     mainWidget.hide();

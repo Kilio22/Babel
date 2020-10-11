@@ -81,7 +81,12 @@ Babel::Client::Gui::CallWindow::CallWindow(QWidget *parent)
 
 void Babel::Client::Gui::CallWindow::EndCallClicked()
 {
+    try {
     ServiceLocator::getInstance().get<CommandManager>().stopCall();
+    } catch (Babel::Client::Exceptions::CommandFailedException &e) {
+        errorStr.setText(e.what());
+        return;
+    }
     reset();
 }
 
