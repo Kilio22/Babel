@@ -137,11 +137,11 @@ void Babel::Client::Gui::MainWindow::callClicked()
 void Babel::Client::Gui::MainWindow::setContacts(const std::vector<Babel::Client::Commands::Contact> &contactsList)
 {
     saveContacts.clear();
-    for (int i = 0; i < contacts.size(); i++) {
+    for (std::size_t i = 0; i < contacts.size(); i++) {
         saveContacts.insert({contacts[i]->getName(), contacts[i]->checkSelected()});
     }
     contacts.clear();
-    for (int i = 0; i < contactsList.size(); i++) {
+    for (std::size_t i = 0; i < contactsList.size(); i++) {
         bool tmpCheck = false;
         std::unordered_map<std::string, bool>::const_iterator got = saveContacts.find(contactsList[i].username);
         if (got != saveContacts.end() && got->second == true && contactsList[i].loggedIn)
@@ -188,7 +188,7 @@ void Babel::Client::Gui::MainWindow::setError(const std::string &error)
 const std::vector<std::string> Babel::Client::Gui::MainWindow::getUsersCalled() const
 {
     std::vector<std::string> retVal;
-    for (int i = 0; i < contacts.size(); i++) {
+    for (std::size_t i = 0; i < contacts.size(); i++) {
         if (contacts[i]->checkSelected())
             retVal.push_back(contacts[i]->getName());
     }
@@ -217,7 +217,7 @@ void Babel::Client::Gui::MainWindow::callWorked(const std::vector<Babel::Client:
     std::vector<std::string> nameList;
     std::vector<std::string> ips;
 
-    for (int i = 0; i < userInfo.size(); i++) {
+    for (std::size_t i = 0; i < userInfo.size(); i++) {
         nameList.push_back(userInfo.at(i).username);
         ips.push_back(userInfo.at(i).ip);
     }

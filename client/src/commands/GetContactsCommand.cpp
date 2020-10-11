@@ -19,7 +19,7 @@ void Babel::Client::Commands::GetContactsCommand::handle(const unsigned char *da
         std::vector<Contact> contacts;
         std::vector<std::string> contactsNames;
         contacts.assign(reinterpret_cast<const Contact *>(&data[sizeof(ClassicResponse)]), reinterpret_cast<const Contact *>(data + bytes));
-        for (int i = 0; i < contacts.size(); i++) {
+        for (std::size_t i = 0; i < contacts.size(); i++) {
             // std::cout << contacts.at(i).username << std::endl;
             contactsNames.push_back(contacts.at(i).username);
         }

@@ -14,6 +14,7 @@ void Babel::Client::Commands::RegisterCommand::handle(const unsigned char *data,
 {
     const ClassicResponse *registerResponse = reinterpret_cast<const struct ClassicResponse *>(data);
 
+    (void)bytes;
     if (registerResponse->responseCode == RESPONSE_CODE::OK) {
         // std::cout << "REGISTER - REGISTER SUCCESS !" << std::endl; // debug
         ServiceLocator::getInstance().get<Gui::WindowManager>().getSignupWindow()->signupWorked();

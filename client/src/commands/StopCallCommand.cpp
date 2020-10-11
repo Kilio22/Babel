@@ -14,6 +14,7 @@ void Babel::Client::Commands::StopCallCommand::handle(const unsigned char *data,
 {
     const ClassicResponse *stopCallResponse = reinterpret_cast<const struct ClassicResponse *>(data);
 
+    (void)bytes;
     if (stopCallResponse->responseCode == RESPONSE_CODE::OK) {
         // std::cout << "STOP CALL - SUCCESS !" << std::endl; // debug
         ServiceLocator::getInstance().get<Gui::WindowManager>().getCallWindow()->EndCallWorked();

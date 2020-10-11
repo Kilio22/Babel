@@ -18,7 +18,7 @@ void Babel::Client::Commands::StartCallCommand::handle(const unsigned char *data
         // std::cout << "START CALL - SUCCESS !" << std::endl; // debug
         std::vector<UserCallInfos> users;
         users.assign(reinterpret_cast<const UserCallInfos *>(&data[sizeof(ClassicResponse)]), reinterpret_cast<const UserCallInfos *>(data + bytes));
-        for (int i = 0; i < users.size(); i++) {
+        for (std::size_t i = 0; i < users.size(); i++) {
             // std::cout << users.at(i).username << std::endl;
         }
         ServiceLocator::getInstance().get<Gui::WindowManager>().getMainWindow()->callWorked(users);

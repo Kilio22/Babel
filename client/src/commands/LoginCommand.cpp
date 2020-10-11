@@ -14,6 +14,7 @@ void Babel::Client::Commands::LoginCommand::handle(const unsigned char *data, st
 {
     const ClassicResponse *loginResponse = reinterpret_cast<const struct ClassicResponse *>(data);
 
+    (void)bytes;
     if (loginResponse->responseCode == RESPONSE_CODE::OK) {
         // std::cout << "LOGIN - LOGIN SUCCESS !" << std::endl; // debug
         ServiceLocator::getInstance().get<Gui::WindowManager>().getLoginWindow()->loginWorked();

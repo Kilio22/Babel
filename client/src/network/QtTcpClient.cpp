@@ -64,7 +64,7 @@ void Babel::Client::Network::QtTcpClient::handleReadyRead()
     // std::cout << "Ready to read !" << std::endl;
     this->data.fill('\0');
     this->bytes_transfered = socket->read(this->data.data(), readSize);
-    if (this->bytes_transfered == -1)
+    if ((int)this->bytes_transfered == -1)
         return;
     emit this->dataAvailable();
 }

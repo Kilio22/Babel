@@ -14,6 +14,7 @@ void Babel::Client::Commands::DisconnectCommand::handle(const unsigned char *dat
 {
     const ClassicResponse *disconnectResponse = reinterpret_cast<const ClassicResponse *>(data);
 
+    (void)bytes;
     if (disconnectResponse->responseCode == RESPONSE_CODE::OK) {
         // std::cout << "DISCONNECT - SUCCESS !" << std::endl; // debug
         ServiceLocator::getInstance().get<Gui::WindowManager>().getMainWindow()->disconnectWorked();

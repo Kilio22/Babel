@@ -94,7 +94,7 @@ void Babel::Client::Gui::CallWindow::EndCallWorked()
 void Babel::Client::Gui::CallWindow::setCallList(const std::vector<std::string> &nameList)
 {
     callList.clear();
-    for (int i = 0; i < nameList.size(); i++) {
+    for (std::size_t i = 0; i < nameList.size(); i++) {
         QHBoxLayout *layout = new QHBoxLayout();
         std::unique_ptr<PersonMainWidget> tmp = std::make_unique<PersonMainWidget>(&widget, nameList[i], false, ((i + 1) * 20) + i * 80);
         tmp->show();

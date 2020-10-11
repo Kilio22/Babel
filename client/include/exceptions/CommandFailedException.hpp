@@ -2,11 +2,11 @@
 ** EPITECH PROJECT, 2020
 ** B-CPP-500-REN-5-1-babel-kylian.balan
 ** File description:
-** LoginFailed
+** CommandFailed
 */
 
-#ifndef LOGINFAILED_HPP_
-#define LOGINFAILED_HPP_
+#ifndef COMMANDFAILED_HPP_
+#define COMMANDFAILED_HPP_
 
 #include "ClientException.hpp"
 
@@ -16,11 +16,11 @@ namespace Babel::Client::Exceptions
      * @brief Class representing the exception thrown the login failed (for any reason).
      * 
      */
-    class LoginFailedException : public ClientException
+    class CommandFailedException : public ClientException
     {
         public:
-            LoginFailedException(const std::string &component, const std::string &message);
-            ~LoginFailedException() = default;
+            CommandFailedException(const std::string &component, const std::string &message);
+            ~CommandFailedException() = default;
     };
 };
 
