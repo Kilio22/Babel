@@ -10,7 +10,7 @@
 
 #include <QtGui/QScreen>
 
-Babel::Client::Gui::WindowManager::WindowManager(int argc, char **argv)
+Babel::Client::Gui::WindowManager::WindowManager()
         :
         state(Babel::Client::Gui::WindowManager::State::Signup),
         widgets(int(State::LastEnum)),

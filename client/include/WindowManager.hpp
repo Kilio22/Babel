@@ -30,7 +30,7 @@ namespace Babel::Client::Gui
      */
     class WindowManager {
     public:
-        WindowManager(int argc = 0, char **argv = nullptr);
+        WindowManager();
         ~WindowManager();
 
         enum class State : int {
