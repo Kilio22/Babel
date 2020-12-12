@@ -33,15 +33,15 @@ Add following remotes to Conan:
 
 At the root of the repository, run the following command:
 ```sh
-mkdir build && cd build && conan install .. --build missing && cmake .. && make && cd bin
+$> mkdir build && cd build && conan install .. --build missing && cmake .. && make && cd bin
 ```
 To run the server:
 ```sh
-./babel_server <PORT>
+$> ./babel_server <PORT>
 ```
 To run the client:
 ```sh
-./babel_client <SERVER_IP> <SERVER_PORT> <CLIENT_IP>
+$> ./babel_client <SERVER_IP> <SERVER_PORT> <CLIENT_IP>
 ```
 ### WINDOWS
 The QT5 Windows installation is really **hard** to do, I recommend you to use any linux distro.  
@@ -51,13 +51,18 @@ Add following remotes to Conan:
 * bincrafters: https://api.bintray.com/conan/bincrafters/public-conan  
 At the root of the repository, run the following command using powershell:
 ```sh
-mkdir build && cd build && conan install .. --build missing && cmake .. && cmake --build . && cd bin
+$> mkdir build
+$> cd build
+$> conan install .. --build missing
+$> cmake ..
+$> cmake --build .
+$> cd bin
 ```
 To run the server:
 ```sh
-./babel_server.exe <PORT>
+$> ./babel_server.exe <PORT>
 ```
 To run the client:
 ```sh
-./babel_client.exe <SERVER_IP> <SERVER_PORT> <CLIENT_IP>
+$> ./babel_client.exe <SERVER_IP> <SERVER_PORT> <CLIENT_IP>
 ```
