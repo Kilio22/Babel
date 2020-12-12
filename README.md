@@ -25,7 +25,7 @@ client side.
 * PortAudio and Opus are C libraries, so you MUST create your own *abstractions* to them.
 
 ## How to run it?
-### LINUX
+### LINUX (recommended)
 First, make sure QT5 library and Conan C++ package manager are installed.  
 Add following remotes to Conan:
 * epitech: https://api.bintray.com/conan/epitech/public-conan
@@ -42,4 +42,22 @@ To run the server:
 To run the client:
 ```sh
 ./babel_client <SERVER_IP> <SERVER_PORT> <CLIENT_IP>
+```
+### WINDOWS
+The QT5 Windows installation is really **hard** to do, I recommend you to use any linux distro.  
+First, make sure QT5 library and Conan C++ package manager are installed.  
+Add following remotes to Conan:
+* epitech: https://api.bintray.com/conan/epitech/public-conan
+* bincrafters: https://api.bintray.com/conan/bincrafters/public-conan  
+At the root of the repository, run the following command using powershell:
+```sh
+mkdir build && cd build && conan install .. --build missing && cmake .. && cmake --build . && cd bin
+```
+To run the server:
+```sh
+./babel_server.exe <PORT>
+```
+To run the client:
+```sh
+./babel_client.exe <SERVER_IP> <SERVER_PORT> <CLIENT_IP>
 ```
