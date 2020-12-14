@@ -50,7 +50,7 @@ Add following remotes to Conan:
 * epitech: https://api.bintray.com/conan/epitech/public-conan
 * bincrafters: https://api.bintray.com/conan/bincrafters/public-conan  
 
-At the root of the repository, run the following command using powershell:
+At the root of the repository, run the following commands using powershell:
 ```sh
 $> mkdir build
 $> cd build
